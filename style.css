@@ -1,0 +1,42 @@
+body {
+  text-align: center;
+  padding: 5%;
+}
+
+.allText,
+h1 {
+  align-items: center;
+}
+.main {
+  background-color: rgb(201, 235, 235);
+}
+.form {
+  background-color: rgb(201, 243, 175);
+  padding: 5%;
+  height: 50vw;
+}
+
+.country-containerI {
+  padding: 5%;
+}
+.float-left-flag {
+  float: left;
+}
+.float-right-flag {
+  float: right;
+}
+.float-center-item {
+  /* float: center; */
+  background-color: blueviolet;
+}
+
+.center-container {
+  width: 210px;
+  height: 75px;
+  float: left;
+  overflow: hidden;
+  padding: 1%;
+}
+#center-item {
+  width: 100px;
+}

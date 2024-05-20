@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <!-- this is the search with select -->
+    <!-- <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    /> -->
+
+    <title>Alejandro Currency Converter</title>
+  </head>
+  <body>
+    <hr />
+    <h1 class="allText">Alejandro's Currency Converter</h1>
+    <hr />
+
+    <div class="container">
+      <div class="main">
+        <div class="form">
+          <input type="text" class="search" placeholder="0" id="input-amount" />
+
+          <div class="country-containerI">
+            <span class="allText">From:</span>
+            <input
+              type="text"
+              placeholder="Search.."
+              id="input-from"
+              autocomplete="on"
+              list="suggestions"
+            />
+            <select class="country" id="countries-from-select">
+              <option value="dollar">Dollar</option>
+              <option value="cuban-peso">Cuban peso</option>
+              <option value="euro">Euro</option>
+            </select>
+            <datalist class="country" id="suggestions">
+              <option value="dollar">$</option>
+              <option value="cuban-peso">$</option>
+              <option value="euro">€</option>
+            </datalist>
+          </div>
+          <div class="country-containerII">
+            <span class="allText">To:</span>
+            <input
+              type="text"
+              placeholder="Search.."
+              id="input-to"
+              list="suggestions"
+            />
+            <select class="country" id="countries-to-select">
+              <option value="dollar">Dollar</option>
+              <option value="cuban-peso">Cuban peso</option>
+              <option value="euro">Euro</option>
+            </select>
+          </div>
+          <div class="float-left-flag">
+            <img
+              src="./flags/us.svg"
+              id="float-left-flag"
+              width="100px"
+              alt="flags"
+            />
+          </div>
+          <div class="float-center-item">
+           <div class="center-container">
+           <h1 id="resultText">result</h1>
+        </div>
+          <div class="float-right-flag">
+            <img
+              src="./flags/cu.svg"
+              id="float-right-flag"
+              width="100px"
+              alt="flags"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="script.js"></script>
+</html>
