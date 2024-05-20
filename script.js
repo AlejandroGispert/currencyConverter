@@ -51,11 +51,18 @@ const countriesToSelect = document.getElementById("countries-to-select");
 
 const inputFrom = document.getElementById("input-from");
 const inputTo = document.getElementById("input-to");
+const resultText = document.getElementById("result-text");
+
+const inputAmount = document.getElementById("input-amount");
+
+const btn = document.getElementById("btn");
 
 // GET FLAGS FROM SELECT
 function getFlag(currency, direction) {
+  direction.style.display = "block";
   if (currency === "dollar") {
     direction.src = "./flags/us.svg";
+
     console.log("You selected: ", countriesFromSelect.value);
   } else if (currency === "cuban-peso") {
     direction.src = "./flags/cu.svg";
@@ -87,3 +94,10 @@ inputFrom.addEventListener("change", () =>
 inputTo.addEventListener("change", () =>
   getFlagFromSearch(inputTo.value, rightFlag)
 );
+
+resultText.innerHTML =
+  inputAmount.value +
+  " " +
+  countriesFromSelect.value +
+  " = " +
+  inputAmount.value;

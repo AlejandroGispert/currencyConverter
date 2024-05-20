@@ -20,13 +20,14 @@
     <div class="container">
       <div class="main">
         <div class="form">
+          <span class="allText">Amount:</span>
           <input type="text" class="search" placeholder="0" id="input-amount" />
 
           <div class="country-containerI">
             <span class="allText">From:</span>
             <input
               type="text"
-              placeholder="Search.."
+              placeholder="Search currency.."
               id="input-from"
               autocomplete="on"
               list="suggestions"
@@ -46,7 +47,7 @@
             <span class="allText">To:</span>
             <input
               type="text"
-              placeholder="Search.."
+              placeholder="Search currency.."
               id="input-to"
               list="suggestions"
             />
@@ -56,7 +57,7 @@
               <option value="euro">Euro</option>
             </select>
           </div>
-          <div class="float-left-flag">
+          <div class="float-left-flag-container">
             <img
               src="./flags/us.svg"
               id="float-left-flag"
@@ -66,17 +67,20 @@
           </div>
           <div class="float-center-item">
            <div class="center-container">
-           <h1 id="resultText">result</h1>
+           <h1 id="result-text">result</h1>
         </div>
-          <div class="float-right-flag">
+          <div class="float-right-flag-container">
             <img
               src="./flags/cu.svg"
               id="float-right-flag"
               width="100px"
               alt="flags"
             />
+            
           </div>
+         
         </div>
+        <button class="btn" id="btn">Convert</button>
       </div>
     </div>
   </body>
