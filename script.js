@@ -1,5 +1,11 @@
 const currencyData = [
   {
+    currency: "CUP",
+    symbol: "&#36;", // Dollar sign ($)
+    rate: 0.042,
+  },
+
+  {
     currency: "USD",
     symbol: "&#36;", // Dollar sign ($)
   },
@@ -39,10 +45,9 @@ const currencyData = [
     currency: "NZD",
     symbol: "&#36;", // Dollar sign ($) - same as USD
   },
-  // Add more currencies and their symbols as needed
 ];
 
-console.log(currencyData);
+//console.log(currencyData);
 
 const leftFlag = document.getElementById("float-left-flag"); //img
 const rightFlag = document.getElementById("float-right-flag"); //img
@@ -95,9 +100,24 @@ inputTo.addEventListener("change", () =>
   getFlagFromSearch(inputTo.value, rightFlag)
 );
 
-resultText.innerHTML =
-  inputAmount.value +
-  " " +
-  countriesFromSelect.value +
-  " = " +
-  inputAmount.value;
+const objectRateSearcher = () => {
+  //get currencyData.currency
+
+  for (let i = 0; i < obj.length; i++) {
+    if (currencyData[i].currency === countriesToSelect.value) {
+      console.log(currencyData[i].rate);
+      return currencyData[i].rate;
+    }
+  }
+};
+// CONVERT CURRENCY
+const amountConverter = (amount, rate) => {
+  return (amount * rate).toFixed(2);
+};
+
+btn.addEventListener("click", () => {
+  resultText.innerHTML =
+    amountConverter(inputAmount.value, objectRateSearcher()) +
+    " " +
+    countriesToSelect.value;
+});

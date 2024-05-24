@@ -21,7 +21,7 @@
       <div class="main">
         <div class="form">
           <span class="allText">Amount:</span>
-          <input type="text" class="search" placeholder="0" id="input-amount" />
+          <input type="text" class="search" placeholder="0" id="input-amount" pattern="^[0-9]+$" autofocus required />
 
           <div class="country-containerI">
             <span class="allText">From:</span>
@@ -80,7 +80,7 @@
           </div>
          
         </div>
-        <button class="btn" id="btn">Convert</button>
+        <button type="submit" class="btn" id="btn">Convert</button>
       </div>
     </div>
   </body>
