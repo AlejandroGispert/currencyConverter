@@ -103,13 +103,14 @@ inputTo.addEventListener("change", () =>
 const objectRateSearcher = () => {
   //get currencyData.currency
 
-  for (let i = 0; i < obj.length; i++) {
+  for (let i = 0; i < currencyData.length; i++) {
     if (currencyData[i].currency === countriesToSelect.value) {
       console.log(currencyData[i].rate);
       return currencyData[i].rate;
     }
   }
 };
+
 // CONVERT CURRENCY
 const amountConverter = (amount, rate) => {
   return (amount * rate).toFixed(2);
