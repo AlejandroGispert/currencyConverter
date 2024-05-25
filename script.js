@@ -26,6 +26,11 @@ const inputAmount = document.getElementById("input-amount");
 
 const btn = document.getElementById("btn");
 
+// ADD NEW CURRENCY
+const addNewCurrencyButton = document.getElementById("add-currency");
+const inputNewCurrency = document.getElementById("new-currency-input");
+const inputNewCurrencyRate = document.getElementById("new-currency-rate-input");
+
 // GET FLAGS FROM SELECT
 function getFlag(currency, direction) {
   direction.style.display = "block";
@@ -92,4 +97,22 @@ btn.addEventListener("click", () => {
     ) +
     " " +
     countriesToSelect.value;
+});
+
+const addNewCurrency = (currency, symbol, rate) => {
+  //Chekear si existe la moneda
+  for (let i = 0; i < currencyData.length; i++) {
+    if (currencyData[i].currency === currency) {
+      resultText.innerHTML = `The currency ${currency} already exists in our system.`;
+      return;
+    }
+  }
+
+  // poner la moneda en el array
+  currencyData.push({ currency, symbol, rate });
+  resultText.innerHTML = `The currency ${currency} was added successfully to our system.`;
+};
+
+addNewCurrencyButton.addEventListener("click", () => {
+  addNewCurrency(inputNewCurrency.value, "00000", inputNewCurrencyRate.value);
 });
