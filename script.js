@@ -1,52 +1,16 @@
 const currencyData = [
-  {
-    currency: "CUP",
-    symbol: "&#36;", // Dollar sign ($)
-    rate: 0.042,
-  },
-
-  {
-    currency: "USD",
-    symbol: "&#36;", // Dollar sign ($)
-  },
-  {
-    currency: "EUR",
-    symbol: "&#8364;", // Euro sign (€)
-  },
-  {
-    currency: "GBP",
-    symbol: "&#163;", // Pound sign (£)
-  },
-  {
-    currency: "JPY",
-    symbol: "&#165;", // Yen sign (¥)
-  },
-  {
-    currency: "AUD",
-    symbol: "&#36;", // Dollar sign ($) - same as USD
-  },
-  {
-    currency: "CAD",
-    symbol: "&#36;", // Dollar sign ($) - same as USD
-  },
-  {
-    currency: "CHF",
-    symbol: "&#67;&#72;&#70;", // Swiss Franc (CHF - no single HTML entity)
-  },
-  {
-    currency: "CNY",
-    symbol: "&#165;", // Yuan sign (¥) - same as JPY
-  },
-  {
-    currency: "SEK",
-    symbol: "&#107;&#114;", // Swedish Krona (kr)
-  },
-  {
-    currency: "NZD",
-    symbol: "&#36;", // Dollar sign ($) - same as USD
-  },
+  { currency: "CUP", symbol: "&#36;", rate: 25.75 }, // Corrected rate for CUP
+  { currency: "USD", symbol: "&#36;", rate: 1.0 },
+  { currency: "EUR", symbol: "&#8364;", rate: 1.1686 },
+  { currency: "GBP", symbol: "&#163;", rate: 1.3047 },
+  { currency: "JPY", symbol: "&#165;", rate: 139.33 },
+  { currency: "AUD", symbol: "&#36;", rate: 1.5489 },
+  { currency: "CAD", symbol: "&#36;", rate: 1.3641 },
+  { currency: "CHF", symbol: "&#67;&#72;&#70;", rate: 0.8998 },
+  { currency: "CNY", symbol: "&#165;", rate: 7.0747 },
+  { currency: "SEK", symbol: "&#107;&#114;", rate: 10.9637 },
+  { currency: "NZD", symbol: "&#36;", rate: 1.7249 },
 ];
-
 //console.log(currencyData);
 
 const leftFlag = document.getElementById("float-left-flag"); //img
@@ -65,13 +29,13 @@ const btn = document.getElementById("btn");
 // GET FLAGS FROM SELECT
 function getFlag(currency, direction) {
   direction.style.display = "block";
-  if (currency === "dollar") {
+  if (currency === "USD") {
     direction.src = "./flags/us.svg";
 
     console.log("You selected: ", countriesFromSelect.value);
-  } else if (currency === "cuban-peso") {
+  } else if (currency === "CUP") {
     direction.src = "./flags/cu.svg";
-  } else if (currency === "euro") {
+  } else if (currency === "EUR") {
     direction.src = "./flags/eu.svg";
   }
 }
@@ -100,13 +64,17 @@ inputTo.addEventListener("change", () =>
   getFlagFromSearch(inputTo.value, rightFlag)
 );
 
-const objectRateFetcher = () => {
+const objectRateFetcher = (val) => {
   //get currencyData.currency
 
-  for (let i = 0; i < currencyData.length; i++) {
-    if (currencyData[i].currency === countriesToSelect.value) {
-      console.log(currencyData[i].rate);
-      return currencyData[i].rate;
+  if (val === countriesFromSelect.value) {
+    return 1;
+  } else {
+    for (let i = 0; i < currencyData.length; i++) {
+      if (currencyData[i].currency === val) {
+        console.log(currencyData[i].rate);
+        return currencyData[i].rate;
+      }
     }
   }
 };
@@ -118,7 +86,10 @@ const amountConverter = (amount, rate) => {
 
 btn.addEventListener("click", () => {
   resultText.innerHTML =
-    amountConverter(inputAmount.value, objectRateFetcher()) +
+    amountConverter(
+      inputAmount.value,
+      objectRateFetcher(countriesToSelect.value)
+    ) +
     " " +
     countriesToSelect.value;
 });
