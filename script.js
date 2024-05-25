@@ -114,5 +114,9 @@ const addNewCurrency = (currency, symbol, rate) => {
 };
 
 addNewCurrencyButton.addEventListener("click", () => {
-  addNewCurrency(inputNewCurrency.value, "00000", inputNewCurrencyRate.value);
+  if (inputNewCurrency.value === "" || inputNewCurrencyRate.value === "") {
+    resultText.innerHTML = "Please fill all the fields.";
+  } else {
+    addNewCurrency(inputNewCurrency.value, "00000", inputNewCurrencyRate.value);
+  }
 });
