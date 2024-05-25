@@ -23,7 +23,7 @@ const inputSymbols = document.getElementById("new-currency-symbol-input");
 
 // GET FLAGS FROM SELECT
 function getFlag(currency, direction) {
-  direction.style.display = "block";
+  direction.style.visibility = "visible";
 
   for (let i = 0; i < currencyData.length; i++) {
     if (currencyData[i].base === currency) {
