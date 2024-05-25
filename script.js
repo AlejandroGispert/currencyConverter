@@ -1,16 +1,115 @@
 const currencyData = [
-  { currency: "CUP", symbol: "&#36;", rate: 25.75 }, // Corrected rate for CUP
-  { currency: "USD", symbol: "&#36;", rate: 1.0 },
-  { currency: "EUR", symbol: "&#8364;", rate: 1.1686 },
-  { currency: "GBP", symbol: "&#163;", rate: 1.3047 },
-  { currency: "JPY", symbol: "&#165;", rate: 139.33 },
-  { currency: "AUD", symbol: "&#36;", rate: 1.5489 },
-  { currency: "CAD", symbol: "&#36;", rate: 1.3641 },
-  { currency: "CHF", symbol: "&#67;&#72;&#70;", rate: 0.8998 },
-  { currency: "CNY", symbol: "&#165;", rate: 7.0747 },
-  { currency: "SEK", symbol: "&#107;&#114;", rate: 10.9637 },
-  { currency: "NZD", symbol: "&#36;", rate: 1.7249 },
+  {
+    base: "CUP",
+    symbol: "&#36;", // Dollar sign ($)
+    timestamp: 1717691834,
+    date: "2024-05-25",
+    rates: {
+      CUP: 24.0,
+    },
+  },
+  {
+    base: "USD",
+    symbol: "&#36;", // Dollar sign ($)
+    timestamp: 1717691834,
+
+    date: "2024-05-25",
+    rates: {
+      USD: 1.0,
+    },
+  },
+  {
+    base: "EUR",
+    symbol: "&#8364;", // Euro sign (€)
+    timestamp: 1717691834,
+    base: "USD",
+    date: "2024-05-25",
+    rates: {
+      EUR: 0.92,
+    },
+  },
+  {
+    base: "GBP",
+    symbol: "&#163;", // Pound sign (£)
+    timestamp: 1717691834,
+
+    date: "2024-05-25",
+    rates: {
+      GBP: 0.79,
+    },
+  },
+  {
+    base: "JPY",
+    symbol: "&#165;", // Yen sign (¥)
+    timestamp: 1717691834,
+
+    date: "2024-05-25",
+    rates: {
+      JPY: 139.65,
+    },
+  },
+  {
+    base: "AUD",
+    symbol: "&#36;", // Dollar sign ($) - same as USD
+    timestamp: 1717691834,
+
+    date: "2024-05-25",
+    rates: {
+      AUD: 1.5,
+    },
+  },
+  {
+    base: "CAD",
+    symbol: "&#36;", // Dollar sign ($) - same as USD
+    timestamp: 1717691834,
+
+    date: "2024-05-25",
+    rates: {
+      CAD: 1.36,
+    },
+  },
+  {
+    base: "CHF",
+    symbol: "&#67;&#72;&#70;", // Swiss Franc (CHF - no single HTML entity)
+    timestamp: 1717691834,
+
+    date: "2024-05-25",
+    rates: {
+      CHF: 0.89,
+    },
+  },
+  {
+    base: "CNY",
+    symbol: "&#165;", // Yuan sign (¥) - same as JPY
+    timestamp: 1717691834,
+
+    date: "2024-05-25",
+    rates: {
+      CNY: 7.06,
+    },
+  },
+  {
+    base: "SEK",
+    symbol: "&#107;&#114;", // Swedish Krona (kr)
+    timestamp: 1717691834,
+
+    date: "2024-05-25",
+    rates: {
+      SEK: 10.85,
+    },
+  },
+  {
+    base: "NZD",
+    symbol: "&#36;", // Dollar sign ($) - same as USD
+    timestamp: 1717691834,
+
+    date: "2024-05-25",
+    rates: {
+      NZD: 1.6,
+    },
+  },
 ];
+
 //console.log(currencyData);
 
 const leftFlag = document.getElementById("float-left-flag"); //img
@@ -76,9 +175,9 @@ const objectRateFetcher = (val) => {
     return 1;
   } else {
     for (let i = 0; i < currencyData.length; i++) {
-      if (currencyData[i].currency === val) {
-        console.log(currencyData[i].rate);
-        return currencyData[i].rate;
+      if (currencyData[i].base === val) {
+        console.log(currencyData[i].rates[val]);
+        return currencyData[i].rates[val];
       }
     }
   }
@@ -99,7 +198,7 @@ btn.addEventListener("click", () => {
     countriesToSelect.value;
 });
 
-const addNewCurrency = (currency, symbol, rate) => {
+const addNewCurrency = (base, symbol, rate) => {
   //Chekear si existe la moneda
   for (let i = 0; i < currencyData.length; i++) {
     if (currencyData[i].currency === currency) {
@@ -108,8 +207,9 @@ const addNewCurrency = (currency, symbol, rate) => {
     }
   }
 
+  const timestamp = new Date().getTime();
   // poner la moneda en el array
-  currencyData.push({ currency, symbol, rate });
+  currencyData.push({ base, symbol, rate, timestamp });
   resultText.innerHTML = `The currency ${currency} was added successfully to our system.`;
 };
 
