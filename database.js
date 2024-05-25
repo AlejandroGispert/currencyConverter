@@ -17,12 +17,12 @@ const currencyData = [
       SEK: 0.092,
       NZD: 0.026,
     },
+    flag: "./flags/cu.svg",
   },
   {
     base: "USD",
     symbol: "&#36;", // Dollar sign ($)
     timestamp: 1717691834,
-
     date: "2024-05-25",
     rates: {
       USD: 1.0,
@@ -37,12 +37,12 @@ const currencyData = [
       NZD: 1.6,
       CUP: 24.0,
     },
+    flag: "./flags/us.svg",
   },
   {
     base: "EUR",
     symbol: "&#8364;", // Euro sign (€)
     timestamp: 1717691834,
-
     date: "2024-05-25",
     rates: {
       EUR: 1.0,
@@ -57,6 +57,7 @@ const currencyData = [
       NZD: 1.74,
       CUP: 26.1,
     },
+    flag: "./flags/eu.svg",
   },
   {
     base: "GBP",
@@ -76,6 +77,7 @@ const currencyData = [
       NZD: 2.21,
       CUP: 30.3,
     },
+    flag: "./flags/gb.svg",
   },
   {
     base: "JPY",
@@ -95,6 +97,7 @@ const currencyData = [
       NZD: 0.016,
       CUP: 0.172,
     },
+    flag: "./flags/jp.svg",
   },
   {
     base: "AUD",
@@ -114,6 +117,7 @@ const currencyData = [
       NZD: 1.07,
       CUP: 16.0,
     },
+    flag: "./flags/au.svg",
   },
   {
     base: "CAD",
@@ -133,6 +137,7 @@ const currencyData = [
       NZD: 1.18,
       CUP: 17.54,
     },
+    flag: "./flags/ca.svg",
   },
   {
     base: "CHF",
@@ -152,6 +157,7 @@ const currencyData = [
       NZD: 1.72,
       CUP: 27.03,
     },
+    flag: "./flags/ch.svg",
   },
   {
     base: "CNY",
@@ -171,6 +177,7 @@ const currencyData = [
       NZD: 0.25,
       CUP: 3.45,
     },
+    flag: "./flags/cn.svg",
   },
   {
     base: "SEK",
@@ -190,6 +197,7 @@ const currencyData = [
       NZD: 0.092,
       CUP: 10.87,
     },
+    flag: "./flags/se.svg",
   },
   {
     base: "NZD",
@@ -209,6 +217,7 @@ const currencyData = [
       SEK: 6.52,
       CUP: 38.46,
     },
+    flag: "./flags/nz.svg",
   },
 ];
 

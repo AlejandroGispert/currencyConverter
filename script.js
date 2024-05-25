@@ -24,14 +24,13 @@ const inputSymbols = document.getElementById("new-currency-symbol-input");
 // GET FLAGS FROM SELECT
 function getFlag(currency, direction) {
   direction.style.display = "block";
-  if (currency === "USD") {
-    direction.src = "./flags/us.svg";
 
-    console.log("You selected: ", countriesFromSelect.value);
-  } else if (currency === "CUP") {
-    direction.src = "./flags/cu.svg";
-  } else if (currency === "EUR") {
-    direction.src = "./flags/eu.svg";
+  for (let i = 0; i < currencyData.length; i++) {
+    if (currencyData[i].base === currency) {
+      direction.src = currencyData[i].flag;
+
+      console.log("You selected: ", countriesFromSelect.value);
+    }
   }
 }
 function getFlagFromSearch(currency, direction) {
