@@ -100,7 +100,7 @@ inputTo.addEventListener("change", () =>
   getFlagFromSearch(inputTo.value, rightFlag)
 );
 
-const objectRateSearcher = () => {
+const objectRateFetcher = () => {
   //get currencyData.currency
 
   for (let i = 0; i < currencyData.length; i++) {
@@ -118,7 +118,7 @@ const amountConverter = (amount, rate) => {
 
 btn.addEventListener("click", () => {
   resultText.innerHTML =
-    amountConverter(inputAmount.value, objectRateSearcher()) +
+    amountConverter(inputAmount.value, objectRateFetcher()) +
     " " +
     countriesToSelect.value;
 });
