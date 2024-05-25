@@ -219,6 +219,27 @@ const currencyData = [
     },
     flag: "./flags/nz.svg",
   },
+  {
+    base: "DKK",
+    symbol: "kr", // Danish Krone (kr)
+    timestamp: 1717691834,
+    date: "2024-05-25",
+    rates: {
+      DKK: 1.0,
+      USD: 0.15,
+      EUR: 0.13,
+      GBP: 0.12,
+      JPY: 20.94,
+      AUD: 0.23,
+      CAD: 0.2,
+      CHF: 0.14,
+      CNY: 1.06,
+      SEK: 1.51,
+      NZD: 0.24,
+      CUP: 3.63,
+    },
+    flag: "./flags/dk.svg",
+  },
 ];
 
 export { currencyData };
