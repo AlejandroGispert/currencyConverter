@@ -3,13 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <!-- this is the search with select -->
-    <!-- <link
-      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-      rel="stylesheet"
-    /> -->
-
+    <link rel="stylesheet" href="style2.css" />
     <title>Alejandro Currency Converter</title>
   </head>
   <body>
@@ -20,114 +14,106 @@
     <div class="container">
       <div class="main">
         <div class="form">
-          
-          <div class="country-containerI">
-           <div class="from-container">
+          <div class="country-container">
             <legend class="legend" id="from-tag">From:</legend>
-            <input
-              type="text"
-              placeholder="Search.."
-              id="input-from"
-              autocomplete="on"
-              list="suggestions"
-            />
-            <select class="country" id="countries-from-select">
-              <option value="USD">American Dollar</option>
-  <option value="CUP">Cuban Peso</option>
-  <option value="EUR">Euro</option>
-  <option value="DKK">Danish Krone</option>
-  <option value="GBP">British Pound</option>
-  <option value="JPY">Japanese Yen</option>
-  <option value="AUD">Australian Dollar</option>
-  <option value="CAD">Canadian Dollar</option>
-  <option value="CHF">Swiss Franc</option>
-  <option value="CNY">Chinese Yuan</option>
-  <option value="SEK">Swedish Krona</option>
-  <option value="NZD">New Zealand Dollar</option>
-            </select>
-            <datalist class="country" id="suggestions">
-              <option value="USD">$</option>
-  <option value="CUP">$</option>
-  <option value="EUR">€</option>
-  <option value="DKK">DKK</option>
-  <option value="GBP">£</option>
-  <option value="JPY">¥</option>
-  <option value="AUD">$</option>
-  <option value="CAD">$</option>
-  <option value="CHF">CHF</option>
-  <option value="CNY">¥</option>
-  <option value="SEK">kr</option>
-  <option value="NZD">$</option>
-            </datalist>
-            <div class="float-left-flag-container">
-              <img
-                src="./flags/us.svg"
-                id="float-left-flag"
-                width="40px"
-                alt="flags"
+            <div class="input-container">
+              <input
+                type="text"
+                placeholder="Search.."
+                id="input-from"
+                autocomplete="on"
+                list="suggestions"
               />
+              <select class="country" id="countries-from-select">
+                <option value="USD">American Dollar</option>
+                <option value="CUP">Cuban Peso</option>
+                <option value="EUR">Euro</option>
+                <option value="DKK">Danish Krone</option>
+                <option value="GBP">British Pound</option>
+                <option value="JPY">Japanese Yen</option>
+                <option value="AUD">Australian Dollar</option>
+                <option value="CAD">Canadian Dollar</option>
+                <option value="CHF">Swiss Franc</option>
+                <option value="CNY">Chinese Yuan</option>
+                <option value="SEK">Swedish Krona</option>
+                <option value="NZD">New Zealand Dollar</option>
+              </select>
+              <input
+                type="text"
+                class="search"
+                placeholder="0"
+                id="input-amount"
+                pattern="^[0-9]+$"
+                autofocus
+                required
+              />
+              <div class="float-flag-container">
+                <img src="./flags/us.svg" id="float-left-flag" alt="flags" />
+              </div>
             </div>
           </div>
-          
-<div class="amount-container">
-  
-            <span class="allText">Amount:</span>
-            <input type="text" class="search" placeholder="0" id="input-amount" pattern="^[0-9]+$" autofocus required />
-          </div>
-         
-          </div>
-          <div class="country-containerII">
+
+          <div class="country-container">
             <legend class="legend" id="to-tag">To:</legend>
-            <input
-              type="text"
-              placeholder="Search.."
-              id="input-to"
-              list="suggestions"
-            />
-            <select class="country" id="countries-to-select">
-              <option value="USD">American Dollar</option>
-              <option value="CUP">Cuban Peso</option>
-              <option value="EUR">Euro</option>
-              <option value="DKK">Danish Krone</option>
-              <option value="GBP">British Pound</option>
-              <option value="JPY">Japanese Yen</option>
-              <option value="AUD">Australian Dollar</option>
-              <option value="CAD">Canadian Dollar</option>
-              <option value="CHF">Swiss Franc</option>
-              <option value="CNY">Chinese Yuan</option>
-              <option value="SEK">Swedish Krona</option>
-              <option value="NZD">New Zealand Dollar</option>
-            </select>
-            <div class="float-right-flag-container">
-              <img
-                src="./flags/cu.svg"
-                id="float-right-flag"
-                width="40px"
-                alt="flags"
+            <div class="input-container">
+              <input
+                type="text"
+                placeholder="Search.."
+                id="input-to"
+                list="suggestions"
               />
-              
+              <select class="country" id="countries-to-select">
+                <option value="USD">American Dollar</option>
+                <option value="CUP">Cuban Peso</option>
+                <option value="EUR">Euro</option>
+                <option value="DKK">Danish Krone</option>
+                <option value="GBP">British Pound</option>
+                <option value="JPY">Japanese Yen</option>
+                <option value="AUD">Australian Dollar</option>
+                <option value="CAD">Canadian Dollar</option>
+                <option value="CHF">Swiss Franc</option>
+                <option value="CNY">Chinese Yuan</option>
+                <option value="SEK">Swedish Krona</option>
+                <option value="NZD">New Zealand Dollar</option>
+              </select>
+              <div class="float-flag-container">
+                <img src="./flags/cu.svg" id="float-right-flag" alt="flags" />
+              </div>
             </div>
-            <h1 id="result-text">result</h1>
           </div>
-        
-          <div class="float-center-item">
-           
-           
-     
-        
-         
+
+          <div id="result-container">
+            <h1 id="result-text">Result:</h1>
+          </div>
+
+          <button type="submit" class="btn" id="btn">Convert</button>
         </div>
-        <button type="submit" class="btn" id="btn">Convert</button>
+      </div>
+
+      <div id="insert-container">
+        <button type="button" class="btn" id="add-currency">
+          Add Currency
+        </button>
+        <input
+          type="text"
+          placeholder="insert new currency*"
+          id="new-currency-input"
+          required
+        />
+        <input
+          type="text"
+          placeholder="insert new currency rate*"
+          id="new-currency-rate-input"
+          required
+        />
+        <input
+          type="text"
+          placeholder="insert new currency symbol"
+          id="new-currency-symbol-input"
+        />
       </div>
     </div>
-    <div id="insert-container">
-    <button type="button" class="btn" id="add-currency">Add Currency</button>
-    <input type="text" placeholder="insert new currency*" id="new-currency-input" required>
-    <input type="text" placeholder="insert new currency rate*" id="new-currency-rate-input" required>
-    <input type="text" placeholder="insert new currency symbol" id="new-currency-symbol-input">
-  </div>
-  </div>
-    </div>
+
+    <script type="module" src="script.js"></script>
   </body>
-  <script type="module"   src="script.js"></script>
 </html>
