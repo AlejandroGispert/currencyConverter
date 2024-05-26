@@ -1,5 +1,4 @@
 body {
-  text-align: center;
   padding: 5%;
 }
 #input-from,
@@ -8,40 +7,56 @@ body {
 #countries-to-select {
   height: 18px;
 }
+
+#input-from,
+#input-to,
+#input-amount {
+  width: 70px;
+}
 .allText,
 h1 {
-  align-items: center;
+  text-align: center;
 }
 .main {
-  background-color: rgb(201, 235, 235);
+  background-color: rgb(203, 203, 203);
+  margin: 0 20%;
 }
 .form {
-  background-color: rgb(201, 243, 175);
+  background-color: rgb(203, 203, 203);
   padding: 5%;
   height: 50vw;
+  max-width: 500px;
+}
+.legend {
+  display: block;
+  width: 100%;
 }
 
 .country-containerI {
-  padding: 5%;
+  display: flex;
 }
+.country-containerII {
+}
+
+.from-container {
+  width: 50%;
+  margin-bottom: 5%;
+}
+.amount-container {
+  width: 50%;
+}
+
 .float-left-flag-container {
-  float: left;
+  /* float: left; */
 }
 .float-right-flag-container {
-  float: right;
+  /* float: right; */
 }
 .float-center-item {
   /* float: center; */
   background-color: blueviolet;
 }
 
-.center-container {
-  width: 210px;
-  height: 75px;
-  float: left;
-  overflow: hidden;
-  padding: 1%;
-}
 #center-item {
   width: 100px;
 }
@@ -50,10 +65,14 @@ h1 {
 }
 
 #float-left-flag {
-  display: none;
+  visibility: hidden;
 }
 #float-right-flag {
-  display: none;
+  visibility: hidden;
+}
+
+#insert-container {
+  text-align: center;
 }
 @media (max-width: 600px) {
   .center-container {
