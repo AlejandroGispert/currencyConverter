@@ -15,13 +15,15 @@ const inputAmount = document.getElementById("input-amount");
 
 const btn = document.getElementById("btn");
 
-// ADD NEW CURRENCY
+// ------------------ADD NEW CURRENCY------------------
 const addNewCurrencyButton = document.getElementById("add-currency");
 const inputNewCurrency = document.getElementById("new-currency-input");
 const inputNewCurrencyRate = document.getElementById("new-currency-rate-input");
 const inputSymbols = document.getElementById("new-currency-symbol-input");
 
-// GET FLAGS FROM SELECT
+const suggestions = document.getElementById("suggestions");
+
+// ------------------GET FLAGS FROM SELECT------------------
 function getFlag(currency, direction) {
   direction.style.visibility = "visible";
 
@@ -43,7 +45,7 @@ function getFlagFromSearch(currency, direction) {
   getFlag(currency, direction);
 }
 
-// ADD FLAGS TO SELECT
+//------------------ ADD FLAGS TO SELECT------------------
 countriesFromSelect.addEventListener("change", () =>
   getFlag(countriesFromSelect.value, leftFlag)
 );
@@ -74,7 +76,7 @@ const objectRateFetcher = (valFrom, valTo) => {
   }
 };
 
-// CONVERT CURRENCY
+// ------------------CONVERT CURRENCY------------------
 const amountConverter = (amount, rate) => {
   console.log("amount: " + amount + " rate:  " + rate);
   return (amount * rate).toFixed(2);
@@ -101,12 +103,34 @@ btn.addEventListener("click", () => {
   }
 });
 
-// ADD NEW CURRENCY
+//----------------------Add more currencies dinamically---------------------------
+const addMoreCurrenciestoDOM = () => {
+  //fixing a bug here, when you add a new currency, it doesnt show up in the select,
+  //because it neeeded to be several times to be added to the DOM
+  const newCurrency = document.createElement("option");
+  const newCurrency2 = document.createElement("option");
+  const newCurrency3 = document.createElement("option");
+  newCurrency.value = inputNewCurrency.value;
+  newCurrency.innerText = inputNewCurrency.value;
+
+  newCurrency2.value = inputNewCurrency.value;
+  newCurrency2.innerText = inputNewCurrency.value;
+
+  newCurrency3.value = inputNewCurrency.value;
+  newCurrency3.innerText = inputNewCurrency.value;
+
+  countriesFromSelect.appendChild(newCurrency2);
+  countriesToSelect.appendChild(newCurrency3);
+  suggestions.appendChild(newCurrency);
+  console.log("new currency added: " + inputNewCurrency.value);
+};
+
+// ------------------ADD NEW CURRENCY---------------------
 const timestamp = new Date().getTime();
 currencyData.date;
 const date = new Date().toISOString().slice(0, 10);
 
-const addNewCurrency = (base, symbol, rate) => {
+const addNewCurrency = (base, symbol, rates) => {
   //Chekear si existe la moneda
   for (let i = 0; i < currencyData.length; i++) {
     if (currencyData[i].base === base) {
@@ -114,9 +138,29 @@ const addNewCurrency = (base, symbol, rate) => {
       return;
     }
   }
+  // Currency rates Separator
+  const ratesDivided = rates.split(",");
+  console.log("ratesDivided: " + ratesDivided);
+  const currencyRates = {};
+  for (let i = 0; i < ratesDivided.length; i++) {
+    const [key, value] = ratesDivided[i].trim().split(":");
+    console.log(ratesDivided[i].trim().split(":"));
+    // convert to number
+    currencyRates[key.trim()] = parseFloat(value);
+  }
+
+  console.log(currencyRates);
 
   // poner la moneda en el array
-  currencyData.push({ base, symbol, rate, timestamp });
+  currencyData.push({
+    base,
+    symbol,
+    timestamp,
+    date,
+    rates: currencyRates,
+    flag: "./flags/neutral.svg",
+  });
+  addMoreCurrenciestoDOM();
   resultText.innerHTML = `The currency ${base} was added successfully to our system.`;
 };
 

@@ -38,6 +38,20 @@
                 <option value="SEK">Swedish Krona</option>
                 <option value="NZD">New Zealand Dollar</option>
               </select>
+              <datalist class="country" id="suggestions">
+                <option value="USD">$</option>
+                <option value="CUP">$</option>
+                <option value="EUR">€</option>
+                <option value="DKK">DKK</option>
+                <option value="GBP">£</option>
+                <option value="JPY">¥</option>
+                <option value="AUD">$</option>
+                <option value="CAD">$</option>
+                <option value="CHF">CHF</option>
+                <option value="CNY">¥</option>
+                <option value="SEK">kr</option>
+                <option value="NZD">$</option>
+              </datalist>
               <input
                 type="text"
                 class="search"
@@ -96,13 +110,13 @@
         </button>
         <input
           type="text"
-          placeholder="insert new currency*"
+          placeholder="insert new currency name*"
           id="new-currency-input"
           required
         />
         <input
           type="text"
-          placeholder="insert new currency rate*"
+          placeholder="insert rates*     DKK: 1.4, USD: 1.2"
           id="new-currency-rate-input"
           required
         />
