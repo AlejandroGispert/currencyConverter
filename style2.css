@@ -97,6 +97,7 @@ select:focus {
   display: flex;
   align-items: center;
   margin-left: 10px;
+  visibility: hidden;
 }
 
 img {
@@ -129,6 +130,33 @@ img {
 
 #insert-container input {
   margin-top: 10px;
+}
+
+/* grid */
+
+#grid-container {
+  margin: 40px;
+  visibility: hidden;
+}
+.currency-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.grid-header {
+  font-weight: bold;
+  background-color: #f0f0f0;
+  padding: 10px;
+}
+
+.grid-item {
+  background-color: #fafafa;
+  padding: 10px;
+  border: 1px solid #ddd;
 }
 
 /* Media Queries */

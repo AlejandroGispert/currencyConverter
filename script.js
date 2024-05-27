@@ -23,6 +23,11 @@ const inputSymbols = document.getElementById("new-currency-symbol-input");
 
 const suggestions = document.getElementById("suggestions");
 
+//------------------GRID------------------
+
+const grid = document.getElementById("currencies-grid");
+const gridContainer = document.getElementById("grid-container");
+
 // ------------------GET FLAGS FROM SELECT------------------
 function getFlag(currency, direction) {
   direction.style.visibility = "visible";
@@ -75,6 +80,27 @@ const objectRateFetcher = (valFrom, valTo) => {
     }
   }
 };
+//-----------------------GRID--------
+
+const updateGrid = () => {
+  gridContainer.style.visibility = "visible";
+
+  for (let i = 0; i < currencyData.length; i++) {
+    if (currencyData[i].base === countriesFromSelect.value) {
+      //console.log("base" + currencyData[i].base);
+
+      for (let j = 0; j < Object.keys(currencyData[i].rates).length; j++) {
+        grid.innerHTML += `<div class="grid-item">${currencyData[i].base}</div>`;
+
+        let keys = Object.keys(currencyData[i].rates)[j];
+        let values = Object.values(currencyData[i].rates)[j];
+        //console.log("keys: " + keys + " values: " + values);
+        grid.innerHTML += `<div class="grid-item">${keys}</div>`;
+        grid.innerHTML += `<div class="grid-item">${values}</div>`;
+      }
+    }
+  }
+};
 
 // ------------------CONVERT CURRENCY------------------
 const amountConverter = (amount, rate) => {
@@ -93,6 +119,7 @@ btn.addEventListener("click", () => {
   ) {
     resultText.innerHTML = "Sorry, We couldn't convert your amount.";
   } else {
+    updateGrid();
     resultText.innerHTML =
       amountConverter(
         inputAmount.value,
