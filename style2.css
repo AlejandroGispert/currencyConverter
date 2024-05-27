@@ -136,7 +136,16 @@ img {
 
 #grid-container {
   margin: 40px;
+
   visibility: hidden;
+  opacity: 0;
+
+  background: #ecf0f1;
+  padding: 6px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 15%;
+  left: 5px;
 }
 .currency-grid {
   display: grid;
@@ -158,8 +167,23 @@ img {
   padding: 10px;
   border: 1px solid #ddd;
 }
-
+.tradingview-widget-container {
+  position: absolute;
+  top: 20%;
+  right: 30px;
+}
 /* Media Queries */
+
+@media (max-width: 1530px) {
+  #grid-container {
+    position: relative;
+  }
+  .tradingview-widget-container {
+    position: relative;
+    margin: 0 auto;
+  }
+}
+
 @media (max-width: 600px) {
   .container,
   .main,

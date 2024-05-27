@@ -83,7 +83,10 @@ const objectRateFetcher = (valFrom, valTo) => {
 //-----------------------GRID--------
 
 const updateGrid = () => {
+  grid.innerHTML = "";
   gridContainer.style.visibility = "visible";
+  gridContainer.style.opacity = "1";
+  gridContainer.style.transition = "all 0.5s";
 
   for (let i = 0; i < currencyData.length; i++) {
     if (currencyData[i].base === countriesFromSelect.value) {
@@ -98,6 +101,8 @@ const updateGrid = () => {
         grid.innerHTML += `<div class="grid-item">${keys}</div>`;
         grid.innerHTML += `<div class="grid-item">${values}</div>`;
       }
+    } else {
+      // console.log("not the same");
     }
   }
 };
@@ -205,4 +210,25 @@ addNewCurrencyButton.addEventListener("click", () => {
       );
     }
   }
+});
+//----------------------Widget Chart--------------------
+
+const tradingview_12345 = document.getElementById("tradingview_12345");
+new TradingView.widget({
+  width: 400,
+  height: 500,
+  symbol: "FX:EURUSD",
+  interval: "D",
+  timezone: "Europe/Copenhagen",
+  theme: "light",
+  style: "1",
+  locale: "en",
+  toolbar_bg: "#f1f3f6",
+  enable_publishing: false,
+
+  allow_symbol_change: false,
+  show_popup_button: true,
+  popup_width: "1000",
+  popup_height: "650",
+  container_id: "tradingview_12345",
 });
