@@ -92,15 +92,15 @@ const updateGrid = () => {
     if (currencyData[i].base === countriesFromSelect.value) {
       //console.log("base" + currencyData[i].base);
 
-      for (let j = 0; j < Object.keys(currencyData[i].rates).length; j++) {
+      Object.keys(currencyData[i].rates).map((e) => {
         grid.innerHTML += `<div class="grid-item">${currencyData[i].base}</div>`;
 
-        let keys = Object.keys(currencyData[i].rates)[j];
-        let values = Object.values(currencyData[i].rates)[j];
+        let keys = e;
+        let values = currencyData[i].rates[e];
         //console.log("keys: " + keys + " values: " + values);
         grid.innerHTML += `<div class="grid-item">${keys}</div>`;
         grid.innerHTML += `<div class="grid-item">${values}</div>`;
-      }
+      });
     } else {
       // console.log("not the same");
     }
