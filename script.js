@@ -88,23 +88,19 @@ const updateGrid = () => {
   gridContainer.style.opacity = "1";
   gridContainer.style.transition = "all 0.5s";
 
-  for (let i = 0; i < currencyData.length; i++) {
-    if (currencyData[i].base === countriesFromSelect.value) {
-      //console.log("base" + currencyData[i].base);
+  const filtered = currencyData.filter(
+    (e) => e.base === countriesFromSelect.value
+  );
+  //console.log("filtered: " + filtered);
+  Object.keys(filtered[0].rates).map((e) => {
+    grid.innerHTML += `<div class="grid-item">${filtered[0].base}</div>`;
 
-      Object.keys(currencyData[i].rates).map((e) => {
-        grid.innerHTML += `<div class="grid-item">${currencyData[i].base}</div>`;
-
-        let keys = e;
-        let values = currencyData[i].rates[e];
-        //console.log("keys: " + keys + " values: " + values);
-        grid.innerHTML += `<div class="grid-item">${keys}</div>`;
-        grid.innerHTML += `<div class="grid-item">${values}</div>`;
-      });
-    } else {
-      // console.log("not the same");
-    }
-  }
+    let keys = e;
+    let values = filtered[0].rates[e];
+    //console.log("keys: " + keys + " values: " + values);
+    grid.innerHTML += `<div class="grid-item">${keys}</div>`;
+    grid.innerHTML += `<div class="grid-item">${values}</div>`;
+  });
 };
 
 // ------------------CONVERT CURRENCY------------------
