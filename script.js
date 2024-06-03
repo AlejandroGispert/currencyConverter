@@ -1,6 +1,6 @@
 //import { currencyData } from "./database.js";
-
-//console.log(currencyData);
+import { flagData } from "./flagdata.js";
+//console.log(flagData);
 
 const leftFlag = document.getElementById("float-left-flag"); //img
 const rightFlag = document.getElementById("float-right-flag"); //img
@@ -29,7 +29,6 @@ const grid = document.getElementById("currencies-grid");
 const gridContainer = document.getElementById("grid-container");
 
 //----------------------JSON----------
-//my global data
 
 //const historical = "time-series.json"
 
@@ -57,22 +56,97 @@ const getJSON = (url, callback) => {
   };
   xhr.send();
 };
-
+//activate this
 const currencyData = getJSON("database.json", callback);
 
-//const api = "https://openexchangerates.org/api/";
-//const currencies = "currencies.json";
-//const currencyData = getJSON(api + currencies, callback);
+//-----------fetch API-------------------
 
-// ------------------GET FLAGS FROM SELECT------------------
+const appId = "9d0d5abf0c7749e58c563f2e85e971c7";
+const api = "https://openexchangerates.org/api/";
+const currencies = "currencies.json";
+const latestCurrencyData = "latest.json";
+
+async function fetchInDatabase(appId, jsonType, base) {
+  const url = `${api}${jsonType}?app_id=${appId}&base=${base}`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json(); // Parses the JSON response into native JavaScript objects
+
+    return data;
+  } catch (error) {
+    console.error(
+      "There has been a problem with your fetch operation: ",
+      error
+    );
+  }
+}
+
+// Call the function to fetch and display rates
+
+fetchInDatabase(appId, latestCurrencyData, "USD")
+  .then((data) => {
+    //console.log("Fetched rates: ", data.rates);
+  })
+  .catch((error) => {
+    console.error("Error fetching rates:", error);
+  });
+//const fetchCurrencies = fetchInDatabase(appId, currencies);
+
+//---------------------ADDCURRENCIES TO SELECT---ok
+
+const addCurrenciestoDOM = (symbol) => {
+  //fixing a bug here, when you add a new currency, it doesnt show up in the select,
+  //because it neeeded to be several times to be added to the DOM
+  const newCurrency = document.createElement("option");
+  const newCurrency2 = document.createElement("option");
+  const newCurrency3 = document.createElement("option");
+  newCurrency.value = symbol;
+  newCurrency.innerText = symbol;
+
+  newCurrency2.value = symbol;
+  newCurrency2.innerText = symbol;
+
+  newCurrency3.value = symbol;
+  newCurrency3.innerText = symbol;
+
+  countriesFromSelect.appendChild(newCurrency2);
+  countriesToSelect.appendChild(newCurrency3);
+  suggestions.appendChild(newCurrency);
+  console.log("this currency added: " + symbol);
+};
+
+fetchInDatabase(appId, currencies, "USD")
+  .then((currencies) => {
+    console.log("Fetched currencies: ", currencies);
+    Object.entries(currencies).forEach((symbol) => addCurrenciestoDOM(symbol));
+
+    return;
+  })
+  .catch((error) => {
+    console.error("Error fetching rates:", error);
+  });
+
+// ------------------GET FLAGS FROM SELECT------------------ OK
 function getFlag(currency, direction) {
   direction.style.visibility = "visible";
 
-  for (let i = 0; i < currencyData.length; i++) {
-    if (currencyData[i].base === currency) {
-      direction.src = currencyData[i].flag;
+  const firstThreeLetters = currency.slice(0, 3);
+  console.log(firstThreeLetters);
+  for (let i = 0; i < flagData.length; i++) {
+    if (flagData[i].base) {
+      if (flagData[i].base === firstThreeLetters) {
+        direction.src = flagData[i].flag;
 
-      console.log("You selected: ", countriesFromSelect.value);
+        console.log("You selected: ", countriesFromSelect.value);
+      }
+    } else if (!flagData[i].base || !flagData[i].flag) {
+      direction.src = "./flags/neutral.svg";
+
+      console.log("no flag found");
     }
   }
 }
@@ -86,7 +160,7 @@ function getFlagFromSearch(currency, direction) {
   getFlag(currency, direction);
 }
 
-//------------------ ADD FLAGS TO SELECT------------------
+//------------------ ADD FLAGS TO SELECT------------------OK
 countriesFromSelect.addEventListener("change", () =>
   getFlag(countriesFromSelect.value, leftFlag)
 );
@@ -101,20 +175,31 @@ inputTo.addEventListener("change", () =>
   getFlagFromSearch(inputTo.value, rightFlag)
 );
 
+//--------------rates-----------------//
 const objectRateFetcher = (valFrom, valTo) => {
-  //get currencyData.currency
+  // for (let i = 0; i < currencyData.length; i++) {
+  //   if (currencyData[i].base === valFrom) {
+  //     console.log(currencyData[i].rates[valTo]);
 
-  for (let i = 0; i < currencyData.length; i++) {
-    if (currencyData[i].base === valFrom) {
-      console.log(currencyData[i].rates[valTo]);
-
-      if (!currencyData[i].rates[valTo]) {
-        console.log(`We couldnt find a rate for ${valTo} in our system.`);
-      } else {
-        return currencyData[i].rates[valTo];
-      }
-    }
-  }
+  //     if (!currencyData[i].rates[valTo]) {
+  //       console.log(`We couldnt find a rate for ${valTo} in our system.`);
+  //     } else {
+  //       return currencyData[i].rates[valTo];
+  //     }
+  //   }
+  // }
+  let value;
+  //NEW LOGIC
+  fetchInDatabase(appId, latestCurrencyData, valFrom)
+    .then((rates) => {
+      console.log("Fetched rates: ", rates[valTo]);
+      value = rates[valTo];
+      return rates[valTo];
+    })
+    .catch((error) => {
+      console.error("Error fetching rates:", error);
+    });
+  return value;
 };
 //-----------------------GRID--------
 

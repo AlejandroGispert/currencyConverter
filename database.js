@@ -169,11 +169,11 @@ const currencyData = [
   },
   {
     base: "CNY",
-    symbol: "&#165;", // Yuan sign (¥) - same as JPY
+    symbol: "&#165;",
     timestamp: 1717691834,
     date: "2024-05-25",
     rates: {
-      CNY: 1.0, // Base currency rate
+      CNY: 1.0,
       USD: 0.14,
       EUR: 0.13,
       GBP: 0.11,
@@ -190,11 +190,11 @@ const currencyData = [
   },
   {
     base: "SEK",
-    symbol: "&#107;&#114;", // Swedish Krona (kr)
+    symbol: "&#107;&#114;",
     timestamp: 1717691834,
     date: "2024-05-25",
     rates: {
-      SEK: 1.0, // Base currency rate
+      SEK: 1.0,
       USD: 0.092,
       EUR: 0.084,
       GBP: 0.073,
@@ -211,11 +211,11 @@ const currencyData = [
   },
   {
     base: "NZD",
-    symbol: "&#36;", // Dollar sign ($) - same as USD
+    symbol: "&#36;",
     timestamp: 1717691834,
     date: "2024-05-25",
     rates: {
-      NZD: 1.0, // Base currency rate
+      NZD: 1.0,
       USD: 0.625,
       EUR: 0.575,
       GBP: 0.452,
@@ -232,7 +232,7 @@ const currencyData = [
   },
   {
     base: "DKK",
-    symbol: "kr", // Danish Krone (kr)
+    symbol: "kr",
     timestamp: 1717691834,
     date: "2024-05-25",
     rates: {
