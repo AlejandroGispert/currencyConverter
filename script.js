@@ -1,6 +1,6 @@
-import { currencyData } from "./database.js";
+//import { currencyData } from "./database.js";
 
-console.log(currencyData);
+//console.log(currencyData);
 
 const leftFlag = document.getElementById("float-left-flag"); //img
 const rightFlag = document.getElementById("float-right-flag"); //img
@@ -27,6 +27,38 @@ const suggestions = document.getElementById("suggestions");
 
 const grid = document.getElementById("currencies-grid");
 const gridContainer = document.getElementById("grid-container");
+
+//----------------------JSON----------
+//my global data
+let currencyData;
+
+const callback = (data) => {
+  console.log("json data: " + data);
+};
+const getJSON = (url, callback) => {
+  const xhr = new XMLHttpRequest();
+
+  xhr.open("GET", url, true);
+  xhr.responseType = "json";
+  xhr.onload = () => {
+    const status = xhr.status;
+    if (status === 200) {
+      console.log("JSON response 200");
+      callback(null, xhr.response);
+      //  console.log("response: ", xhr.response);
+      const response = xhr.response;
+      currencyData = response;
+      console.log("response2: ", response);
+    } else {
+      console.log("JSON response not 200");
+      callback(status, xhr.response);
+    }
+  };
+  xhr.send();
+};
+
+getJSON("database.json", callback);
+//const currencyData = getJSON("http://localhost:3000/", callback);
 
 // ------------------GET FLAGS FROM SELECT------------------
 function getFlag(currency, direction) {
@@ -155,7 +187,8 @@ const addMoreCurrenciestoDOM = () => {
 
 // ------------------ADD NEW CURRENCY---------------------
 const timestamp = new Date().getTime();
-currencyData.date;
+
+//currencyData.date;
 const date = new Date().toISOString().slice(0, 10);
 
 const addNewCurrency = (base, symbol, rates) => {
