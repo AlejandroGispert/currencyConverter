@@ -30,7 +30,8 @@ const gridContainer = document.getElementById("grid-container");
 
 //----------------------JSON----------
 //my global data
-let currencyData;
+
+//const historical = "time-series.json"
 
 const callback = (data) => {
   console.log("json data: " + data);
@@ -47,7 +48,7 @@ const getJSON = (url, callback) => {
       callback(null, xhr.response);
       //  console.log("response: ", xhr.response);
       const response = xhr.response;
-      currencyData = response;
+      //currencyData = response;
       console.log("response2: ", response);
     } else {
       console.log("JSON response not 200");
@@ -57,8 +58,11 @@ const getJSON = (url, callback) => {
   xhr.send();
 };
 
-getJSON("database.json", callback);
-//const currencyData = getJSON("http://localhost:3000/", callback);
+const currencyData = getJSON("database.json", callback);
+
+//const api = "https://openexchangerates.org/api/";
+//const currencies = "currencies.json";
+//const currencyData = getJSON(api + currencies, callback);
 
 // ------------------GET FLAGS FROM SELECT------------------
 function getFlag(currency, direction) {
