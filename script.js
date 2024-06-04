@@ -400,14 +400,14 @@ const getMarketOpenClose = () => {
     currentTime.getHours() <= 17
   ) {
     console.log("yeah " + currentTime.getHours());
-    glowingCircleText.innerText = "The CPH Market is Open";
+    glowingCircleText.innerText = "The Market is Open";
     glowingCircleText.style.color = "green";
 
     if (formattedDateTime === "9.00") {
-      alert("The CPH Market just Opened");
+      alert("The Market just Opened");
     }
     if (formattedDateTime === "16.55") {
-      alert("The CPH Market is about to Close");
+      alert("The Market is about to Close");
     }
   } else {
     console.log("nope");
