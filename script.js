@@ -15,6 +15,9 @@ const inputAmount = document.getElementById("input-amount");
 
 const btn = document.getElementById("btn");
 const bell = document.getElementById("bell");
+
+const switchCurrency = document.getElementById("switch-currency-button");
+
 // ------------------ADD NEW CURRENCY------------------
 const addNewCurrencyButton = document.getElementById("add-currency");
 const inputNewCurrency = document.getElementById("new-currency-input");
@@ -436,3 +439,24 @@ const getMarketOpenClose = () => {
   }
 };
 getMarketOpenClose();
+//---------------switch currency ---------------
+
+switchCurrency.addEventListener("click", switchCurrencyFunction);
+document.addEventListener("keydown", (e) => {
+  if (e.altKey) {
+    switchCurrencyFunction();
+  }
+});
+function switchCurrencyFunction() {
+  // Store the current selected values
+  const fromSelectedValue = countriesFromSelect.value;
+  const toSelectedValue = countriesToSelect.value;
+
+  // Switch the values
+  countriesFromSelect.value = toSelectedValue;
+  countriesToSelect.value = fromSelectedValue;
+
+  // Optional: Trigger change events to reflect the switch in any dependent logic
+  countriesFromSelect.dispatchEvent(new Event("change"));
+  countriesToSelect.dispatchEvent(new Event("change"));
+}
