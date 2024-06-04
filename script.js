@@ -64,14 +64,17 @@ const currencyData = getJSON("database.json", callback);
 
 //-----------fetch API-------------------ok
 
-const appId = "9d0d5abf0c7749e58c563f2e85e971c7";
-const api = "https://openexchangerates.org/api/";
+const appId = "app_id=9d0d5abf0c7749e58c563f2e85e971c7";
+const openXApi = "https://openexchangerates.org/api/";
 const currencies = "currencies.json";
 const latestCurrencyData = "latest.json";
 
-async function fetchInDatabase(appId, jsonType, base) {
-  const url = `${api}${jsonType}?app_id=${appId}&base=${base}`;
-
+async function fetchInDatabase(api, appId, jsonType, base, toValue) {
+  let url = `${api}${jsonType}?${appId}&base=${base}`;
+  if (toValue) {
+    url = url + "&currencies=" + toValue;
+    console.log(url);
+  }
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -90,7 +93,7 @@ async function fetchInDatabase(appId, jsonType, base) {
 
 // Call the function to fetch and display rates
 
-fetchInDatabase(appId, latestCurrencyData, "USD")
+fetchInDatabase(openXApi, appId, latestCurrencyData, "USD")
   .then((data) => {
     //console.log("Fetched rates: ", data.rates);
   })
@@ -122,7 +125,7 @@ const addCurrenciestoDOM = (symbol) => {
   // console.log("this currency added: " + symbol);
 };
 
-fetchInDatabase(appId, currencies, "USD")
+fetchInDatabase(openXApi, appId, currencies, "USD")
   .then((currencies) => {
     console.log("Fetched currencies: ", currencies);
     Object.entries(currencies).forEach((symbol) => addCurrenciestoDOM(symbol));
@@ -178,7 +181,8 @@ inputTo.addEventListener("change", () =>
   getFlagFromSearch(inputTo.value, rightFlag)
 );
 
-//--------------rates-----------------//
+//--------------rates-----------------//'
+let rateData;
 const objectRateFetcher = (valFrom, valTo) => {
   // for (let i = 0; i < currencyData.length; i++) {
   //   if (currencyData[i].base === valFrom) {
@@ -202,11 +206,33 @@ const objectRateFetcher = (valFrom, valTo) => {
   //     console.error("Error fetching rates:", error);
   //   });
   // return value;
-  // //Even newer LOGIC MONEY.js
-  // // Simple syntax:
-  // fx.convert(1000, { from: valFrom, to: valTo });
-};
 
+  //---latest logic ---------------
+  const forexRateApiId = "api_key=07691352b05e809fe4b0fea2cf2c874a";
+  const forexRateWebAdress = "https://api.forexrateapi.com/v1/";
+
+  return new Promise((resolve, reject) => {
+    fetchInDatabase(
+      forexRateWebAdress,
+      forexRateApiId,
+      "latest",
+      valFrom,
+      valTo
+    )
+      .then((currencies) => {
+        console.log("Fetched data: ", currencies);
+
+        const rateResult = Object.values(currencies.rates)[0].toFixed(2);
+        rateData = rateResult;
+        console.log("Yes rates: ", rateData);
+        resolve(rateResult);
+      })
+      .catch((error) => {
+        console.error("Error fetching rates:", error);
+        reject(error);
+      });
+  });
+};
 //-----------------------GRID--------
 
 const updateGrid = () => {
@@ -236,33 +262,51 @@ const amountConverter = (amount, rate) => {
   return (amount * rate).toFixed(2);
 };
 
-btn.addEventListener("click", () => {
+async function handleButtonClick() {
+  try {
+    const rateResult = await objectRateFetcher(
+      countriesFromSelect.value,
+      countriesToSelect.value
+    );
+    console.log("Conversion Rate Result1: ", rateResult);
+    const convertedAmount = amountConverter(inputAmount.value, rateResult);
+    resultText.innerHTML = convertedAmount + " " + countriesToSelect.value;
+  } catch (error) {
+    console.error("Error fetching rates:", error);
+    // Handle the error
+  }
+
   // if (
   //   isNaN(
-  //     amountConverter(
-  //       inputAmount.value,
-  //       objectRateFetcher(countriesFromSelect.value, countriesToSelect.value)
-  //     )
+  //     objectRateFetcher(
+  //       countriesFromSelect.value,
+  //       countriesToSelect.value
+  //     ).then((rateResult) => {
+  //       console.log("Conversion Rate Result1: ", rateResult);
+  //       // Use rateResult as neededreturn
+
+  //     })
   //   )
   // ) {
   //   resultText.innerHTML = "Sorry, We couldn't convert your amount.";
   // } else {
-  //updateGrid();
+  //   //updateGrid();
 
-  // resultText.innerHTML =
-  //   amountConverter(
-  //     inputAmount.value,
-  //     objectRateFetcher(countriesFromSelect.value, countriesToSelect.value)
-  //   ) +
-  //   " " +
-  //   countriesToSelect.value;
-  // Simple syntax:
-  const converted = fx.convert(inputAmount.value, {
-    from: countriesFromSelect.value,
-    to: countriesToSelect.value,
-  });
-  resultText.innerHTML = converted;
+  //   objectRateFetcher(countriesFromSelect.value, countriesToSelect.value).then(
+  //     (rateResult) => {
+  //       console.log("Conversion Rate Result2: ", rateResult);
+  //       // Use rateResult as needed
+  //       const convertedAmount = amountConverter(inputAmount.value, rateResult);
+  //       resultText.innerHTML = convertedAmount + " " + countriesToSelect.value;
+  //     }
+  //   );
   // }
+}
+btn.addEventListener("click", handleButtonClick);
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    handleButtonClick();
+  }
 });
 
 //----------------------Add more currencies dinamically---------------------------
@@ -411,13 +455,13 @@ const getMarketOpenClose = () => {
     }
   } else {
     console.log("nope");
-    glowingCircleText.innerText = "The CPH Market is Closed";
+    glowingCircleText.innerText = "The Market is Closed";
     glowingCircleText.style.color = "grey";
     glowingCircle.style.backgroundColor = "grey";
 
     glowingCircle.style.animation = "none";
     if (formattedDateTime === "17.00") {
-      alert("The CPH Market just Closed");
+      alert("The Market just Closed");
     }
   }
 };
