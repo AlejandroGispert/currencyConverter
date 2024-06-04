@@ -1,7 +1,13 @@
 /* Global Styles */
+
+:root {
+  --green: #27ae60;
+  --white: #f5f5f5;
+}
+
 body {
   font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
+  background-color: var(--white);
   margin: 0;
   padding: 0;
   color: #333;
@@ -113,7 +119,7 @@ img {
 }
 
 #result-text {
-  color: #27ae60;
+  color: var(--green);
   font-size: 1.5em;
 }
 
@@ -172,6 +178,62 @@ img {
   top: 20%;
   right: 30px;
 }
+
+.nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #69a6ce;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 10px 20px;
+}
+
+.nav h1 {
+  margin: 0 auto 0;
+  padding: 10px 20px;
+  color: #d4e6f1;
+  text-shadow: 2px 2px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+/* #yellow-star {
+  color: yellow;
+} */
+
+.market-open {
+  display: flex;
+  position: absolute;
+  top: 90px;
+  right: 190px;
+  text-align: center;
+  align-items: center;
+}
+
+.glowing-circle {
+  margin: 8px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px rgba(0, 0, 0, 0.076) solid;
+  background-color: var(--green); /* Green color */
+  position: relative;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 6px var(--green), 0 0 6px var(--green), 0 0 6px var(--green),
+      0 0 40px var(--green);
+  }
+  100% {
+    box-shadow: 0 0 20px var(--green), 0 0 30px var(--green),
+      0 0 40px var(--green), 0 0 50px var(--green);
+  }
+}
+
 /* Media Queries */
 
 @media (max-width: 1530px) {
@@ -182,8 +244,24 @@ img {
     position: relative;
     margin: 0 auto;
   }
+  .market-open {
+    top: 90px;
+    right: 450px;
+  }
 }
+@media (max-width: 900px) {
+  .nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
+    height: 120px;
+  }
+  .market-open {
+    top: 150px;
+    right: 110px;
+  }
+}
 @media (max-width: 600px) {
   .container,
   .main,
@@ -198,5 +276,17 @@ img {
   #result-container {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .nav {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    height: 120px;
+  }
+
+  .market-open {
+    top: 150px;
+    right: 20px;
   }
 }

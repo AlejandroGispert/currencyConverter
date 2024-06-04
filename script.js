@@ -28,6 +28,9 @@ const suggestions = document.getElementById("suggestions");
 const grid = document.getElementById("currencies-grid");
 const gridContainer = document.getElementById("grid-container");
 
+//---------glowing circle, market open close
+const glowingCircleText = document.getElementById("glowing-circle-text");
+const glowingCircle = document.getElementById("glowing-circle");
 //----------------------JSON----------
 
 //const historical = "time-series.json"
@@ -59,7 +62,7 @@ const getJSON = (url, callback) => {
 //activate this
 const currencyData = getJSON("database.json", callback);
 
-//-----------fetch API-------------------
+//-----------fetch API-------------------ok
 
 const appId = "9d0d5abf0c7749e58c563f2e85e971c7";
 const api = "https://openexchangerates.org/api/";
@@ -116,7 +119,7 @@ const addCurrenciestoDOM = (symbol) => {
   countriesFromSelect.appendChild(newCurrency2);
   countriesToSelect.appendChild(newCurrency3);
   suggestions.appendChild(newCurrency);
-  console.log("this currency added: " + symbol);
+  // console.log("this currency added: " + symbol);
 };
 
 fetchInDatabase(appId, currencies, "USD")
@@ -130,7 +133,7 @@ fetchInDatabase(appId, currencies, "USD")
     console.error("Error fetching rates:", error);
   });
 
-// ------------------GET FLAGS FROM SELECT------------------ OK
+// ------------------GET FLAGS FROM SELECT------------------ 50/50
 function getFlag(currency, direction) {
   direction.style.visibility = "visible";
 
@@ -180,7 +183,6 @@ const objectRateFetcher = (valFrom, valTo) => {
   // for (let i = 0; i < currencyData.length; i++) {
   //   if (currencyData[i].base === valFrom) {
   //     console.log(currencyData[i].rates[valTo]);
-
   //     if (!currencyData[i].rates[valTo]) {
   //       console.log(`We couldnt find a rate for ${valTo} in our system.`);
   //     } else {
@@ -188,19 +190,23 @@ const objectRateFetcher = (valFrom, valTo) => {
   //     }
   //   }
   // }
-  let value;
-  //NEW LOGIC
-  fetchInDatabase(appId, latestCurrencyData, valFrom)
-    .then((rates) => {
-      console.log("Fetched rates: ", rates[valTo]);
-      value = rates[valTo];
-      return rates[valTo];
-    })
-    .catch((error) => {
-      console.error("Error fetching rates:", error);
-    });
-  return value;
+  // let value;
+  // //NEW LOGIC / works, but i have to pay for the api service!
+  // fetchInDatabase(appId, latestCurrencyData, valFrom)
+  //   .then((rates) => {
+  //     console.log("Fetched rates: ", rates[valTo]);
+  //     value = rates[valTo];
+  //     return rates[valTo];
+  //   })
+  //   .catch((error) => {
+  //     console.error("Error fetching rates:", error);
+  //   });
+  // return value;
+  // //Even newer LOGIC MONEY.js
+  // // Simple syntax:
+  // fx.convert(1000, { from: valFrom, to: valTo });
 };
+
 //-----------------------GRID--------
 
 const updateGrid = () => {
@@ -231,25 +237,32 @@ const amountConverter = (amount, rate) => {
 };
 
 btn.addEventListener("click", () => {
-  if (
-    isNaN(
-      amountConverter(
-        inputAmount.value,
-        objectRateFetcher(countriesFromSelect.value, countriesToSelect.value)
-      )
-    )
-  ) {
-    resultText.innerHTML = "Sorry, We couldn't convert your amount.";
-  } else {
-    updateGrid();
-    resultText.innerHTML =
-      amountConverter(
-        inputAmount.value,
-        objectRateFetcher(countriesFromSelect.value, countriesToSelect.value)
-      ) +
-      " " +
-      countriesToSelect.value;
-  }
+  // if (
+  //   isNaN(
+  //     amountConverter(
+  //       inputAmount.value,
+  //       objectRateFetcher(countriesFromSelect.value, countriesToSelect.value)
+  //     )
+  //   )
+  // ) {
+  //   resultText.innerHTML = "Sorry, We couldn't convert your amount.";
+  // } else {
+  //updateGrid();
+
+  // resultText.innerHTML =
+  //   amountConverter(
+  //     inputAmount.value,
+  //     objectRateFetcher(countriesFromSelect.value, countriesToSelect.value)
+  //   ) +
+  //   " " +
+  //   countriesToSelect.value;
+  // Simple syntax:
+  const converted = fx.convert(inputAmount.value, {
+    from: countriesFromSelect.value,
+    to: countriesToSelect.value,
+  });
+  resultText.innerHTML = converted;
+  // }
 });
 
 //----------------------Add more currencies dinamically---------------------------
@@ -350,3 +363,62 @@ new TradingView.widget({
   popup_height: "650",
   container_id: "tradingview_12345",
 });
+//----------------------Market Open Close--------------------
+
+const getMarketOpenClose = () => {
+  let currentTime = new Date();
+
+  let formatter = new Intl.DateTimeFormat("da-DK", {
+    // year: "numeric",
+    // month: "long",
+    // day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    // second: "numeric",
+    // timeZoneName: "short",
+  });
+
+  let formattedDateTime = formatter.format(currentTime);
+
+  let dayOfWeek = currentTime.getDay();
+  let daysOfWeek = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  let dayName = daysOfWeek[dayOfWeek];
+  console.log("Time: ", dayName + " " + formattedDateTime);
+  console.log();
+  if (
+    dayName != "Sunday" &&
+    dayName != "Saturday" &&
+    currentTime.getHours() >= 9 &&
+    currentTime.getHours() <= 17
+  ) {
+    console.log("yeah " + currentTime.getHours());
+    glowingCircleText.innerText = "The CPH Market is Open";
+    glowingCircleText.style.color = "green";
+
+    if (formattedDateTime === "9.00") {
+      alert("The CPH Market just Opened");
+    }
+    if (formattedDateTime === "16.55") {
+      alert("The CPH Market is about to Close");
+    }
+  } else {
+    console.log("nope");
+    glowingCircleText.innerText = "The CPH Market is Closed";
+    glowingCircleText.style.color = "grey";
+    glowingCircle.style.backgroundColor = "grey";
+
+    glowingCircle.style.animation = "none";
+    if (formattedDateTime === "17.00") {
+      alert("The CPH Market just Closed");
+    }
+  }
+};
+getMarketOpenClose();
