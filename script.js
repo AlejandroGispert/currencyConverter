@@ -282,7 +282,7 @@ document.addEventListener("keydown", function (e) {
   }
 });
 //So it can activate automatically without button pressed
-countriesToSelect.addEventListener("click", handleButtonClick);
+countriesToSelect.addEventListener("change", handleButtonClick);
 
 //----------------------Add more currencies dinamically---------------------------
 const addMoreCurrenciestoDOM = () => {
