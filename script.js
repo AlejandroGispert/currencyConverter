@@ -14,7 +14,7 @@ const resultText = document.getElementById("result-text");
 const inputAmount = document.getElementById("input-amount");
 
 const btn = document.getElementById("btn");
-
+const bell = document.getElementById("bell");
 // ------------------ADD NEW CURRENCY------------------
 const addNewCurrencyButton = document.getElementById("add-currency");
 const inputNewCurrency = document.getElementById("new-currency-input");
@@ -256,7 +256,7 @@ const updateGrid = () => {
   });
 };
 
-// ------------------CONVERT CURRENCY------------------
+// ------------------CONVERT CURRENCY------------------ok
 const amountConverter = (amount, rate) => {
   console.log("amount: " + amount + " rate:  " + rate);
   return (amount * rate).toFixed(2);
@@ -268,11 +268,23 @@ async function handleButtonClick() {
       countriesFromSelect.value,
       countriesToSelect.value
     );
-    console.log("Conversion Rate Result1: ", rateResult);
-    const convertedAmount = amountConverter(inputAmount.value, rateResult);
-    resultText.innerHTML = convertedAmount + " " + countriesToSelect.value;
+    if (!isNaN(rateResult)) {
+      //updateGrid();
+      console.log("Conversion Rate Result1: ", rateResult);
+      const convertedAmount = amountConverter(inputAmount.value, rateResult);
+
+      const currencySymbol = countriesToSelect.value.slice(0, 3);
+      resultText.innerHTML = convertedAmount + " " + currencySymbol;
+      bell.style.display = "block";
+    } else {
+      console.log("Conversion Rate Result2: ", rateResult);
+      resultText.innerHTML = "Sorry, We couldn't convert your amount.";
+      bell.style.display = "none";
+    }
   } catch (error) {
     console.error("Error fetching rates:", error);
+    resultText.innerHTML = "Sorry, We couldn't convert your amount.";
+    bell.style.display = "none";
     // Handle the error
   }
 

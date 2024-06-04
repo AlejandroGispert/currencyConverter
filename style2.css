@@ -203,6 +203,29 @@ img {
   color: yellow;
 } */
 
+.bell {
+  display: none;
+}
+.bell-text {
+  visibility: hidden;
+
+  width: 120px;
+  background-color: rgba(0, 0, 0, 0.232);
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  position: absolute;
+  z-index: 1;
+  top: 29%;
+  left: 40%;
+}
+
+.bell:hover .bell-text {
+  visibility: visible;
+}
+
 .market-open {
   display: flex;
   position: absolute;
@@ -288,5 +311,13 @@ img {
   .market-open {
     top: 150px;
     right: 20px;
+  }
+
+  .bell,
+  .bell-text {
+    margin: 0 auto;
+  }
+  .bell-text {
+    top: 58%;
   }
 }
