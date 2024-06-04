@@ -253,13 +253,13 @@ async function handleButtonClick() {
     if (!isNaN(rateResult)) {
       //updateGrid();
       console.log("Conversion Rate Result1: ", rateResult);
-      const convertedAmount = amountConverter(
-        inputAmount.value.slice(0, 3),
-        rateResult
-      );
+      const convertedAmount = amountConverter(inputAmount.value, rateResult);
+
+      const formattedAndConvertedAmount = convertedAmount.toLocaleString();
+      console.log("Converted Amount: ", formattedAndConvertedAmount);
 
       const currencySymbol = countriesToSelect.value.slice(0, 3);
-      resultText.innerHTML = convertedAmount.toFixed(2) + " " + currencySymbol;
+      resultText.innerHTML = formattedAndConvertedAmount + " " + currencySymbol;
       bell.style.display = "block";
     } else {
       handleError("Conversion Rate Result2: ", rateResult);
