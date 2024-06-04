@@ -112,7 +112,7 @@ const addCurrenciestoDOM = (symbol) => {
   //because it neeeded to be several times to be added to the DOM
 
   const separatedSymbol = Object.values(symbol).toString().split(",").join(" ");
-  console.log(separatedSymbol);
+  // console.log(separatedSymbol);
   const newCurrency = document.createElement("option");
   const newCurrency2 = document.createElement("option");
   const newCurrency3 = document.createElement("option");
@@ -282,7 +282,19 @@ document.addEventListener("keydown", function (e) {
   }
 });
 //So it can activate automatically without button pressed
-countriesToSelect.addEventListener("change", handleButtonClick);
+countriesToSelect.addEventListener("change", () => {
+  inputTo.value = countriesToSelect.value;
+  handleButtonClick();
+});
+countriesFromSelect.addEventListener("change", () => {
+  inputFrom.value = countriesFromSelect.value;
+});
+inputFrom.addEventListener("click", () => {
+  inputFrom.value = "";
+});
+inputTo.addEventListener("click", () => {
+  inputTo.value = "";
+});
 
 //----------------------Add more currencies dinamically---------------------------
 const addMoreCurrenciestoDOM = () => {
