@@ -107,17 +107,20 @@ fetchInDatabase(openXApi, appId, latestCurrencyData, "USD")
 const addCurrenciestoDOM = (symbol) => {
   //fixing a bug here, when you add a new currency, it doesnt show up in the select,
   //because it neeeded to be several times to be added to the DOM
+
+  const separatedSymbol = Object.values(symbol).toString().split(",").join(" ");
+  console.log(separatedSymbol);
   const newCurrency = document.createElement("option");
   const newCurrency2 = document.createElement("option");
   const newCurrency3 = document.createElement("option");
-  newCurrency.value = symbol;
-  newCurrency.innerText = symbol;
+  newCurrency.value = separatedSymbol;
+  newCurrency.innerText = separatedSymbol;
 
-  newCurrency2.value = symbol;
-  newCurrency2.innerText = symbol;
+  newCurrency2.value = separatedSymbol;
+  newCurrency2.innerText = separatedSymbol;
 
-  newCurrency3.value = symbol;
-  newCurrency3.innerText = symbol;
+  newCurrency3.value = separatedSymbol;
+  newCurrency3.innerText = separatedSymbol;
 
   countriesFromSelect.appendChild(newCurrency2);
   countriesToSelect.appendChild(newCurrency3);
@@ -128,9 +131,8 @@ const addCurrenciestoDOM = (symbol) => {
 fetchInDatabase(openXApi, appId, currencies, "USD")
   .then((currencies) => {
     console.log("Fetched currencies: ", currencies);
-    Object.entries(currencies).forEach((symbol) => addCurrenciestoDOM(symbol));
 
-    return;
+    Object.entries(currencies).forEach((symbol) => addCurrenciestoDOM(symbol));
   })
   .catch((error) => {
     console.error("Error fetching rates:", error);
@@ -184,29 +186,6 @@ inputTo.addEventListener("change", () =>
 //--------------rates-----------------//'
 let rateData;
 const objectRateFetcher = (valFrom, valTo) => {
-  // for (let i = 0; i < currencyData.length; i++) {
-  //   if (currencyData[i].base === valFrom) {
-  //     console.log(currencyData[i].rates[valTo]);
-  //     if (!currencyData[i].rates[valTo]) {
-  //       console.log(`We couldnt find a rate for ${valTo} in our system.`);
-  //     } else {
-  //       return currencyData[i].rates[valTo];
-  //     }
-  //   }
-  // }
-  // let value;
-  // //NEW LOGIC / works, but i have to pay for the api service!
-  // fetchInDatabase(appId, latestCurrencyData, valFrom)
-  //   .then((rates) => {
-  //     console.log("Fetched rates: ", rates[valTo]);
-  //     value = rates[valTo];
-  //     return rates[valTo];
-  //   })
-  //   .catch((error) => {
-  //     console.error("Error fetching rates:", error);
-  //   });
-  // return value;
-
   //---latest logic ---------------
   const forexRateApiId = "api_key=07691352b05e809fe4b0fea2cf2c874a";
   const forexRateWebAdress = "https://api.forexrateapi.com/v1/";
@@ -222,7 +201,7 @@ const objectRateFetcher = (valFrom, valTo) => {
       .then((currencies) => {
         console.log("Fetched data: ", currencies);
 
-        const rateResult = Object.values(currencies.rates)[0].toFixed(2);
+        const rateResult = Object.values(currencies.rates)[0];
         rateData = rateResult;
         console.log("Yes rates: ", rateData);
         resolve(rateResult);
@@ -259,61 +238,40 @@ const updateGrid = () => {
 // ------------------CONVERT CURRENCY------------------ok
 const amountConverter = (amount, rate) => {
   console.log("amount: " + amount + " rate:  " + rate);
-  return (amount * rate).toFixed(2);
+  return amount * rate;
 };
 
 async function handleButtonClick() {
   try {
     const rateResult = await objectRateFetcher(
-      countriesFromSelect.value,
-      countriesToSelect.value
+      countriesFromSelect.value.slice(0, 3),
+      countriesToSelect.value.slice(0, 3)
     );
     if (!isNaN(rateResult)) {
       //updateGrid();
       console.log("Conversion Rate Result1: ", rateResult);
-      const convertedAmount = amountConverter(inputAmount.value, rateResult);
+      const convertedAmount = amountConverter(
+        inputAmount.value.slice(0, 3),
+        rateResult
+      );
 
       const currencySymbol = countriesToSelect.value.slice(0, 3);
-      resultText.innerHTML = convertedAmount + " " + currencySymbol;
+      resultText.innerHTML = convertedAmount.toFixed(2) + " " + currencySymbol;
       bell.style.display = "block";
     } else {
-      console.log("Conversion Rate Result2: ", rateResult);
-      resultText.innerHTML = "Sorry, We couldn't convert your amount.";
-      bell.style.display = "none";
+      handleError("Conversion Rate Result2: ", rateResult);
     }
   } catch (error) {
-    console.error("Error fetching rates:", error);
-    resultText.innerHTML = "Sorry, We couldn't convert your amount.";
-    bell.style.display = "none";
-    // Handle the error
+    handleError("Error fetching rates:", error);
   }
-
-  // if (
-  //   isNaN(
-  //     objectRateFetcher(
-  //       countriesFromSelect.value,
-  //       countriesToSelect.value
-  //     ).then((rateResult) => {
-  //       console.log("Conversion Rate Result1: ", rateResult);
-  //       // Use rateResult as neededreturn
-
-  //     })
-  //   )
-  // ) {
-  //   resultText.innerHTML = "Sorry, We couldn't convert your amount.";
-  // } else {
-  //   //updateGrid();
-
-  //   objectRateFetcher(countriesFromSelect.value, countriesToSelect.value).then(
-  //     (rateResult) => {
-  //       console.log("Conversion Rate Result2: ", rateResult);
-  //       // Use rateResult as needed
-  //       const convertedAmount = amountConverter(inputAmount.value, rateResult);
-  //       resultText.innerHTML = convertedAmount + " " + countriesToSelect.value;
-  //     }
-  //   );
-  // }
 }
+
+function handleError(message, additionalInfo = null) {
+  console.error(message, additionalInfo);
+  resultText.innerHTML = "Sorry, We couldn't convert your amount.";
+  bell.style.display = "none";
+}
+
 btn.addEventListener("click", handleButtonClick);
 document.addEventListener("keydown", function (e) {
   if (e.key === "Enter") {

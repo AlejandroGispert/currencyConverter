@@ -218,7 +218,7 @@ img {
 
   position: absolute;
   z-index: 1;
-  top: 29%;
+  top: 290px;
   left: 40%;
 }
 
@@ -284,6 +284,9 @@ img {
     top: 150px;
     right: 110px;
   }
+  .bell-text {
+    top: 340px;
+  }
 }
 @media (max-width: 600px) {
   .container,
@@ -318,6 +321,6 @@ img {
     margin: 0 auto;
   }
   .bell-text {
-    top: 58%;
+    top: 570px;
   }
 }
