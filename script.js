@@ -17,7 +17,7 @@ const btn = document.getElementById("btn");
 const bell = document.getElementById("bell");
 
 const switchCurrency = document.getElementById("switch-currency-button");
-
+const alertsContainer = document.getElementById("alerts-container");
 // ------------------ADD NEW CURRENCY------------------
 const addNewCurrencyButton = document.getElementById("add-currency");
 const inputNewCurrency = document.getElementById("new-currency-input");
@@ -38,32 +38,32 @@ const glowingCircle = document.getElementById("glowing-circle");
 
 //const historical = "time-series.json"
 
-const callback = (data) => {
-  console.log("json data: " + data);
-};
-const getJSON = (url, callback) => {
-  const xhr = new XMLHttpRequest();
+// const callback = (data) => {
+//   console.log("json data: " + data);
+// };
+// const getJSON = (url, callback) => {
+//   const xhr = new XMLHttpRequest();
 
-  xhr.open("GET", url, true);
-  xhr.responseType = "json";
-  xhr.onload = () => {
-    const status = xhr.status;
-    if (status === 200) {
-      console.log("JSON response 200");
-      callback(null, xhr.response);
-      //  console.log("response: ", xhr.response);
-      const response = xhr.response;
-      //currencyData = response;
-      console.log("response2: ", response);
-    } else {
-      console.log("JSON response not 200");
-      callback(status, xhr.response);
-    }
-  };
-  xhr.send();
-};
-//activate this
-const currencyData = getJSON("database.json", callback);
+//   xhr.open("GET", url, true);
+//   xhr.responseType = "json";
+//   xhr.onload = () => {
+//     const status = xhr.status;
+//     if (status === 200) {
+//       console.log("JSON response 200");
+//       callback(null, xhr.response);
+//       //  console.log("response: ", xhr.response);
+//       const response = xhr.response;
+//       //currencyData = response;
+//       console.log("response2: ", response);
+//     } else {
+//       console.log("JSON response not 200");
+//       callback(status, xhr.response);
+//     }
+//   };
+//   xhr.send();
+// };
+// //activate this
+// const currencyData = getJSON("database.json", callback);
 
 //-----------fetch API-------------------ok
 
@@ -76,7 +76,7 @@ async function fetchInDatabase(api, appId, jsonType, base, toValue) {
   let url = `${api}${jsonType}?${appId}&base=${base}`;
   if (toValue) {
     url = url + "&currencies=" + toValue;
-    console.log(url);
+    // console.log(url);
   }
   try {
     const response = await fetch(url);
@@ -146,13 +146,13 @@ function getFlag(currency, direction) {
   direction.style.visibility = "visible";
 
   const firstThreeLetters = currency.slice(0, 3);
-  console.log(firstThreeLetters);
+  //console.log(firstThreeLetters);
   for (let i = 0; i < flagData.length; i++) {
     if (flagData[i].base) {
       if (flagData[i].base === firstThreeLetters) {
         direction.src = flagData[i].flag;
 
-        console.log("You selected: ", countriesFromSelect.value);
+        //console.log("You selected: ", countriesFromSelect.value);
       }
     } else if (!flagData[i].base || !flagData[i].flag) {
       direction.src = "./flags/neutral.svg";
@@ -240,7 +240,7 @@ const updateGrid = () => {
 
 // ------------------CONVERT CURRENCY------------------ok
 const amountConverter = (amount, rate) => {
-  console.log("amount: " + amount + " rate:  " + rate);
+  // console.log("amount: " + amount + " rate:  " + rate);
   return amount * rate;
 };
 
@@ -252,11 +252,11 @@ async function handleButtonClick() {
     );
     if (!isNaN(rateResult)) {
       //updateGrid();
-      console.log("Conversion Rate Result1: ", rateResult);
+      // console.log("Conversion Rate Result1: ", rateResult);
       const convertedAmount = amountConverter(inputAmount.value, rateResult);
 
       const formattedAndConvertedAmount = convertedAmount.toLocaleString();
-      console.log("Converted Amount: ", formattedAndConvertedAmount);
+      //console.log("Converted Amount: ", formattedAndConvertedAmount);
 
       const currencySymbol = countriesToSelect.value.slice(0, 3);
       resultText.innerHTML = formattedAndConvertedAmount + " " + currencySymbol;
@@ -425,7 +425,6 @@ const getMarketOpenClose = () => {
     currentTime.getHours() >= 9 &&
     currentTime.getHours() <= 17
   ) {
-    console.log("yeah " + currentTime.getHours());
     glowingCircleText.innerText = "The Market is Open";
     glowingCircleText.style.color = "green";
 
@@ -475,19 +474,54 @@ bell.addEventListener("click", add);
 let alertsArray = localStorage.getItem("alerts")
   ? JSON.parse(localStorage.getItem("alerts"))
   : [];
+
 function add() {
-  alertsArray.push(countriesFromSelect.value);
+  alertsArray.push(
+    countriesFromSelect.value.slice(0, 3),
+    countriesToSelect.value.slice(0, 3)
+  );
   localStorage.setItem("alerts", JSON.stringify(alertsArray));
-  addAlert(countriesFromSelect.value);
+  addAlert(
+    countriesFromSelect.value.slice(0, 3),
+    countriesToSelect.value.slice(0, 3)
+  );
 }
 function del() {
   localStorage.removeItem("alerts");
-  ul.innerHTML = "";
+  alertsContainer.innerHTML = "";
   alertsArray = [];
 }
-function addAlert(country) {
-  const ul = document.getElementById("alerts-list"); // Ensure you have a <ul> element with id='alerts-list' in your HTML
+function addAlert(countryFrom, countryTo) {
+  // Ensure you have a <ul> element with id='alerts-list' in your HTML
   const li = document.createElement("li");
-  li.textContent = `Alert for: ${country}`;
-  ul.appendChild(li);
+  li.innerHTML = `set an Alert for: ${countryFrom} to ${countryTo} rate  higher than <input id="rateAlertInput" style="width:60px" placeholder="${rateData.toFixed(
+    3
+  )}"/><button id="set-button"  style="width:40px;background-color:white">Set</button>`;
+
+  // const rateAlertInput = document.getElementById("rateAlertInput");
+  // rateAlertInput.addEventListener("change", checkAlerts);
+  //to fadeout the alert
+  //li.classList.add("fadeout");
+
+  // setTimeout(function () {
+  //   // fadeout logic goes here
+  //   // remove an element logic goes here
+  //   li.remove();
+
+  //   console.log("fade out");
+  // }, 5000);
+  alertsContainer.appendChild(li);
+
+  const setButton = document.getElementById("set-button");
+  setButton.addEventListener("click", checkAlerts);
 }
+
+function checkAlerts() {
+  const rateAlertInput = document.getElementById("rateAlertInput");
+  console.log(rateAlertInput.value);
+  // console.log("Checking");
+  // const rateAlertInput = document.getElementById("rateAlertInput");
+  // const setButton = document.getElementById("set-button");
+  // setButton.addEventListener("click", console.log(rateAlertInput.innerText));
+}
+//document.addEventListener("DOMContentLoaded", (event) => {});
