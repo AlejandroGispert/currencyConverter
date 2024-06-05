@@ -527,6 +527,7 @@ function addToStorage() {
 
   let formattedDateTime = formatter.format(currentTime);
   console.log("formattedDateTime: ", formattedDateTime);
+
   if (rateAlertInput.value) {
     alertsArray.push({
       symbolFrom: countriesFromSelect.value.slice(0, 3),
@@ -552,13 +553,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   try {
     console.log("saved alerts", alertsArray);
 
-    alertsArray.forEach((e, index) => {
+    alertsArray.forEach(async (e, index) => {
       const savedAlert = document.createElement("li");
       savedAlert.innerHTML = `${e.symbolFrom} to ${
         e.symbolTo
-      } rate ${e.rate.toFixed(
+      } rates <span style="font-size: 12px">then ${e.rate.toFixed(
         3
-      )}<button type="button" class="rem-button" data-index="${index}"  style="width:15px;height:20px;background-color:white;margin-left:60px;padding: 0;">x</button`;
+      )}</span><button type="button" class="rem-button" data-index="${index}"  style="width:15px;height:20px;background-color:white;margin-left:60px;padding: 0;">x</button>`;
       savedAlertsContainer.appendChild(savedAlert);
 
       const remButton = document.querySelector(
@@ -570,6 +571,25 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.log("local storage index# ", alertsArray[index]);
         removeFromdatabase("alerts", index);
       });
+
+      // Fetch the current rate asynchronously
+      const rateResult = await objectRateFetcher(e.symbolFrom, e.symbolTo);
+
+      // Determine the colorStyle based on the fetched rate compared to the original rate
+      let colorStyle = "";
+      if (rateResult > e.rate) {
+        colorStyle = "color: green;";
+      } else if (rateResult < e.rate) {
+        colorStyle = "color: red;";
+      }
+
+      // Construct the span with the determined colorStyle
+      const spanHtml = `<span style="font-size: 15px; ${colorStyle}">now ${rateResult.toFixed(
+        3
+      )}</span>`;
+
+      // Append the constructed spanHtml to savedAlert.innerHTML
+      savedAlert.innerHTML += spanHtml;
     });
   } catch (err) {
     console.error("Error at dom loading", err);
