@@ -438,7 +438,7 @@ const getMarketOpenClose = () => {
       alert("The Market is about to Close");
     }
   } else {
-    console.log("nope");
+    //console.log("nope");
     glowingCircleText.innerText = "The Market is Closed";
     glowingCircleText.style.color = "grey";
     glowingCircle.style.backgroundColor = "grey";
@@ -524,24 +524,43 @@ function addToStorage() {
   window.location.reload();
 }
 
+//this should be async cause the rate will be updated
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     console.log("saved alerts", alertsArray);
 
-    alertsArray.forEach((e) => {
+    alertsArray.forEach((e, index) => {
       const savedAlert = document.createElement("li");
-      savedAlert.innerHTML = ` ${e.symbolFrom} to ${
+      savedAlert.innerHTML = `${index}|  ${e.symbolFrom} to ${
         e.symbolTo
       } rate ${e.rate.toFixed(
         3
-      )}<button type="button" id="rem-button"  style="width:15px;height:20px;background-color:white;margin-left:60px;padding: 0;">x</button`;
+      )}<button type="button" class="rem-button" data-index="${index}"  style="width:15px;height:20px;background-color:white;margin-left:60px;padding: 0;">x</button`;
       savedAlertsContainer.appendChild(savedAlert);
-      const remButton = document.getElementById("rem-button");
+
+      const remButton = document.querySelector(
+        `.rem-button[data-index="${index}"]`
+      );
       remButton.addEventListener("click", () => {
         savedAlert.remove();
+        console.log("removed alert " + index);
+        console.log("local storage index# ", alertsArray[index]);
+        removeFromdatabase("alerts", index);
       });
     });
   } catch (err) {
     console.error("Error at dom loading", err);
   }
 });
+function removeFromdatabase(key, index) {
+  let storedArray = JSON.parse(localStorage.getItem(key));
+
+  if (index >= 0 && index < storedArray.length) {
+    storedArray.splice(index, 1);
+
+    localStorage.setItem(key, JSON.stringify(storedArray));
+    window.location.reload();
+  } else {
+    console.error("Invalid key or index.");
+  }
+}
