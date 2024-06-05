@@ -488,9 +488,9 @@ let alertsArray = localStorage.getItem("alerts")
   ? JSON.parse(localStorage.getItem("alerts"))
   : [];
 
-function delAllFromStorage() {
-  localStorage.removeItem("alerts");
-}
+// function delAllFromStorage() {
+//   localStorage.removeItem("alerts");
+// }
 function addAlert(countryFrom, countryTo) {
   // Ensure you have a <ul> element with id='alerts-list' in your HTML
   const setAlertList = document.createElement("li");
@@ -515,11 +515,34 @@ function addAlert(countryFrom, countryTo) {
 }
 
 function addToStorage() {
-  alertsArray.push({
-    symbolFrom: countriesFromSelect.value.slice(0, 3),
-    symbolTo: countriesToSelect.value.slice(0, 3),
-    rate: rateData,
+  let currentTime = new Date();
+
+  let formatter = new Intl.DateTimeFormat("da-DK", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
   });
+
+  let formattedDateTime = formatter.format(currentTime);
+  console.log("formattedDateTime: ", formattedDateTime);
+  if (rateAlertInput.value) {
+    alertsArray.push({
+      symbolFrom: countriesFromSelect.value.slice(0, 3),
+      symbolTo: countriesToSelect.value.slice(0, 3),
+      rate: rateData,
+      rateTime: formattedDateTime,
+      alertOn: Number(rateAlertInput.value),
+    });
+  } else {
+    alertsArray.push({
+      symbolFrom: countriesFromSelect.value.slice(0, 3),
+      symbolTo: countriesToSelect.value.slice(0, 3),
+      rate: rateData,
+      rateTime: formattedDateTime,
+    });
+  }
   localStorage.setItem("alerts", JSON.stringify(alertsArray));
   window.location.reload();
 }
@@ -531,7 +554,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     alertsArray.forEach((e, index) => {
       const savedAlert = document.createElement("li");
-      savedAlert.innerHTML = `${index}|  ${e.symbolFrom} to ${
+      savedAlert.innerHTML = `${e.symbolFrom} to ${
         e.symbolTo
       } rate ${e.rate.toFixed(
         3
