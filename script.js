@@ -18,6 +18,9 @@ const bell = document.getElementById("bell");
 
 const switchCurrency = document.getElementById("switch-currency-button");
 const alertsContainer = document.getElementById("alerts-container");
+const savedAlertsContainer = document.getElementById("saved-alerts-container");
+//___rates
+let rateData;
 // ------------------ADD NEW CURRENCY------------------
 const addNewCurrencyButton = document.getElementById("add-currency");
 const inputNewCurrency = document.getElementById("new-currency-input");
@@ -187,7 +190,7 @@ inputTo.addEventListener("change", () =>
 );
 
 //--------------rates-----------------//'
-let rateData;
+
 const objectRateFetcher = (valFrom, valTo) => {
   //---latest logic ---------------
   const forexRateApiId = "api_key=07691352b05e809fe4b0fea2cf2c874a";
@@ -206,7 +209,7 @@ const objectRateFetcher = (valFrom, valTo) => {
 
         const rateResult = Object.values(currencies.rates)[0];
         rateData = rateResult;
-        console.log("Yes rates: ", rateData);
+        console.log("Yes rateData here: ", rateData);
         resolve(rateResult);
       })
       .catch((error) => {
@@ -469,37 +472,32 @@ function switchCurrencyFunction() {
   countriesToSelect.dispatchEvent(new Event("change"));
 }
 //------------currency alerts-----------------
+// turned it in async since rateData is asynchronous
+bell.addEventListener("click", async () => {
+  try {
+    addAlert(
+      countriesFromSelect.value.slice(0, 3),
+      countriesToSelect.value.slice(0, 3)
+    );
+  } catch (e) {
+    console.error("Error in bell alert adder:", error);
+  }
+});
 
-bell.addEventListener("click", add);
 let alertsArray = localStorage.getItem("alerts")
   ? JSON.parse(localStorage.getItem("alerts"))
   : [];
 
-function add() {
-  alertsArray.push(
-    countriesFromSelect.value.slice(0, 3),
-    countriesToSelect.value.slice(0, 3)
-  );
-  localStorage.setItem("alerts", JSON.stringify(alertsArray));
-  addAlert(
-    countriesFromSelect.value.slice(0, 3),
-    countriesToSelect.value.slice(0, 3)
-  );
-}
-function del() {
+function delAllFromStorage() {
   localStorage.removeItem("alerts");
-  alertsContainer.innerHTML = "";
-  alertsArray = [];
 }
 function addAlert(countryFrom, countryTo) {
   // Ensure you have a <ul> element with id='alerts-list' in your HTML
-  const li = document.createElement("li");
-  li.innerHTML = `set an Alert for: ${countryFrom} to ${countryTo} rate  higher than <input id="rateAlertInput" style="width:60px" placeholder="${rateData.toFixed(
+  const setAlertList = document.createElement("li");
+  setAlertList.innerHTML = `set an Alert for: ${countryFrom} to ${countryTo} rate = <input id="rateAlertInput" style="width:60px" placeholder="${rateData.toFixed(
     3
   )}"/><button id="set-button"  style="width:40px;background-color:white">Set</button>`;
 
-  // const rateAlertInput = document.getElementById("rateAlertInput");
-  // rateAlertInput.addEventListener("change", checkAlerts);
   //to fadeout the alert
   //li.classList.add("fadeout");
 
@@ -510,18 +508,40 @@ function addAlert(countryFrom, countryTo) {
 
   //   console.log("fade out");
   // }, 5000);
-  alertsContainer.appendChild(li);
+  alertsContainer.appendChild(setAlertList);
 
   const setButton = document.getElementById("set-button");
-  setButton.addEventListener("click", checkAlerts);
+  setButton.addEventListener("click", addToStorage);
 }
 
-function checkAlerts() {
-  const rateAlertInput = document.getElementById("rateAlertInput");
-  console.log(rateAlertInput.value);
-  // console.log("Checking");
-  // const rateAlertInput = document.getElementById("rateAlertInput");
-  // const setButton = document.getElementById("set-button");
-  // setButton.addEventListener("click", console.log(rateAlertInput.innerText));
+function addToStorage() {
+  alertsArray.push({
+    symbolFrom: countriesFromSelect.value.slice(0, 3),
+    symbolTo: countriesToSelect.value.slice(0, 3),
+    rate: rateData,
+  });
+  localStorage.setItem("alerts", JSON.stringify(alertsArray));
+  window.location.reload();
 }
-//document.addEventListener("DOMContentLoaded", (event) => {});
+
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    console.log("saved alerts", alertsArray);
+
+    alertsArray.forEach((e) => {
+      const savedAlert = document.createElement("li");
+      savedAlert.innerHTML = ` ${e.symbolFrom} to ${
+        e.symbolTo
+      } rate ${e.rate.toFixed(
+        3
+      )}<button type="button" id="rem-button"  style="width:15px;height:20px;background-color:white;margin-left:60px;padding: 0;">x</button`;
+      savedAlertsContainer.appendChild(savedAlert);
+      const remButton = document.getElementById("rem-button");
+      remButton.addEventListener("click", () => {
+        savedAlert.remove();
+      });
+    });
+  } catch (err) {
+    console.error("Error at dom loading", err);
+  }
+});

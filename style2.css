@@ -211,6 +211,7 @@ img {
   text-align: center;
   padding: 10px 0;
   box-sizing: content-box;
+  cursor: pointer;
 }
 .bell-text {
   visibility: hidden;
@@ -250,13 +251,22 @@ img {
   text-align: center;
   align-items: center;
 }
+#saved-alerts-container {
+  width: 200px;
+  height: 40px;
+  position: absolute;
+  top: 14%;
+  left: 70px;
+  z-index: 1;
+}
 #alerts-container {
   position: absolute;
   top: 10%;
   right: 150px;
   z-index: 1;
 }
-#alerts-container li {
+#alerts-container li,
+#saved-alerts-container li {
   border: 1px solid #5485a5a5;
   border-radius: 10px;
   background-color: white;
@@ -264,6 +274,7 @@ img {
   margin: 4px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 /* ----------------------------- */
 
 .switch {
@@ -336,9 +347,6 @@ div.switch input {
     align-items: center;
 
     height: 120px;
-  }
-
-  .bell-text {
   }
 
   .market-open {
