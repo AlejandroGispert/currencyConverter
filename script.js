@@ -400,13 +400,8 @@ const getMarketOpenClose = () => {
   let currentTime = new Date();
 
   let formatter = new Intl.DateTimeFormat("da-DK", {
-    // year: "numeric",
-    // month: "long",
-    // day: "numeric",
     hour: "numeric",
     minute: "numeric",
-    // second: "numeric",
-    // timeZoneName: "short",
   });
 
   let formattedDateTime = formatter.format(currentTime);
@@ -473,4 +468,26 @@ function switchCurrencyFunction() {
   // Optional: Trigger change events to reflect the switch in any dependent logic
   countriesFromSelect.dispatchEvent(new Event("change"));
   countriesToSelect.dispatchEvent(new Event("change"));
+}
+//------------currency alerts-----------------
+
+bell.addEventListener("click", add);
+let alertsArray = localStorage.getItem("alerts")
+  ? JSON.parse(localStorage.getItem("alerts"))
+  : [];
+function add() {
+  alertsArray.push(countriesFromSelect.value);
+  localStorage.setItem("alerts", JSON.stringify(alertsArray));
+  addAlert(countriesFromSelect.value);
+}
+function del() {
+  localStorage.removeItem("alerts");
+  ul.innerHTML = "";
+  alertsArray = [];
+}
+function addAlert(country) {
+  const ul = document.getElementById("alerts-list"); // Ensure you have a <ul> element with id='alerts-list' in your HTML
+  const li = document.createElement("li");
+  li.textContent = `Alert for: ${country}`;
+  ul.appendChild(li);
 }

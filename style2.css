@@ -226,6 +226,15 @@ img {
   visibility: visible;
 }
 
+.little-text {
+  margin: 0;
+  position: relative;
+  top: -15px;
+  text-align: right;
+  font-size: 6px;
+  box-sizing: border-box;
+}
+
 .market-open {
   display: flex;
   position: absolute;
