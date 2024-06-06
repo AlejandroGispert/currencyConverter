@@ -90,6 +90,7 @@ async function fetchInDatabase(api, appId, jsonType, base, toValue) {
 
     return data;
   } catch (error) {
+    alert("no internet connection detected");
     console.error(
       "There has been a problem with your fetch operation: ",
       error
@@ -561,13 +562,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         3
       )},  alert on: ${
         e.alertOn
-      }</span><button type="button" class="rem-button" data-index="${index}"  style="width:15px;height:20px;background-color:white;margin-left:30px;padding: 0;">x</button>`;
+      }</span><button type="button" class="rem-button" data-index="${index}"  style="width:15px;height:20px;background-color:white;margin-left:15px;padding: 0;float:right">x</button>`;
       savedAlertsContainer.appendChild(savedAlert);
 
       const remButton = document.querySelector(
         `.rem-button[data-index="${index}"]`
       );
+
       remButton.addEventListener("click", () => {
+        console.log("Click event triggered");
         savedAlert.remove();
 
         removeFromdatabase("alerts", index);
@@ -593,8 +596,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       savedAlert.innerHTML += spanHtml;
 
       if (rateResult >= e.alertOn) {
-        savedAlert.innerHTML += `\n ⚠️ alert ⚠️ `;
+        savedAlert.innerHTML += `\n <span class="superAlert">⚠️alert⚠️<span> `;
         savedAlert.style.animation = "3s infinite horizontal-shaking";
+      }
+      const blink = document.querySelector(".superAlert");
+      if (blink) {
+        setInterval(function () {
+          blink.style.opacity = blink.style.opacity == 1 ? 0 : 1;
+        }, 1500);
       }
     });
   } catch (err) {
@@ -602,7 +611,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 function removeFromdatabase(key, index) {
-  comsole.log("Removing");
+  console.log("Removing");
   let storedArray = JSON.parse(localStorage.getItem(key));
 
   if (index >= 0 && index < storedArray.length) {
