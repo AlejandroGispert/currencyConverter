@@ -90,7 +90,7 @@ async function fetchInDatabase(api, appId, jsonType, base, toValue) {
 
     return data;
   } catch (error) {
-    alert("no internet connection detected");
+    //alert("no internet connection detected");
     console.error(
       "There has been a problem with your fetch operation: ",
       error
@@ -100,9 +100,17 @@ async function fetchInDatabase(api, appId, jsonType, base, toValue) {
 
 // Call the function to fetch and display rates
 
-fetchInDatabase(openXApi, appId, latestCurrencyData, "USD")
+fetchInDatabase(openXApi, appId, latestCurrencyData, "CUC")
   .then((data) => {
-    //console.log("Fetched rates: ", data.rates);
+    console.log("Fetched rates: CUC ", data.rates);
+  })
+  .catch((error) => {
+    console.error("Error fetching rates:", error);
+  });
+
+fetchInDatabase(openXApi, appId, latestCurrencyData, "CUP")
+  .then((data) => {
+    console.log("Fetched rates: CUP ", data.rates);
   })
   .catch((error) => {
     console.error("Error fetching rates:", error);
@@ -220,7 +228,7 @@ const objectRateFetcher = (valFrom, valTo) => {
   });
 };
 //-----------------------GRID--------
-
+// get this data from api at github, make an API request, then activate 266
 const updateGrid = () => {
   grid.innerHTML = "";
   gridContainer.style.visibility = "visible";

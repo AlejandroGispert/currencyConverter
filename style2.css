@@ -357,6 +357,18 @@ div.switch input {
     position: relative;
     margin: 0 auto;
   }
+
+  li {
+    display: block;
+  }
+  #saved-alerts-container {
+    background-color: #f1edec;
+    height: fit-content;
+    width: 50%;
+    position: absolute;
+    top: 800px;
+    left: auto;
+  }
 }
 @media (max-width: 900px) {
   .nav {
@@ -370,6 +382,17 @@ div.switch input {
   .market-open {
     top: -25px;
     right: -365px;
+  }
+  li {
+    display: block;
+  }
+  #saved-alerts-container {
+    background-color: #f1edec;
+    height: fit-content;
+    width: 100%;
+    position: absolute;
+    top: 850px;
+    left: auto;
   }
 }
 @media (max-width: 600px) {
@@ -397,7 +420,7 @@ div.switch input {
 
   .market-open {
     top: -25px;
-    left: 280px;
+    left: 250px;
   }
 
   .bell,
@@ -406,5 +429,55 @@ div.switch input {
   }
   .bell-text {
     top: -40px;
+  }
+  li {
+    display: block;
+  }
+  #saved-alerts-container {
+    background-color: #f1edec;
+    height: fit-content;
+    width: 100%;
+    position: absolute;
+    top: 1150px;
+    left: auto;
+  }
+}
+@media (max-width: 430px) {
+  .market-open {
+    top: -25px;
+    left: 200px;
+  }
+
+  .main {
+    margin: 0;
+    padding: 10px;
+  }
+
+  .container {
+    margin: 0;
+    padding: 5px;
+    width: 93%;
+  }
+
+  .tradingview-widget-container {
+    width: 85%;
+    height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  li {
+    display: block;
+  }
+  #saved-alerts-container {
+    background-color: #f1edec;
+    height: fit-content;
+    width: fit-content;
+    position: absolute;
+    top: 1025px;
+    left: auto;
+  }
+  .form {
+    padding: 2px;
+    margin: 0;
   }
 }
