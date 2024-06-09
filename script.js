@@ -100,21 +100,21 @@ async function fetchInDatabase(api, appId, jsonType, base, toValue) {
 
 // Call the function to fetch and display rates
 
-fetchInDatabase(openXApi, appId, latestCurrencyData, "CUC")
-  .then((data) => {
-    console.log("Fetched rates: CUC ", data.rates);
-  })
-  .catch((error) => {
-    console.error("Error fetching rates:", error);
-  });
+// fetchInDatabase(openXApi, appId, latestCurrencyData, "CUC")
+//   .then((data) => {
+//     console.log("Fetched rates: CUC ", data.rates);
+//   })
+//   .catch((error) => {
+//     console.error("Error fetching rates:", error);
+//   });
 
-fetchInDatabase(openXApi, appId, latestCurrencyData, "CUP")
-  .then((data) => {
-    console.log("Fetched rates: CUP ", data.rates);
-  })
-  .catch((error) => {
-    console.error("Error fetching rates:", error);
-  });
+// fetchInDatabase(openXApi, appId, latestCurrencyData, "CUP")
+//   .then((data) => {
+//     console.log("Fetched rates: CUP ", data.rates);
+//   })
+//   .catch((error) => {
+//     console.error("Error fetching rates:", error);
+//   });
 //const fetchCurrencies = fetchInDatabase(appId, currencies);
 
 //---------------------ADDCURRENCIES TO SELECT---ok
