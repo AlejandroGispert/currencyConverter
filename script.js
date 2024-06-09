@@ -570,15 +570,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         3
       )},  alert on: ${
         e.alertOn
-      }</span><button type="button" class="rem-button" data-index="${index}"  style="width:15px;height:20px;background-color:white;margin-left:15px;padding: 0;float:right">x</button>`;
+      }</span><button type="button"  class="rem-button" data-index="${index}"  style="width:15px;height:20px;background-color:white;margin-left:15px;padding: 0;float:right">x</button>`;
       savedAlertsContainer.appendChild(savedAlert);
 
       const remButton = document.querySelector(
         `.rem-button[data-index="${index}"]`
       );
 
-      remButton.addEventListener("click", () => {
-        console.log("Click event triggered");
+      savedAlert.addEventListener("click", async () => {
+        console.log("Click event triggered", remButton);
         savedAlert.remove();
 
         removeFromdatabase("alerts", index);
