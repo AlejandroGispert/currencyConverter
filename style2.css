@@ -1,7 +1,13 @@
 /* Global Styles */
+
+:root {
+  --green: #27ae60;
+  --white: #f5f5f5;
+}
+
 body {
   font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
+  background-color: var(--white);
   margin: 0;
   padding: 0;
   color: #333;
@@ -41,7 +47,7 @@ hr {
 .form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
 }
 
 /* Flex Container for Input and Select */
@@ -97,6 +103,7 @@ select:focus {
   display: flex;
   align-items: center;
   margin-left: 10px;
+  visibility: hidden;
 }
 
 img {
@@ -112,7 +119,7 @@ img {
 }
 
 #result-text {
-  color: #27ae60;
+  color: var(--green);
   font-size: 1.5em;
 }
 
@@ -131,7 +138,258 @@ img {
   margin-top: 10px;
 }
 
+/* grid */
+
+#grid-container {
+  margin: 40px;
+
+  visibility: hidden;
+  opacity: 0;
+
+  background: #ecf0f1;
+  padding: 6px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 15%;
+  left: 5px;
+}
+.currency-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.grid-header {
+  font-weight: bold;
+  background-color: #f0f0f0;
+  padding: 10px;
+}
+
+.grid-item {
+  background-color: #fafafa;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+.tradingview-widget-container {
+  position: absolute;
+  top: 20%;
+  right: 30px;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #69a6ce;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 10px 20px;
+}
+
+.nav h1 {
+  margin: 0 auto 0;
+  padding: 10px 20px;
+  color: #d4e6f1;
+  text-shadow: 2px 2px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+/* #yellow-star {
+  color: yellow;
+} */
+
+.bell {
+  display: none;
+  width: 50px;
+  height: 30px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 10px 0;
+  box-sizing: content-box;
+  cursor: pointer;
+}
+.bell-text {
+  visibility: hidden;
+
+  width: 120px;
+  background-color: rgba(0, 0, 0, 0.232);
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  position: relative;
+  z-index: 1;
+  bottom: 65px;
+  right: 95px;
+}
+
+.bell:hover .bell-text {
+  visibility: visible;
+}
+
+.little-text {
+  margin: 0;
+  position: relative;
+  top: -15px;
+  text-align: right;
+  font-size: 6px;
+  box-sizing: border-box;
+}
+
+.market-open {
+  display: flex;
+  width: fit-content;
+  position: relative;
+  top: -20px;
+  right: -450px;
+  text-align: center;
+  align-items: center;
+}
+#saved-alerts-container {
+  width: 200px;
+  height: 40px;
+  position: absolute;
+  top: 14%;
+  left: 70px;
+  z-index: 1;
+}
+#alerts-container {
+  position: absolute;
+  top: 10%;
+  right: 150px;
+  z-index: 1;
+}
+#alerts-container li,
+#saved-alerts-container li {
+  border: 1px solid #5485a5a5;
+  border-radius: 10px;
+  background-color: white;
+  padding: 5px 20px;
+  margin: 4px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ----------------------------- */
+
+.switch {
+  margin: 15px 15px;
+  border: 4px solid #96c1dd;
+  border-radius: 30%;
+  height: 40px;
+  width: 38px;
+}
+
+div.switch input {
+  background: url(./img/swap-vertical.svg) no-repeat;
+  background-size: 150px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  border: none;
+}
+
+.glowing-circle {
+  margin: 8px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px rgba(0, 0, 0, 0.076) solid;
+  background-color: var(--green); /* Green color */
+  position: relative;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 6px var(--green), 0 0 6px var(--green), 0 0 6px var(--green),
+      0 0 40px var(--green);
+  }
+  100% {
+    box-shadow: 0 0 20px var(--green), 0 0 30px var(--green),
+      0 0 40px var(--green), 0 0 50px var(--green);
+  }
+}
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.fadeout {
+  animation-name: fadeout;
+  animation-duration: 5s;
+  animation-timing-function: linear;
+}
+
+@keyframes horizontal-shaking {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(5px);
+  }
+  50% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
 /* Media Queries */
+
+@media (max-width: 1530px) {
+  #grid-container {
+    position: relative;
+  }
+  .tradingview-widget-container {
+    position: relative;
+    margin: 0 auto;
+  }
+
+  li {
+    display: block;
+  }
+  #saved-alerts-container {
+    left: 2%;
+  }
+}
+@media (max-width: 900px) {
+  .nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 120px;
+  }
+
+  .market-open {
+    top: -25px;
+    right: -365px;
+  }
+  li {
+    display: block;
+  }
+  #saved-alerts-container {
+    background-color: #f1edec;
+    height: fit-content;
+    width: 100%;
+    position: absolute;
+    top: 850px;
+    left: auto;
+  }
+}
 @media (max-width: 600px) {
   .container,
   .main,
@@ -146,5 +404,84 @@ img {
   #result-container {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .nav {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    height: 120px;
+  }
+
+  .market-open {
+    top: -25px;
+    left: 250px;
+  }
+
+  .bell,
+  .bell-text {
+    margin: 0 auto;
+  }
+  .bell-text {
+    top: -40px;
+  }
+  li {
+    display: block;
+  }
+  #saved-alerts-container {
+    background-color: #f1edec;
+    height: fit-content;
+    width: 100%;
+    position: absolute;
+    top: 1150px;
+    left: auto;
+  }
+}
+@media (max-width: 430px) {
+  .market-open {
+    top: -25px;
+    left: 170px;
+  }
+
+  .main {
+    margin: 0;
+    padding: 10px;
+  }
+
+  .container {
+    max-width: 350px;
+    margin: 0 8%;
+    padding: 5px;
+    width: 93%;
+  }
+
+  .nav {
+  }
+  body {
+    width: 100%;
+  }
+
+  .tradingview-widget-container {
+    width: 85%;
+    height: 100%;
+    border-radius: 8px;
+    display: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  li {
+    display: block;
+  }
+  #saved-alerts-container {
+    max-width: 350px;
+    background-color: #f1edec;
+    height: fit-content;
+    width: fit-content;
+    position: absolute;
+    top: 1025px;
+    left: auto;
+  }
+  .form {
+    padding: 2px;
+    margin: 0;
   }
 }

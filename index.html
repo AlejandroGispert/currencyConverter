@@ -7,13 +7,20 @@
     <title>Alejandro Currency Converter</title>
   </head>
   <body>
-    <hr />
-    <h1 class="allText">Alejandro's Currency Converter</h1>
-    <hr />
+    <nav class="nav"><hr />
+      <div>
+      <h1 class="allText">Alejandro's Currency Converter</h1>
+      <h6 class="little-text">with real rates</h6></div>
+      <hr /></nav>
+    
 
     <div class="container">
       <div class="main">
         <div class="form">
+          <div class="market-open"> 
+            <div class="glowing-circle" id="glowing-circle"></div>
+            <h5 id="glowing-circle-text">The Market Status</h5>
+          </div>
           <div class="country-container">
             <legend class="legend" id="from-tag">From:</legend>
             <div class="input-container">
@@ -25,18 +32,18 @@
                 list="suggestions"
               />
               <select class="country" id="countries-from-select">
-                <option value="USD">American Dollar</option>
-                <option value="CUP">Cuban Peso</option>
-                <option value="EUR">Euro</option>
-                <option value="DKK">Danish Krone</option>
-                <option value="GBP">British Pound</option>
-                <option value="JPY">Japanese Yen</option>
-                <option value="AUD">Australian Dollar</option>
-                <option value="CAD">Canadian Dollar</option>
-                <option value="CHF">Swiss Franc</option>
-                <option value="CNY">Chinese Yuan</option>
-                <option value="SEK">Swedish Krona</option>
-                <option value="NZD">New Zealand Dollar</option>
+                <option value="USD" >American Dollar  <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
+                <option value="CUP">Cuban Peso <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
+                <option value="EUR">Euro <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
+                <option value="DKK" selected="selected">Danish Krone <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
+                <option value="GBP">British Pound <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</option>
+                <option value="JPY">Japanese Yen <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
+                <option value="AUD">Australian Dollar <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
+                <option value="CAD">Canadian Dollar <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
+                <option value="CHF">Swiss Franc <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
+                <option value="CNY">Chinese Yuan <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
+                <option value="SEK">Swedish Krona <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
+                <option value="NZD">New Zealand Dollar <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
               </select>
               <datalist class="country" id="suggestions">
                 <option value="USD">$</option>
@@ -66,6 +73,11 @@
               </div>
             </div>
           </div>
+          
+          <div class="switch" id="switch-currency-button">
+          <input id="switch-input"type="submit" name="" value="">
+        </div>
+
 
           <div class="country-container">
             <legend class="legend" id="to-tag">To:</legend>
@@ -77,18 +89,18 @@
                 list="suggestions"
               />
               <select class="country" id="countries-to-select">
-                <option value="USD">American Dollar</option>
-                <option value="CUP">Cuban Peso</option>
-                <option value="EUR">Euro</option>
-                <option value="DKK">Danish Krone</option>
-                <option value="GBP">British Pound</option>
-                <option value="JPY">Japanese Yen</option>
-                <option value="AUD">Australian Dollar</option>
-                <option value="CAD">Canadian Dollar</option>
-                <option value="CHF">Swiss Franc</option>
-                <option value="CNY">Chinese Yuan</option>
-                <option value="SEK">Swedish Krona</option>
-                <option value="NZD">New Zealand Dollar</option>
+                <option value="USD">American Dollar <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
+                <option value="CUP">Cuban Peso <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
+                <option value="EUR" selected="selected">Euro <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
+                <option value="DKK" >Danish Krone <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
+                <option value="GBP">British Pound <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
+                <option value="JPY">Japanese Yen <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
+                <option value="AUD">Australian Dollar <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
+                <option value="CAD">Canadian Dollar <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
+                <option value="CHF">Swiss Franc <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
+                <option value="CNY">Chinese Yuan <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
+                <option value="SEK">Swedish Krona <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
+                <option value="NZD">New Zealand Dollar <span class="yellow-star" style="font-size: 24px; color: yellow;">&#9733;</span></option>
               </select>
               <div class="float-flag-container">
                 <img src="./flags/cu.svg" id="float-right-flag" alt="flags" />
@@ -97,6 +109,7 @@
           </div>
 
           <div id="result-container">
+            <span class="bell" id="bell" >&#x1F514;<h5 class="bell-text">create alert</h5></span>  
             <h1 id="result-text">Result:</h1>
           </div>
 
@@ -120,14 +133,30 @@
           id="new-currency-rate-input"
           required
         />
-        <input
+        <!-- <input
           type="text"
           placeholder="insert new currency symbol"
           id="new-currency-symbol-input"
-        />
+        /> -->
+      </div>
+
+      <div id="grid-container">
+        <h1>Rates to other currencies</h1>
+        <div class="currency-grid" id="currencies-grid">
+          <div class="grid-header">Base</div>
+          <div class="grid-header">To</div>
+          <div class="grid-header">Rate</div>
+
+         
       </div>
     </div>
-
+    <ul id="saved-alerts-container"></ul>
+  <ul id="alerts-container"></ul>
+    <div class="tradingview-widget-container">
+      <div id="tradingview_12345"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    
     <script type="module" src="script.js"></script>
+
   </body>
 </html>
