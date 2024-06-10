@@ -274,7 +274,30 @@ img {
   margin: 4px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+.market-hours-indicator {
+  position: relative;
+  width: 100px;
+  height: 1px;
+  background-color: #f7f0f0; /* Color of the line */
+}
 
+.hours-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #999; /* Color of the active market hours segment */
+}
+
+.current-time-marker {
+  position: absolute;
+  top: -5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: green;
+}
 /* ----------------------------- */
 
 .switch {
@@ -327,6 +350,49 @@ div.switch input {
   animation-name: fadeout;
   animation-duration: 5s;
   animation-timing-function: linear;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-ms-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes horizontal-shaking {

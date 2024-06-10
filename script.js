@@ -156,6 +156,7 @@ fetchInDatabase(openXApi, appId, currencies, "USD")
 // ------------------GET FLAGS FROM SELECT------------------ 50/50
 function getFlag(currency, direction) {
   direction.style.visibility = "visible";
+  direction.style.animation = "fadeIn 3s";
 
   const firstThreeLetters = currency.slice(0, 3);
   //console.log(firstThreeLetters);
@@ -503,7 +504,7 @@ let alertsArray = localStorage.getItem("alerts")
 function addAlert(countryFrom, countryTo) {
   // Ensure you have a <ul> element with id='alerts-list' in your HTML
   const setAlertList = document.createElement("li");
-  setAlertList.innerHTML = `set an Alert for: ${countryFrom} to ${countryTo} rate = <input id="rateAlertInput" style="width:60px" placeholder="${rateData.toFixed(
+  setAlertList.innerHTML = `set an Alert for: ${countryFrom} to ${countryTo} rate >= <input id="rateAlertInput" style="width:60px" value="${rateData.toFixed(
     3
   )}"/><button id="set-button"  style="width:40px;background-color:white">Set</button>`;
 
@@ -631,3 +632,33 @@ function removeFromdatabase(key, index) {
     console.error("Invalid key or index.");
   }
 }
+//---------------------Market -Hours------------------------------------------
+
+function updateMarketHoursIndicator() {
+  const markerDiv = document.querySelector(".market-hours-indicator");
+  markerDiv.style.display = "block";
+  markerDiv.style.position = "absolute";
+  markerDiv.style.top = "45px";
+  markerDiv.style.left = "40px";
+  const now = new Date();
+  const startHour = 9; // Market opens at 9 AM
+  const endHour = 17; // Market closes at 5 PM
+  const totalMarketHours = endHour - startHour;
+
+  // Calculate the current hour past the opening time
+  let currentMarketHour = now.getHours() - startHour;
+  if (currentMarketHour < 0) currentMarketHour = 0; // Before opening
+  if (currentMarketHour > totalMarketHours)
+    currentMarketHour = totalMarketHours; // After closing
+
+  // Calculate the percentage of the day that has passed
+  const percentageOfDayPassed = (currentMarketHour / totalMarketHours) * 100;
+
+  // Update the position of the current time marker
+  const marker = document.querySelector(".current-time-marker");
+  marker.style.left = `calc(${percentageOfDayPassed}% - 5px)`; // Adjust the circle's position
+}
+
+// Initial update and then update every minute
+updateMarketHoursIndicator();
+setInterval(updateMarketHoursIndicator, 60000); // Update every minute
