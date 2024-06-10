@@ -277,8 +277,9 @@ img {
 .market-hours-indicator {
   position: relative;
   width: 100px;
-  height: 1px;
-  background-color: #f7f0f0; /* Color of the line */
+  height: 3px;
+  background-color: var(--green);
+  border-radius: 20px; /* Color of the line */
 }
 
 .hours-line {
@@ -287,16 +288,30 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #999; /* Color of the active market hours segment */
+  background-color: var(--green); /* Color of the active market hours segment */
+  border-radius: 3px;
 }
 
 .current-time-marker {
   position: absolute;
   top: -5px;
-  width: 10px;
+  width: 2px;
   height: 10px;
-  border-radius: 50%;
-  background-color: green;
+  border-radius: 50px;
+  border: solid 1px white;
+  background-color: rgb(0, 0, 0);
+}
+.footer {
+  position: fixed; /* Fixed/sticky position */
+  left: 0;
+  bottom: 0;
+  width: 100%; /* Full width */
+  background-color: #f8f9fa; /* Light grey background */
+  color: black; /* Text color */
+  text-align: center; /* Center the text */
+  padding: 5px 0; /* Padding around the text */
+  font-size: 10px; /* Smaller text size */
+  opacity: 0.5;
 }
 /* ----------------------------- */
 

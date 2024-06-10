@@ -19,6 +19,10 @@ const bell = document.getElementById("bell");
 const switchCurrency = document.getElementById("switch-currency-button");
 const alertsContainer = document.getElementById("alerts-container");
 const savedAlertsContainer = document.getElementById("saved-alerts-container");
+
+const marker = document.querySelector(".current-time-marker");
+const markerDiv = document.querySelector(".market-hours-indicator");
+
 //___rates
 let rateData;
 // ------------------ADD NEW CURRENCY------------------
@@ -440,6 +444,7 @@ const getMarketOpenClose = () => {
   ) {
     glowingCircleText.innerText = "The Market is Open";
     glowingCircleText.style.color = "green";
+    markerDiv.style.visibility = "visible";
 
     if (formattedDateTime === "9.00") {
       alert("The Market just Opened");
@@ -457,6 +462,8 @@ const getMarketOpenClose = () => {
     if (formattedDateTime === "17.00") {
       alert("The Market just Closed");
     }
+
+    markerDiv.style.visibility = "hidden";
   }
 };
 getMarketOpenClose();
@@ -635,7 +642,6 @@ function removeFromdatabase(key, index) {
 //---------------------Market -Hours------------------------------------------
 
 function updateMarketHoursIndicator() {
-  const markerDiv = document.querySelector(".market-hours-indicator");
   markerDiv.style.display = "block";
   markerDiv.style.position = "absolute";
   markerDiv.style.top = "45px";
@@ -655,10 +661,38 @@ function updateMarketHoursIndicator() {
   const percentageOfDayPassed = (currentMarketHour / totalMarketHours) * 100;
 
   // Update the position of the current time marker
-  const marker = document.querySelector(".current-time-marker");
+
   marker.style.left = `calc(${percentageOfDayPassed}% - 5px)`; // Adjust the circle's position
 }
 
 // Initial update and then update every minute
 updateMarketHoursIndicator();
 setInterval(updateMarketHoursIndicator, 60000); // Update every minute
+
+//-----------TOP GAINER
+
+async function topGainers() {
+  const url2 =
+    "https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=1F7MCZK5P7UCOV52";
+
+  try {
+    const response = await fetch(url2);
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json(); // Parses the JSON response into native JavaScript objects
+    console.log("gainers", Object.values(data));
+
+    // console.log("losers", data.top_losers);
+    // console.log("most active", data.most_actively_traded);
+    return data;
+  } catch (error) {
+    //alert("no internet connection detected");
+    console.error(
+      "There has been a problem with your fetch operation: ",
+      error
+    );
+  }
+}
+topGainers();
