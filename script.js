@@ -1,9 +1,12 @@
 //import { currencyData } from "./database.js";
 import { flagData } from "./flagdata.js";
 //console.log(flagData);
+//require("dotenv").config();
+//const openAI = process.env.OPENAI_API_KEY;
 
 const leftFlag = document.getElementById("float-left-flag"); //img
 const rightFlag = document.getElementById("float-right-flag"); //img
+
 const countriesFromSelect = document.getElementById("countries-from-select");
 const countriesToSelect = document.getElementById("countries-to-select");
 
@@ -23,6 +26,8 @@ const savedAlertsContainer = document.getElementById("saved-alerts-container");
 const marker = document.querySelector(".current-time-marker");
 const markerDiv = document.querySelector(".market-hours-indicator");
 
+const circleWithText = document.querySelector(".circle-with-text");
+const aiMessageContainer = document.getElementById("ai-message-container");
 //___rates
 let rateData;
 // ------------------ADD NEW CURRENCY------------------
@@ -160,6 +165,7 @@ fetchInDatabase(openXApi, appId, currencies, "USD")
 // ------------------GET FLAGS FROM SELECT------------------ 50/50
 function getFlag(currency, direction) {
   direction.style.visibility = "visible";
+
   direction.style.animation = "fadeIn 3s";
 
   const firstThreeLetters = currency.slice(0, 3);
@@ -173,7 +179,8 @@ function getFlag(currency, direction) {
       }
     } else if (!flagData[i].base || !flagData[i].flag) {
       direction.src = "./flags/neutral.svg";
-
+      direction.style.visibility = "visible";
+      direction.style.animation = "fadeIn 3s";
       console.log("no flag found");
     }
   }
@@ -234,25 +241,47 @@ const objectRateFetcher = (valFrom, valTo) => {
 };
 //-----------------------GRID--------
 // get this data from api at github, make an API request, then activate 266
-const updateGrid = () => {
+const updateGrid = async () => {
   grid.innerHTML = "";
   gridContainer.style.visibility = "visible";
   gridContainer.style.opacity = "1";
   gridContainer.style.transition = "all 0.5s";
+  let fetchedRates;
 
-  const filtered = currencyData.filter(
-    (e) => e.base === countriesFromSelect.value
-  );
+  const forexRateApiId = "api_key=07691352b05e809fe4b0fea2cf2c874a";
+  const forexRateWebAdress = `https://api.forexrateapi.com/v1/latest?${forexRateApiId}&base=${countriesFromSelect.value}&currencies=CAD,GBP,JPY,EUR,USD,DKK`;
+  try {
+    const response = await fetch(forexRateWebAdress);
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json(); // Parses the JSON response into native JavaScript objects
+    console.log("data33", Object.keys(data.rates));
+    fetchedRates = data.rates;
+
+    Object.keys(data.rates).map((e, index) => {
+      grid.innerHTML += `<div class="grid-item">${countriesFromSelect.value}</div>`;
+
+      let keys = e;
+
+      let values = Object.values(data.rates)[index].toFixed(3);
+      //console.log("keys: " + keys + " values: " + values);
+      grid.innerHTML += `<div class="grid-item">${keys}</div>`;
+      grid.innerHTML += `<div class="grid-item">${values}</div>`;
+    });
+
+    return data;
+  } catch (error) {
+    gridContainer.style.visibility = "none";
+    gridContainer.style.opacity = "0";
+    //alert("no internet connection detected");
+    console.error(
+      "There has been a problem with your fetch operation: ",
+      error
+    );
+  }
+  console.log("fetchedRates", fetchedRates);
   //console.log("filtered: " + filtered);
-  Object.keys(filtered[0].rates).map((e) => {
-    grid.innerHTML += `<div class="grid-item">${filtered[0].base}</div>`;
-
-    let keys = e;
-    let values = filtered[0].rates[e];
-    //console.log("keys: " + keys + " values: " + values);
-    grid.innerHTML += `<div class="grid-item">${keys}</div>`;
-    grid.innerHTML += `<div class="grid-item">${values}</div>`;
-  });
 };
 
 // ------------------CONVERT CURRENCY------------------ok
@@ -268,7 +297,6 @@ async function handleButtonClick() {
       countriesToSelect.value.slice(0, 3)
     );
     if (!isNaN(rateResult)) {
-      //updateGrid();
       // console.log("Conversion Rate Result1: ", rateResult);
       const convertedAmount = amountConverter(inputAmount.value, rateResult);
 
@@ -278,6 +306,8 @@ async function handleButtonClick() {
       const currencySymbol = countriesToSelect.value.slice(0, 3);
       resultText.innerHTML = formattedAndConvertedAmount + " " + currencySymbol;
       bell.style.display = "block";
+
+      updateGrid();
     } else {
       handleError("Conversion Rate Result2: ", rateResult);
     }
@@ -440,7 +470,7 @@ const getMarketOpenClose = () => {
     dayName != "Sunday" &&
     dayName != "Saturday" &&
     currentTime.getHours() >= 9 &&
-    currentTime.getHours() <= 17
+    currentTime.getHours() < 17
   ) {
     glowingCircleText.innerText = "The Market is Open";
     glowingCircleText.style.color = "green";
@@ -669,30 +699,180 @@ function updateMarketHoursIndicator() {
 updateMarketHoursIndicator();
 setInterval(updateMarketHoursIndicator, 60000); // Update every minute
 
-//-----------TOP GAINER
+//-----------TOP GAINERs
+//only 25 requests per day
 
-async function topGainers() {
-  const url2 =
-    "https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=1F7MCZK5P7UCOV52";
+// async function topGainers() {
+//   const url2 =
+//     "https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=1F7MCZK5P7UCOV52";
+
+//   try {
+//     const response = await fetch(url2);
+
+//     if (!response.ok) {
+//       throw new Error("Network response was not ok");
+//     }
+//     const data = await response.json(); // Parses the JSON response into native JavaScript objects
+//     console.log("gainers", Object.values(data));
+
+//     // console.log("losers", data.top_losers);
+//     // console.log("most active", data.most_actively_traded);
+//     return data;
+//   } catch (error) {
+//     //alert("no internet connection detected");
+//     console.error(
+//       "There has been a problem with your fetch operation: ",
+//       error
+//     );
+//   }
+// }
+// topGainers();
+//---------A.I---------
+
+circleWithText.addEventListener("click", async function () {
+  messageOnOff();
+});
+
+async function messageOnOff() {
+  aiMessageContainer.innerText = "Hello";
+  //console.log("AI comment");
+  //toggle
+  if (
+    aiMessageContainer.style.opacity === "" ||
+    aiMessageContainer.style.opacity === "0"
+  ) {
+    aiMessageContainer.style.opacity = "1";
+  } else if (aiMessageContainer.style.opacity === "1") {
+    aiMessageContainer.style.opacity = "0";
+  }
+  const predefinedPrompt =
+    "whats the 3 most moving currency pairs of today according with yahoo finance, in 100 characters"; // Your predefined prompt
+  const aiResponseContainer = document.getElementById("ai-response-container");
+
+  // Simulate sending the prompt to the AI and getting a response
+  const response = await getAIResponse(predefinedPrompt);
+
+  // Display the AI's response
+  setTimeout(() => {
+    aiMessageContainer.innerText = response;
+  }, 1000);
+}
+
+// Placeholder for the AI response function
+
+async function getAIResponse(prompt) {
+  const apiUrl = "https://api.openai.com/v1/chat/completions"; // Example API URL, replace with your actual endpoint
+  let openAI;
+
+  // try {
+  //   openAI = await getAuth();
+  // } catch (error) {
+  //   console.error("Failed to get OpenAI token:", error);
+  //   return;
+  // }
 
   try {
-    const response = await fetch(url2);
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        organization: "org-HqVA4E9x1mggHEq8ZUM3j4Ht",
+        project: "proj_2WoHv9T9KMZMrsc73Jwe91GN",
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: prompt }],
+
+        max_tokens: 100, // Adjust based on your needs
+        n: 1,
+        stop: null,
+        temperature: 0.7, // Adjust creativity, 0.0 to 1.0
+      }),
+    });
 
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
-    const data = await response.json(); // Parses the JSON response into native JavaScript objects
-    console.log("gainers", Object.values(data));
 
-    // console.log("losers", data.top_losers);
-    // console.log("most active", data.most_actively_traded);
-    return data;
+    const data = await response.json();
+    // console.log("data", data.choices[0].message.content);
+    return data.choices[0].message.content; // Assuming the API returns choices with text, adjust based on actual response structure
   } catch (error) {
-    //alert("no internet connection detected");
-    console.error(
-      "There has been a problem with your fetch operation: ",
-      error
-    );
+    console.error("Failed to get AI response:", error);
+    return "Error contacting AI.";
   }
 }
-topGainers();
+
+async function getAuth() {
+  try {
+    const response = await fetch("http://127.0.0.1:3001/api");
+    const data = await response.json();
+    const auth = Object.values(data)[0];
+    // console.log("auth", auth);
+    return auth;
+  } catch (error) {
+    console.error("Failed to get Auth response:", error);
+  }
+}
+
+// async function getAIResponse(prompt) {
+//   const apiUrl = "https://api.textsynth.com/v1/engines/llama3_8B/chat"; // Example API URL, replace with your actual endpoint
+//   const apiKey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+//   const proxyUrl = "https://api.allorigins.win/get?url=";
+//   try {
+//     const response = await fetch(proxyUrl + encodeURIComponent(apiUrl), {
+//       method: "POST",
+//       headers: {
+//         Authorization: `Bearer ${apiKey}`,
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({
+//         max_tokens: 50, // Adjust based on your needs
+//         prompt: prompt,
+//       }),
+//     });
+
+//     if (!response.ok) {
+//       throw new Error("Network response was not ok");
+//     }
+
+//     const data = await response.json();
+//     console.log("data", data.text);
+//     return data.text; // Assuming the API returns choices with text, adjust based on actual response structure
+//   } catch (error) {
+//     console.error("Failed to get AI response:", error);
+//     return "Error contacting AI.";
+//   }
+// }
+
+// const response = await fetch(apiUrl, {
+//   method: "POST",
+//   headers: {
+//     "Content-Type": "application/json",
+//     Authorization: `Bearer ${apiKey}`,
+//     organization: "org-HqVA4E9x1mggHEq8ZUM3j4Ht",
+//     project: "proj_2WoHv9T9KMZMrsc73Jwe91GN",
+//   },
+//   body: JSON.stringify({
+//     model: "gpt-3.5-turbo",
+//     prompt: prompt,
+//     max_tokens: 100, // Adjust based on your needs
+//     n: 1,
+//     stop: null,
+//     temperature: 0.7, // Adjust creativity, 0.0 to 1.0
+//     messages: [{ role: "assistant", content: prompt }],
+//   }),
+// });
+
+// if (!response.ok) {
+//   throw new Error("Network response was not ok");
+// }
+
+// const data = await response.json();
+// console.log("data", data.choices[0].message.content);
+// return data.choices[0].message.content; // Assuming the API returns choices with text, adjust based on actual response structure
+// } catch (error) {
+// console.error("Failed to get AI response:", error);
+// return "Error contacting AI.";
+// }
