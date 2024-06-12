@@ -1,6 +1,5 @@
-const fetch = require("node-fetch"); // Ensure you have node-fetch installed
-
 exports.handler = async function (event, context) {
+  const fetch = (await import("node-fetch")).default; // Dynamically import
   // Extract query parameters or body from the event object
   // For simplicity, assuming the prompt is passed as a query parameter
 
