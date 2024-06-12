@@ -212,14 +212,15 @@ inputTo.addEventListener("change", () =>
 
 //--------------rates-----------------//'
 
-const objectRateFetcher = (valFrom, valTo) => {
+const objectRateFetcher = async (valFrom, valTo) => {
   //---latest logic ---------------
 
   const forexRateWebAdress =
     "https://currency-backend.netlify.app/.netlify/functions/converted";
 
-  return new Promise((resolve, reject) => {
-    fetch(
+  //return new Promise((resolve, reject) => {
+  try {
+    await fetch(
       `${forexRateWebAdress}?from=${countriesFromSelect.value}&to=${countriesToSelect.value}`
     )
       .then((data) => data.json())
@@ -233,7 +234,9 @@ const objectRateFetcher = (valFrom, valTo) => {
         console.error("Error fetching rates:", error);
         reject(error);
       });
-  });
+  } catch (error) {
+    console.error("Error fetching rates:", error);
+  }
 };
 //-----------------------GRID--------
 // get this data from api at github, make an API request, then activate 266
