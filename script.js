@@ -745,9 +745,9 @@ async function messageOnOff() {
   } else if (aiMessageContainer.style.opacity === "1") {
     aiMessageContainer.style.opacity = "0";
   }
-  const predefinedPrompt =
-    "whats the 3 most moving currency pairs of today according with yahoo finance, in 100 characters"; // Your predefined prompt
-  const aiResponseContainer = document.getElementById("ai-response-container");
+  // const predefinedPrompt =
+  //   "whats the 3 most moving currency pairs of today according with yahoo finance, in 100 characters"; // Your predefined prompt
+  //const aiResponseContainer = document.getElementById("ai-response-container");
 
   // Simulate sending the prompt to the AI and getting a response
   const response = await getAIResponse(predefinedPrompt);
@@ -761,43 +761,18 @@ async function messageOnOff() {
 // Placeholder for the AI response function
 
 async function getAIResponse(prompt) {
-  const apiUrl = "https://api.openai.com/v1/chat/completions"; // Example API URL, replace with your actual endpoint
-  let openAI;
-
-  // try {
-  //   openAI = await getAuth();
-  // } catch (error) {
-  //   console.error("Failed to get OpenAI token:", error);
-  //   return;
-  // }
+  const apiUrl = "https://currency-backend.netlify.app/.netlify/functions/api"; // Example API URL, replace with your actual endpoint
 
   try {
-    const response = await fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-        organization: "org-HqVA4E9x1mggHEq8ZUM3j4Ht",
-        project: "proj_2WoHv9T9KMZMrsc73Jwe91GN",
-      },
-      body: JSON.stringify({
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: prompt }],
-
-        max_tokens: 100, // Adjust based on your needs
-        n: 1,
-        stop: null,
-        temperature: 0.7, // Adjust creativity, 0.0 to 1.0
-      }),
-    });
+    const response = await fetch(apiUrl);
 
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
 
     const data = await response.json();
-    // console.log("data", data.choices[0].message.content);
-    return data.choices[0].message.content; // Assuming the API returns choices with text, adjust based on actual response structure
+    console.log("data", data);
+    return data; // Assuming the API returns choices with text, adjust based on actual response structure
   } catch (error) {
     console.error("Failed to get AI response:", error);
     return "Error contacting AI.";
