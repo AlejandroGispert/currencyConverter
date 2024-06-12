@@ -214,16 +214,13 @@ inputTo.addEventListener("change", () =>
 
 const objectRateFetcher = (valFrom, valTo) => {
   //---latest logic ---------------
-  const forexRateApiId = "api_key=07691352b05e809fe4b0fea2cf2c874a";
-  const forexRateWebAdress = "https://api.forexrateapi.com/v1/";
+
+  const forexRateWebAdress =
+    "https://currency-backend.netlify.app/.netlify/functions/sixRates";
 
   return new Promise((resolve, reject) => {
-    fetchInDatabase(
-      forexRateWebAdress,
-      forexRateApiId,
-      "latest",
-      valFrom,
-      valTo
+    fetch(
+      `${forexRateWebAdress}?from=${countriesFromSelect.value}&to=${countriesToSelect.value}`
     )
       .then((currencies) => {
         console.log("Fetched data: ", currencies);
@@ -248,8 +245,7 @@ const updateGrid = async () => {
   gridContainer.style.transition = "all 0.5s";
   let fetchedRates;
 
-  const forexRateApiId = "api_key=07691352b05e809fe4b0fea2cf2c874a";
-  const forexRateWebAdress = `https://api.forexrateapi.com/v1/latest?${forexRateApiId}&base=${countriesFromSelect.value}&currencies=CAD,GBP,JPY,EUR,USD,DKK`;
+  const forexRateWebAdress = `https://currency-backend.netlify.app/.netlify/functions/sixRates?base=${countriesFromSelect.value}`;
   try {
     const response = await fetch(forexRateWebAdress);
     if (!response.ok) {
