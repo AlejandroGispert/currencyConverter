@@ -216,7 +216,7 @@ const objectRateFetcher = (valFrom, valTo) => {
   //---latest logic ---------------
 
   const forexRateWebAdress =
-    "https://currency-backend.netlify.app/.netlify/functions/sixRates";
+    "https://currency-backend.netlify.app/.netlify/functions/converted";
 
   return new Promise((resolve, reject) => {
     fetch(
