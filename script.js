@@ -750,7 +750,7 @@ async function messageOnOff() {
   //const aiResponseContainer = document.getElementById("ai-response-container");
 
   // Simulate sending the prompt to the AI and getting a response
-  const response = await getAIResponse(predefinedPrompt);
+  const response = await getAIResponse();
 
   // Display the AI's response
   setTimeout(() => {
