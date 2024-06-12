@@ -2,11 +2,11 @@
 
 exports.handler = async function (event, context) {
   const fetch = (await import("node-fetch")).default;
-  const forexRateApiId = "api_key=07691352b05e809fe4b0fea2cf2c874a";
+
   const baseCurrency = event.queryStringParameters.base || "USD"; // Default to USD if no base currency is specified
   const currencies = "CAD,GBP,JPY,EUR,USD,DKK"; // Specify currencies or make dynamic based on query parameters
 
-  const forexRateWebAdress = `https://api.forexrateapi.com/v1/latest?${forexRateApiId}&base=${baseCurrency}&currencies=${currencies}`;
+  const forexRateWebAdress = `https://api.forexrateapi.com/v1/latest?${process.env.FOREX_API_KEY}&base=${baseCurrency}&currencies=${currencies}`;
 
   try {
     const response = await fetch(forexRateWebAdress);
