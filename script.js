@@ -220,9 +220,7 @@ const objectRateFetcher = async (valFrom, valTo) => {
 
   //return new Promise((resolve, reject) => {
   try {
-    await fetch(
-      `${forexRateWebAdress}?from=${countriesFromSelect.value}&to=${countriesToSelect.value}`
-    )
+    await fetch(`${forexRateWebAdress}?from=${valFrom}&to=${valTo}`)
       .then((data) => data.json())
       .then((currencies) => {
         const rateResult = Object.values(currencies.rates)[0];
@@ -232,7 +230,6 @@ const objectRateFetcher = async (valFrom, valTo) => {
       })
       .catch((error) => {
         console.error("Error fetching rates:", error);
-        reject(error);
       });
   } catch (error) {
     console.error("Error fetching rates:", error);
