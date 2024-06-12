@@ -222,9 +222,8 @@ const objectRateFetcher = (valFrom, valTo) => {
     fetch(
       `${forexRateWebAdress}?from=${countriesFromSelect.value}&to=${countriesToSelect.value}`
     )
+      .then((currencies) => currencies.json)
       .then((currencies) => {
-        console.log("Fetched data: ", currencies);
-
         const rateResult = Object.values(currencies.rates)[0];
         rateData = rateResult;
         console.log("Yes rateData here: ", rateData);
