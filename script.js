@@ -46,66 +46,31 @@ const gridContainer = document.getElementById("grid-container");
 //---------glowing circle, market open close
 const glowingCircleText = document.getElementById("glowing-circle-text");
 const glowingCircle = document.getElementById("glowing-circle");
-//----------------------JSON----------
-
-//const historical = "time-series.json"
-
-// const callback = (data) => {
-//   console.log("json data: " + data);
-// };
-// const getJSON = (url, callback) => {
-//   const xhr = new XMLHttpRequest();
-
-//   xhr.open("GET", url, true);
-//   xhr.responseType = "json";
-//   xhr.onload = () => {
-//     const status = xhr.status;
-//     if (status === 200) {
-//       console.log("JSON response 200");
-//       callback(null, xhr.response);
-//       //  console.log("response: ", xhr.response);
-//       const response = xhr.response;
-//       //currencyData = response;
-//       console.log("response2: ", response);
-//     } else {
-//       console.log("JSON response not 200");
-//       callback(status, xhr.response);
-//     }
-//   };
-//   xhr.send();
-// };
-// //activate this
-// const currencyData = getJSON("database.json", callback);
 
 //-----------fetch API-------------------ok
 
-const appId = "app_id=9d0d5abf0c7749e58c563f2e85e971c7";
-const openXApi = "https://openexchangerates.org/api/";
-const currencies = "currencies.json";
-const latestCurrencyData = "latest.json";
+// async function fetchInDatabase(api, appId, jsonType, base, toValue) {
+//   let url = `${api}${jsonType}?${appId}&base=${base}`;
+//   if (toValue) {
+//     url = url + "&currencies=" + toValue;
+//     // console.log(url);
+//   }
+//   try {
+//     const response = await fetch(url);
+//     if (!response.ok) {
+//       throw new Error("Network response was not ok");
+//     }
+//     const data = await response.json(); // Parses the JSON response into native JavaScript objects
 
-async function fetchInDatabase(api, appId, jsonType, base, toValue) {
-  let url = `${api}${jsonType}?${appId}&base=${base}`;
-  if (toValue) {
-    url = url + "&currencies=" + toValue;
-    // console.log(url);
-  }
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    const data = await response.json(); // Parses the JSON response into native JavaScript objects
-
-    return data;
-  } catch (error) {
-    //alert("no internet connection detected");
-    console.error(
-      "There has been a problem with your fetch operation: ",
-      error
-    );
-  }
-}
+//     return data;
+//   } catch (error) {
+//     //alert("no internet connection detected");
+//     console.error(
+//       "There has been a problem with your fetch operation: ",
+//       error
+//     );
+//   }
+// }
 
 // Call the function to fetch and display rates
 
@@ -152,16 +117,31 @@ const addCurrenciestoDOM = (symbol) => {
   // console.log("this currency added: " + symbol);
 };
 
-fetchInDatabase(openXApi, appId, currencies, "USD")
-  .then((currencies) => {
-    console.log("Fetched currencies: ", currencies);
+async function fetchCurrencies() {
+  let url = "https://currency-backend.netlify.app/.netlify/functions/openX";
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
 
-    Object.entries(currencies).forEach((symbol) => addCurrenciestoDOM(symbol));
-  })
-  .catch((error) => {
-    console.error("Error fetching rates:", error);
-  });
+    data
+      .then((currencies) => {
+        console.log("Fetched currencies: ", currencies);
 
+        Object.entries(currencies).forEach((symbol) =>
+          addCurrenciestoDOM(symbol)
+        );
+      })
+      .catch((error) => {
+        console.error("Failed to fetch currencies:", error);
+      });
+  } catch (error) {
+    console.error("Failed to fetch currencies:", error);
+  }
+}
+fetchCurrencies();
 // ------------------GET FLAGS FROM SELECT------------------ 50/50
 function getFlag(currency, direction) {
   direction.style.visibility = "visible";
@@ -222,7 +202,8 @@ const objectRateFetcher = (valFrom, valTo) => {
     fetch(`${forexRateWebAdress}?from=${valFrom}&to=${valTo}`)
       .then((data) => data.json())
       .then((currencies) => {
-        const rateResult = Object.values(currencies.rates)[0];
+        console.log("Now: ", currencies);
+        const rateResult = Object.values(currencies.conversionRate.rates)[0];
         rateData = rateResult;
         console.log("Yes rateData here: ", rateData);
         resolve(rateResult);
