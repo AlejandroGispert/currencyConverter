@@ -20,13 +20,14 @@ exports.handler = async function (event, context) {
 
     const response = await fetch(apiUrl);
     if (!response.ok) {
+      console.error("API request failed:" + response.statusText);
       throw new Error("Network response was not ok");
     }
 
     const data = await response.json();
-
+    console.log("API response:", data);
     // Assuming the API returns a conversion rate in a field named 'rate'
-    const conversionRate = data.rate; // Adjust based on the actual API response structure
+    const conversionRate = data; // Adjust based on the actual API response structure
 
     return {
       statusCode: 200,
