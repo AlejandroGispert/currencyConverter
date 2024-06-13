@@ -196,7 +196,7 @@ const objectRateFetcher = (valFrom, valTo) => {
     fetch(`${forexRateWebAdress}?from=${valFrom}&to=${valTo}`)
       .then((data) => data.json())
       .then((currencies) => {
-        console.log("Now: ", currencies);
+        // console.log("Now: ", currencies);
         const rateResult = Object.values(currencies.conversionRate.rates)[0];
         rateData = rateResult;
         console.log("Yes rateData here: ", rateData);
@@ -223,17 +223,17 @@ const updateGrid = async () => {
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
-    console.log("Network response: ", response);
+    // console.log("Network response: ", response.json());
     const data = await response.json(); // Parses the JSON response into native JavaScript objects
-    console.log("fetching ", Object.keys(data.rates));
-    fetchedRates = data.rates;
 
-    Object.keys(data.rates).map((e, index) => {
+    fetchedRates = Object.keys(data);
+
+    Object.keys(data).map((e, index) => {
       grid.innerHTML += `<div class="grid-item">${countriesFromSelect.value}</div>`;
 
       let keys = e;
 
-      let values = Object.values(data.rates)[index].toFixed(3);
+      let values = Object.values(data)[index].toFixed(3);
       //console.log("keys: " + keys + " values: " + values);
       grid.innerHTML += `<div class="grid-item">${keys}</div>`;
       grid.innerHTML += `<div class="grid-item">${values}</div>`;
