@@ -223,8 +223,9 @@ const updateGrid = async () => {
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
+    console.log("Network response: ", response);
     const data = await response.json(); // Parses the JSON response into native JavaScript objects
-    console.log("data33", Object.keys(data.rates));
+    console.log("fetching ", Object.keys(data.rates));
     fetchedRates = data.rates;
 
     Object.keys(data.rates).map((e, index) => {
