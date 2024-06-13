@@ -126,17 +126,11 @@ async function fetchCurrencies() {
     }
     const data = await response.json();
 
-    data
-      .then((currencies) => {
-        console.log("Fetched currencies: ", currencies);
+    console.log("Fetched currencies: ", data.currencies);
 
-        Object.entries(currencies).forEach((symbol) =>
-          addCurrenciestoDOM(symbol)
-        );
-      })
-      .catch((error) => {
-        console.error("Failed to fetch currencies:", error);
-      });
+    Object.entries(data.currencies).forEach((symbol) =>
+      addCurrenciestoDOM(symbol)
+    );
   } catch (error) {
     console.error("Failed to fetch currencies:", error);
   }
