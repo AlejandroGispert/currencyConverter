@@ -574,6 +574,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     alertsArray.forEach(async (e, index) => {
       const savedAlert = document.createElement("li");
       savedAlert.classList.add("allAlerts");
+      savedAlert.style.visibility = "visible";
+
       savedAlert.style.listStyle = "none";
       savedAlert.innerHTML = `${e.symbolFrom} to ${
         e.symbolTo
@@ -581,7 +583,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         3
       )},  alert on: ${
         e.alertOn
-      }</span><button type="button"  class="rem-button" data-index="${index}"  style="width:15px;height:20px;background-color:white;margin-left:15px;padding: 0;float:right">x</button>`;
+      }</span><button type="button"  class="rem-button" data-index="${index}"  style="width:15px;height:20px;background-color:white;margin-left:15px;padding: 0;float:right;border-radius:5px">x</button>`;
       savedAlertsContainer.appendChild(savedAlert);
 
       const remButton = document.querySelector(
@@ -615,7 +617,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       savedAlert.innerHTML += spanHtml;
 
       if (rateResult >= e.alertOn) {
-        // savedAlert.innerHTML += `\n <span class="superAlert">⚠️alert⚠️<span> `;
         savedAlert.style.backgroundColor = "lightyellow";
         savedAlert.style.animation = "3s infinite horizontal-shaking";
       }
@@ -825,15 +826,17 @@ async function getAuth() {
 // return "Error contacting AI.";
 // }
 document.querySelector(".side-panel-toggle").addEventListener("click", () => {
-  document.querySelector(".wrapper").classList.toggle("side-panel-open");
-  document.querySelectorAll(".allAlerts").forEach((element) => {
-    if (
-      element.style.visibility === "hidden" ||
-      element.style.visibility === ""
-    ) {
-      element.style.visibility = "visible";
-    } else {
-      element.style.visibility = "hidden";
-    }
-  });
+  document
+    .querySelectorAll(".allAlerts")
+    .forEach((element) => element.classList.toggle("hidden"));
+
+  const spOpen = document.querySelector(".sp-icon-open");
+  const spClose = document.querySelector(".sp-icon-close");
+  if (spOpen.style.display === "block") {
+    spOpen.style.display = "none";
+    spClose.style.display = "block";
+  } else {
+    spOpen.style.display = "block";
+    spClose.style.display = "none";
+  }
 });

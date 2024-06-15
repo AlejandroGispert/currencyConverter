@@ -289,6 +289,7 @@ img {
   font-size: 10px;
   box-sizing: border-box;
   color: white;
+  text-transform: none;
 }
 
 .market-open {
@@ -419,7 +420,7 @@ img {
 
 .wrapper {
   display: flex;
-  height: 100vh;
+  height: auto;
 }
 
 .side-panel-toggle {
@@ -444,17 +445,15 @@ img {
 .side-panel-toggle:hover {
   background: #007960;
 }
-
-.sp-icon-close {
-  display: none !important;
+.hidden {
+  display: none;
 }
 
 .side-panel-open .sp-icon-open {
-  display: none !important;
+  display: none;
 }
-
-.side-panel-open .sp-icon-close {
-  display: initial !important;
+.sp-icon-close {
+  display: block;
 }
 
 /* --------------Switch--------------- */
@@ -644,12 +643,14 @@ div.switch input {
     display: block;
   }
   #saved-alerts-container {
-    background-color: #f1edec;
     height: fit-content;
-    width: 100%;
+    width: 150px;
     position: absolute;
-    top: 850px;
-    left: auto;
+    top: 878px;
+    left: 40px;
+  }
+  .rem-button {
+    margin-left: 5px;
   }
   #grid-container {
     left: 0;
@@ -713,12 +714,8 @@ div.switch input {
     display: block;
   }
   #saved-alerts-container {
-    background-color: #f1edec;
-    height: fit-content;
-    width: 100%;
-    position: absolute;
     top: 1150px;
-    left: auto;
+    left: -20px;
   }
 
   #grid-container {
@@ -766,22 +763,12 @@ div.switch input {
     display: block;
   }
   #saved-alerts-container {
-    max-width: 350px;
-    background-color: #f1edec;
-    height: fit-content;
-    width: fit-content;
-    position: absolute;
-    top: 1025px;
-    left: auto;
+    top: 1525px;
+    left: 47px;
+    width: 250px;
   }
   .form {
     padding: 2px;
     margin: 0;
-  }
-  .circle-with-text {
-    visibility: visible;
-    display: block;
-    top: 5%;
-    left: 5%;
   }
 }
