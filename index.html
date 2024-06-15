@@ -5,21 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style2.css" />
     <link rel="icon" type="image/x-icon" href="/flags/neutral.svg" />
-    <title>Alejandro Currency Converter</title>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <title>Currency Catcher</title>
   </head>
 
   <body>
     <nav class="nav">
       <hr />
       <div>
-        <h1 class="allText">Alejandro's Currency Converter</h1>
-        <h6 class="little-text">with real rates</h6>
+        <h1 class="allText">CurrencyCatcher</h1>
+        <h6 class="little-text">
+          Catch the best currency rates with insights and 15 min live updates
+        </h6>
       </div>
       <hr />
     </nav>
 
     <div class="container">
+      
       <div class="main">
+        <div class="wrapper side-panel-open">
+          
+          <button class="side-panel-toggle" type="button">
+            <span class="material-icons sp-icon-open"
+              >keyboard_double_arrow_right</span
+            >
+            <span class="material-icons sp-icon-close"
+              >keyboard_double_arrow_left</span
+            >
+          </button>
+          
+        </div>
         <div class="form">
           <div class="market-open">
             <div class="glowing-circle" id="glowing-circle"></div>
@@ -330,47 +349,28 @@
 
       <ul id="saved-alerts-container"></ul>
       <ul id="alerts-container"></ul>
-      <div class="tradingview-widget-container">
-        <div id="tradingview_12345"></div>
+      <div
+        class="tradingview-widget-container"
+        id="tradingview-widget-container"
+      >
         <script
           type="text/javascript"
           src="https://s3.tradingview.com/tv.js"
         ></script>
-        <div class="circle-with-text">
-          <div class="circle">
-            <div class="gradient-bg">
-              <svg xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <filter id="goo">
-                    <feGaussianBlur
-                      in="SourceGraphic"
-                      stdDeviation="10"
-                      result="blur"
-                    />
-                    <feColorMatrix
-                      in="blur"
-                      mode="matrix"
-                      values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8"
-                      result="goo"
-                    />
-                    <feBlend in="SourceGraphic" in2="goo" />
-                  </filter>
-                </defs>
-              </svg>
-              <div class="gradients-container">
-                <div class="g1"></div>
-                <div class="g2"></div>
-                <div class="g3"></div>
-                <div class="g4"></div>
-                <div class="g5"></div>
-                <div class="interactive"></div>
-              </div>
-            </div>
+      </div>
+      <div class="circle-with-text">
+        <div class="circle">
+          <div class="gradient-bg">
+            <div class="gradients-container"></div>
           </div>
           <div class="text">A.I Insights</div>
           <ul id="ai-message-container"></ul>
         </div>
-        <footer class="footer">Copyright ag-sound</footer>
+        </div>
+        <!-- ------------------------------------------------ -->
+        
+
+        <footer class="footer">Copyright Alejandro Gispert 2024</footer>
         <script type="module" src="script.js"></script>
       </div>
     </div>
