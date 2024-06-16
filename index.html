@@ -27,6 +27,9 @@
     <div class="container">
       
       <div class="main">
+        <div class="tab-1" id="tab-1"><h6>converter</h6></div>
+        <div class="tab-2" id="tab-2"><h6>charts</h6></div>
+        <div  id="tab-overlay"></div>
         <div class="wrapper side-panel-open">
           
           <button class="side-panel-toggle" type="button">
@@ -312,6 +315,7 @@
           </div>
 
           <button type="submit" class="btn" id="btn">Convert</button>
+          <button  class="btn" id="chartBtn">Change currency</button>
         </div>
       </div>
 
@@ -347,7 +351,9 @@
         </div>
       </div>
 
-      <ul id="saved-alerts-container"></ul>
+      <ul id="saved-alerts-container">
+        <li id="firstAlert">Alerts</li>
+      </ul>
       <ul id="alerts-container"></ul>
       <div
         class="tradingview-widget-container"

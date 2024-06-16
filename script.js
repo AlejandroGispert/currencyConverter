@@ -50,6 +50,11 @@ const glowingCircle = document.getElementById("glowing-circle");
 const tradingViewWidgetContainer = document.getElementById(
   "tradingview-widget-container"
 );
+
+const tab1 = document.getElementById("tab-1");
+const tab2 = document.getElementById("tab-2");
+
+const chartBtn = document.getElementById("chartBtn");
 //-----------fetch API-------------------ok
 
 // async function fetchInDatabase(api, appId, jsonType, base, toValue) {
@@ -393,11 +398,12 @@ addNewCurrencyButton.addEventListener("click", () => {
   }
 });
 //----------------------Widget Chart--------------------
+let tradingSymbol = "FX:EURUSD";
 
 new TradingView.widget({
   width: "100%",
-  height: "273px",
-  symbol: "FX:EURUSD",
+  height: "573px",
+  symbol: tradingSymbol,
   interval: "D",
   timezone: "Europe/Copenhagen",
   theme: "light",
@@ -406,7 +412,7 @@ new TradingView.widget({
   toolbar_bg: "#f1f3f6",
   enable_publishing: false,
 
-  allow_symbol_change: false,
+  allow_symbol_change: true,
   show_popup_button: true,
   popup_width: "1000",
   popup_height: "650",
@@ -506,15 +512,13 @@ let alertsArray = localStorage.getItem("alerts")
   ? JSON.parse(localStorage.getItem("alerts"))
   : [];
 
-// function delAllFromStorage() {
-//   localStorage.removeItem("alerts");
-// }
 function addAlert(countryFrom, countryTo) {
   // Ensure you have a <ul> element with id='alerts-list' in your HTML
   const setAlertList = document.createElement("li");
+
   setAlertList.innerHTML = `set an Alert for: ${countryFrom} to ${countryTo} rate >= <input id="rateAlertInput" style="width:60px" value="${rateData.toFixed(
     3
-  )}"/><button id="set-button"  style="width:40px;background-color:white">Set</button>`;
+  )}"/><button id="set-button"  style="width:40px;background-color:white">Set</button><button id="quitBtnSetAlert"style="width:40px;background-color:white;">Quit</button>`;
 
   //to fadeout the alert
   //li.classList.add("fadeout");
@@ -530,6 +534,12 @@ function addAlert(countryFrom, countryTo) {
 
   const setButton = document.getElementById("set-button");
   setButton.addEventListener("click", addToStorage);
+
+  const quitBtnSetAlert = document.getElementById("quitBtnSetAlert");
+  quitBtnSetAlert.addEventListener("click", () => {
+    location.reload();
+    console.log("done");
+  });
 }
 
 function addToStorage() {
@@ -566,7 +576,6 @@ function addToStorage() {
   window.location.reload();
 }
 
-//this should be async cause the rate will be updated
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     console.log("saved alerts", alertsArray);
@@ -600,7 +609,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       // Fetch the current rate asynchronously
       const rateResult = await objectRateFetcher(e.symbolFrom, e.symbolTo);
 
-      // Determine the colorStyle based on the fetched rate compared to the original rate
       let colorStyle = "";
       if (rateResult > e.rate) {
         colorStyle = "color: green;";
@@ -608,17 +616,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         colorStyle = "color: red;";
       }
 
-      // Construct the span with the determined colorStyle
       const spanHtml = `<span style="font-size: 15px; ${colorStyle}">now ${rateResult.toFixed(
         3
       )}</span>`;
 
-      // Append the constructed spanHtml to savedAlert.innerHTML
       savedAlert.innerHTML += spanHtml;
 
       if (rateResult >= e.alertOn) {
-        savedAlert.style.backgroundColor = "lightyellow";
-        savedAlert.style.animation = "3s infinite horizontal-shaking";
+        savedAlert.style.backgroundColor = "#d3f8d3";
+        //savedAlert.style.animation = "3s infinite horizontal-shaking";
       }
       const blink = document.querySelector(".superAlert");
       // if (blink) {
@@ -746,7 +752,7 @@ async function getAIResponse(prompt) {
 
     const data = await response.json();
     console.log("data", data);
-    return data; // Assuming the API returns choices with text, adjust based on actual response structure
+    return data;
   } catch (error) {
     console.error("Failed to get AI response:", error);
     return "Error contacting AI.";
@@ -839,4 +845,72 @@ document.querySelector(".side-panel-toggle").addEventListener("click", () => {
     spOpen.style.display = "block";
     spClose.style.display = "none";
   }
+});
+
+tab1.addEventListener("click", toggleTabs);
+tab2.addEventListener("click", toggleTabs);
+
+let activated = true;
+
+function toggleTabs() {
+  if (activated) {
+    tab2.style.top = "-63px";
+    tab2.style.backgroundColor = "white";
+    tab1.style.top = "-30px";
+    tab1.style.backgroundColor = "rgb(198, 196, 196)";
+    activated = false;
+    tradingViewWidgetContainer.style.visibility = "visible";
+
+    chartBtn.style.display = "block";
+    btn.style.display = "none";
+  } else if (!activated) {
+    tab1.style.top = "-38px";
+    tab1.style.backgroundColor = "white";
+    tab2.style.top = "-57px";
+    tab2.style.backgroundColor = "rgb(198, 196, 196)";
+    activated = true;
+    tradingViewWidgetContainer.style.visibility = "hidden";
+
+    chartBtn.style.display = "none";
+    btn.style.display = "block";
+  }
+}
+
+chartBtn.addEventListener("click", () => {
+  const chartCurrencyChange = document.createElement("li");
+  chartCurrencyChange.innerHTML = `<div id="chartBtnMsg">set new symbol: <input id="chartSymbolInput" style="width:100px" value="${tradingSymbol}"/><button id="chart-set-button"  style="width:40px;background-color:white">Set</button><button id="quitBtnChart"style="width:40px;background-color:white;">Quit</button></div>`;
+
+  alertsContainer.appendChild(chartCurrencyChange);
+
+  const chartBtnMsg = document.getElementById("chartBtnMsg");
+  chartBtnMsg.style.zIndex = 3;
+  quitBtnChart.addEventListener("click", () => {
+    location.reload();
+    console.log("done");
+  });
+
+  const chartSetButton = document.getElementById("chart-set-button");
+
+  chartSetButton.addEventListener("click", () => {
+    tradingSymbol = chartSymbolInput.value;
+
+    new TradingView.widget({
+      width: "100%",
+      height: "573px",
+      symbol: tradingSymbol,
+      interval: "D",
+      timezone: "Europe/Copenhagen",
+      theme: "light",
+      style: "1",
+      locale: "en",
+      toolbar_bg: "#f1f3f6",
+      enable_publishing: false,
+
+      allow_symbol_change: false,
+      show_popup_button: true,
+      popup_width: "1000",
+      popup_height: "650",
+      container_id: "tradingview-widget-container",
+    });
+  });
 });
