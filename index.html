@@ -29,6 +29,7 @@
       <div class="main">
         <div class="tab-1" id="tab-1"><h6>converter</h6></div>
         <div class="tab-2" id="tab-2"><h6>charts</h6></div>
+        <div class="tab-3" id="tab-3"><h6>heatmap</h6></div>
         <div  id="tab-overlay"></div>
         <div class="wrapper side-panel-open">
           
@@ -355,6 +356,8 @@
         <li id="firstAlert">Alerts</li>
       </ul>
       <ul id="alerts-container"></ul>
+
+      <!-- CHART BEGIN -->
       <div
         class="tradingview-widget-container"
         id="tradingview-widget-container"
@@ -364,6 +367,29 @@
           src="https://s3.tradingview.com/tv.js"
         ></script>
       </div>
+<!-- HEATMAP BEGIN -->
+<div class="heatmap-widget-container" id="heatmap-widget-container">
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-forex-heat-map.js" async >  {
+    "width": 600,
+    "height": 525,
+    "currencies": [
+      "EUR",
+      "USD",
+      "JPY",
+      "GBP",
+      "CHF",
+      "AUD",
+      "CAD",
+      "NZD",
+      "CNY"
+    ],
+    "isTransparent": false,
+    "colorTheme": "light",
+    "locale": "en",
+    "backgroundColor": "#ffffff"
+  }</script>
+    </div>
+      <!-- A.I -->
       <div class="circle-with-text">
         <div class="circle">
           <div class="gradient-bg">

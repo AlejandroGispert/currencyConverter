@@ -83,7 +83,7 @@ hr {
   content: "";
 
   position: relative;
-  left: 230px;
+  left: 210px;
   top: -57px;
   width: 200px;
   height: 25px;
@@ -101,9 +101,30 @@ hr {
   left: 60px;
 }
 
+.tab-3 {
+  content: "";
+
+  position: relative;
+  left: 215px;
+  top: -57px;
+  width: 200px;
+  height: 25px;
+  background-color: rgb(198, 196, 196);
+  border-radius: 25px 0 0 0;
+  clip-path: path("M 0 0 L 160 0 C 185 2, 175 16, 200 18 L 0 50 z");
+
+  float: left;
+}
+.tab-3 h6 {
+  color: #333;
+
+  position: absolute;
+  top: -25px;
+  left: 60px;
+}
 #tab-overlay {
   background-color: white;
-  width: 500px;
+  width: 620px;
   height: 30px;
   position: absolute;
   top: 113px;
@@ -249,6 +270,20 @@ img {
   border: 1px solid #ddd;
 }
 .tradingview-widget-container {
+  position: absolute;
+  z-index: 1;
+  top: 113px;
+  text-align: center;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #fff;
+  width: 600px;
+  height: 478px;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+.heatmap-widget-container {
   position: absolute;
   z-index: 1;
   top: 113px;
@@ -416,6 +451,7 @@ img {
   height: 80px;
   border: 2px solid white;
   border-radius: 50%;
+  z-index: 10;
 }
 
 .circle {
@@ -484,7 +520,7 @@ img {
   cursor: pointer;
 
   position: relative;
-  left: -260px;
+  left: -460px;
 
   margin: 0;
   padding: 0;
@@ -665,6 +701,7 @@ div.switch input {
 }
 @media (max-width: 900px) {
   #tab-overlay {
+    max-width: 87.5%;
     top: 160px;
   }
 
@@ -687,7 +724,7 @@ div.switch input {
     height: fit-content;
     width: 150px;
     position: absolute;
-    top: 878px;
+    top: 942px;
     left: 40px;
   }
   .rem-button {
@@ -696,11 +733,37 @@ div.switch input {
   #grid-container {
     left: 0;
   }
+  #tab-1 {
+    transform: scale(0.8);
+    left: -20px;
+  }
+  #tab-2 {
+    transform: scale(0.8);
+    left: 150px;
+  }
+  #tab-3 {
+    transform: scale(0.8);
+    left: 120px;
+  }
+  #tradingview-widget-container {
+    top: 170px;
+    width: 120%;
+    max-width: 600px;
+    min-width: 300px;
+    overflow: hidden;
+  }
+  #heatmap-widget-container {
+    top: 170px;
+    overflow: hidden;
+  }
 }
 @media (max-width: 600px) {
+  html {
+    width: 120%;
+  }
   #tab-overlay {
-    width: 430px;
-    top: 161px;
+    max-width: 110%;
+    top: 160px;
   }
   .container,
   .main,
@@ -742,12 +805,35 @@ div.switch input {
     display: block;
   }
   #saved-alerts-container {
-    top: 1150px;
-    left: -20px;
+    top: 1250px;
+    left: 40px;
   }
 
   #grid-container {
     left: 0;
+  }
+  #tab-1 {
+    transform: scale(0.8);
+    left: -20px;
+  }
+  #tab-2 {
+    transform: scale(0.8);
+    left: 150px;
+  }
+  #tab-3 {
+    transform: scale(0.8);
+    left: 120px;
+  }
+  #tradingview-widget-container {
+    height: 90%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  #heatmap-widget-container {
+    height: 90%;
+    max-width: 600px;
+    margin: 0 auto;
   }
 }
 @media (max-width: 430px) {
@@ -756,25 +842,34 @@ div.switch input {
   }
 
   .side-panel-toggle {
-    left: -200px;
+    left: -450px;
   }
   .main {
     margin: 0 auto;
     width: 100vw;
   }
   #tab-overlay {
-    width: 100%;
+    width: 106%;
     top: 145px;
+    left: 87px;
   }
   #tab-1 {
-    top: -40px;
-    width: 150px;
+    top: -36px;
+    width: 200px;
+    left: -50px;
+    transform: scale(0.6);
   }
   #tab-2 {
-    top: -60px;
-    left: 180px;
-    width: 150px;
-    transform: scaleX(-1);
+    top: -57px;
+    left: 110px;
+    width: 200px;
+    transform: scale(0.6);
+  }
+
+  #tab-3 {
+    width: 200px;
+    left: 70px;
+    transform: scale(0.6);
   }
 
   .market-open {
@@ -783,7 +878,7 @@ div.switch input {
   }
 
   .container {
-    max-width: 350px;
+    max-width: 500px;
     margin: 0 8%;
     padding: 5px;
     width: 93%;
@@ -794,7 +889,7 @@ div.switch input {
   }
   #saved-alerts-container {
     top: 1212px;
-    left: 300px;
+    left: 320px;
     width: 250px;
   }
   .form {
@@ -802,6 +897,51 @@ div.switch input {
     margin: 0;
   }
   #grid-container {
-    left: -80px;
+    left: -130px;
+  }
+
+  #tradingview-widget-container {
+    height: 90%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  #heatmap-widget-container {
+    height: 90%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 400px) {
+    #tab-1 {
+    }
+    #tab-2 {
+      left: 90px;
+    }
+
+    #tab-3 {
+      width: 46%;
+      left: 30px;
+    }
+    #tab-overlay {
+      left: 100px;
+    }
+    .side-panel-open {
+      display: none;
+    }
+    .form {
+      width: 100%;
+    }
+    #tradingview-widget-container {
+      height: 80%;
+      max-width: 350px;
+      margin: 0 auto;
+    }
+
+    #heatmap-widget-container {
+      height: 80%;
+      max-width: 350px;
+      margin: 0 auto;
+    }
   }
 }
