@@ -734,13 +734,14 @@ async function messageOnOff() {
   // const predefinedPrompt =
   //   "whats the 3 most moving currency pairs of today according with yahoo finance, in 100 characters"; // Your predefined prompt
   //const aiResponseContainer = document.getElementById("ai-response-container");
+  let response;
   if (messageCounter === 0) {
-    const response = await getAIResponse(
+    response = await getAIResponse(
       "https://currency-backend.netlify.app/.netlify/functions/api"
     );
     messageCounter = 1;
   } else if (messageCounter === 1) {
-    const response = await getAIResponse(
+    response = await getAIResponse(
       "https://currency-backend.netlify.app/.netlify/functions/api2"
     );
     messageCounter = 0;
