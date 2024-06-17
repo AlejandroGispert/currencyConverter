@@ -25,14 +25,12 @@
     </nav>
 
     <div class="container">
-      
       <div class="main">
         <div class="tab-1" id="tab-1"><h6>converter</h6></div>
         <div class="tab-2" id="tab-2"><h6>charts</h6></div>
         <div class="tab-3" id="tab-3"><h6>heatmap</h6></div>
-        <div  id="tab-overlay"></div>
+        <div id="tab-overlay"></div>
         <div class="wrapper side-panel-open">
-          
           <button class="side-panel-toggle" type="button">
             <span class="material-icons sp-icon-open"
               >keyboard_double_arrow_right</span
@@ -41,7 +39,6 @@
               >keyboard_double_arrow_left</span
             >
           </button>
-          
         </div>
         <div class="form">
           <div class="market-open">
@@ -316,7 +313,7 @@
           </div>
 
           <button type="submit" class="btn" id="btn">Convert</button>
-          <button  class="btn" id="chartBtn">Change currency</button>
+          <button class="btn" id="chartBtn">Change currency</button>
         </div>
       </div>
 
@@ -367,28 +364,34 @@
           src="https://s3.tradingview.com/tv.js"
         ></script>
       </div>
-<!-- HEATMAP BEGIN -->
-<div class="heatmap-widget-container" id="heatmap-widget-container">
-  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-forex-heat-map.js" async >  {
-    "width": 600,
-    "height": 525,
-    "currencies": [
-      "EUR",
-      "USD",
-      "JPY",
-      "GBP",
-      "CHF",
-      "AUD",
-      "CAD",
-      "NZD",
-      "CNY"
-    ],
-    "isTransparent": false,
-    "colorTheme": "light",
-    "locale": "en",
-    "backgroundColor": "#ffffff"
-  }</script>
-    </div>
+      <!-- HEATMAP BEGIN -->
+      <div class="heatmap-widget-container" id="heatmap-widget-container">
+        <script
+          type="text/javascript"
+          src="https://s3.tradingview.com/external-embedding/embed-widget-forex-heat-map.js"
+          async
+        >
+          {
+            "width": 600,
+            "height": 525,
+            "currencies": [
+              "EUR",
+              "USD",
+              "JPY",
+              "GBP",
+              "CHF",
+              "AUD",
+              "CAD",
+              "NZD",
+              "CNY"
+            ],
+            "isTransparent": false,
+            "colorTheme": "light",
+            "locale": "en",
+            "backgroundColor": "#ffffff"
+          }
+        </script>
+      </div>
       <!-- A.I -->
       <div class="circle-with-text">
         <div class="circle">
@@ -398,13 +401,11 @@
           <div class="text">A.I Insights</div>
           <ul id="ai-message-container"></ul>
         </div>
-        </div>
-        <!-- ------------------------------------------------ -->
-        
-
-        <footer class="footer">Copyright Alejandro Gispert 2024</footer>
-        <script type="module" src="script.js"></script>
       </div>
+      <!-- ------------------------------------------------ -->
+
+      <footer class="footer">Copyright Alejandro Gispert 2024</footer>
+      <script type="module" src="script.js"></script>
     </div>
   </body>
 </html>
