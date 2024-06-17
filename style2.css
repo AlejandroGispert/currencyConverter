@@ -23,7 +23,7 @@ body {
 
   background-attachment: fixed;
 
-  /* Optional: Adds a smooth transition effect when resizing the window */
+  /* Adds a smooth transition effect when resizing the window */
   transition: background-position 0.5s ease-out;
 }
 
@@ -374,6 +374,7 @@ img {
   text-align: center;
   align-items: center;
 }
+
 #saved-alerts-container {
   width: 200px;
   height: fit-content;
@@ -384,12 +385,14 @@ img {
   background-color: white;
   border-radius: 12px;
   padding: 8px;
+  transition: all 0.3s ease-in-out;
 }
 #alerts-container {
   position: absolute;
   top: 10%;
   right: 150px;
-  z-index: 1;
+  z-index: 5;
+  list-style: none;
 }
 #firstAlert {
   list-style: none;
@@ -405,6 +408,7 @@ img {
   padding: 5px 20px;
   margin: 4px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
 }
 
 #ai-message-container {
@@ -524,6 +528,8 @@ img {
 
   margin: 0;
   padding: 0;
+
+  top: -45px;
 }
 
 .side-panel-toggle:hover {
@@ -539,7 +545,19 @@ img {
 .sp-icon-close {
   display: block;
 }
+/* ---------Discus-------------- */
 
+#disqus_thread {
+  position: relative;
+  top: -270px;
+  right: 0%;
+  width: 890px;
+  height: fit-content;
+  background-color: white;
+  transform: scale(0.7);
+  border: 12px solid white;
+  border-radius: 12px;
+}
 /* --------------Switch--------------- */
 
 .switch {
@@ -685,10 +703,6 @@ div.switch input {
 /* Media Queries */
 
 @media (max-width: 1530px) {
-  #grid-container {
-    position: relative;
-  }
-
   li {
     display: block;
   }
@@ -696,7 +710,16 @@ div.switch input {
     left: 2%;
   }
   #grid-container {
-    left: 0;
+    right: 0;
+  }
+}
+
+@media (max-width: 1200px) {
+  #grid-container {
+    position: relative;
+  }
+  #saved-alerts-container {
+    /* position: relative; */
   }
 }
 @media (max-width: 900px) {
@@ -724,8 +747,8 @@ div.switch input {
     height: fit-content;
     width: 150px;
     position: absolute;
-    top: 942px;
-    left: 40px;
+    top: 203px;
+    left: 80px;
   }
   .rem-button {
     margin-left: 5px;
@@ -912,36 +935,41 @@ div.switch input {
     margin: 0 auto;
   }
 
-  @media (max-width: 400px) {
-    #tab-1 {
-    }
-    #tab-2 {
-      left: 90px;
-    }
+  #disqus_thread {
+    width: 143%;
+    top: 0;
+  }
+}
 
-    #tab-3 {
-      width: 46%;
-      left: 30px;
-    }
-    #tab-overlay {
-      left: 100px;
-    }
-    .side-panel-open {
-      display: none;
-    }
-    .form {
-      width: 100%;
-    }
-    #tradingview-widget-container {
-      height: 80%;
-      max-width: 350px;
-      margin: 0 auto;
-    }
+@media (max-width: 400px) {
+  #tab-1 {
+  }
+  #tab-2 {
+    left: 90px;
+  }
 
-    #heatmap-widget-container {
-      height: 80%;
-      max-width: 350px;
-      margin: 0 auto;
-    }
+  #tab-3 {
+    width: 46%;
+    left: 30px;
+  }
+  #tab-overlay {
+    left: 100px;
+  }
+  .side-panel-open {
+    display: none;
+  }
+  .form {
+    width: 100%;
+  }
+  #tradingview-widget-container {
+    height: 80%;
+    max-width: 350px;
+    margin: 0 auto;
+  }
+
+  #heatmap-widget-container {
+    height: 80%;
+    max-width: 350px;
+    margin: 0 auto;
   }
 }

@@ -279,7 +279,8 @@ async function handleButtonClick() {
     );
     if (!isNaN(rateResult)) {
       // console.log("Conversion Rate Result1: ", rateResult);
-      const convertedAmount = amountConverter(inputAmount.value, rateResult);
+      const filteredInput = inputAmount.value.replace(/,/g, ".");
+      const convertedAmount = amountConverter(filteredInput, rateResult);
 
       const formattedAndConvertedAmount = convertedAmount.toLocaleString();
       //console.log("Converted Amount: ", formattedAndConvertedAmount);
@@ -291,9 +292,11 @@ async function handleButtonClick() {
       updateGrid();
     } else {
       handleError("Conversion Rate Result2: ", rateResult);
+      resultText.innerHTML = "Sorry, we couldn't convert the rate";
     }
   } catch (error) {
     handleError("Error fetching rates:", error);
+    resultText.innerHTML = "Sorry, we couldn't convert the rate";
   }
 }
 
@@ -597,9 +600,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       savedAlert.style.visibility = "visible";
 
       savedAlert.style.listStyle = "none";
-      savedAlert.innerHTML = `${e.symbolFrom} to ${
+      savedAlert.innerHTML = `<p style="margin: 0">${e.symbolFrom} to ${
         e.symbolTo
-      } rates <span style="font-size: 10px">then ${e.rate.toFixed(
+      } rates</p><span style="font-size: 10px">then ${e.rate.toFixed(
         3
       )},  alert on: ${
         e.alertOn
@@ -889,70 +892,60 @@ function toggleTabs() {
     btn.style.display = "block";
   }
 }
-
+let chartBtnCounterActive = false;
 chartBtn.addEventListener("click", () => {
-  const chartCurrencyChange = document.createElement("li");
-  chartCurrencyChange.innerHTML = `<div id="chartBtnMsg">set new symbol: <input id="chartSymbolInput" style="width:100px" value="${tradingSymbol}"/><button id="chart-set-button"  style="width:40px;background-color:white">Set</button><button id="quitBtnChart"style="width:40px;background-color:white;">Quit</button></div>`;
+  if (chartBtnCounterActive === false) {
+    const chartCurrencyChange = document.createElement("li");
+    chartCurrencyChange.innerHTML = `<div id="chartBtnMsg">set new symbol: <input id="chartSymbolInput" style="width:100px" value="${tradingSymbol}"/><button id="chart-set-button"  style="width:40px;background-color:white">Set</button><button id="quitBtnChart"style="width:40px;background-color:white;">Quit</button></div>`;
 
-  alertsContainer.appendChild(chartCurrencyChange);
+    alertsContainer.appendChild(chartCurrencyChange);
 
-  const chartBtnMsg = document.getElementById("chartBtnMsg");
-  chartBtnMsg.style.zIndex = 3;
-  quitBtnChart.addEventListener("click", () => {
-    location.reload();
-    console.log("done");
-  });
-
-  const chartSetButton = document.getElementById("chart-set-button");
-
-  chartSetButton.addEventListener("click", () => {
-    tradingSymbol = chartSymbolInput.value;
-
-    new TradingView.widget({
-      width: "100%",
-      height: "573px",
-      symbol: tradingSymbol,
-      interval: "D",
-      timezone: "Europe/Copenhagen",
-      theme: "light",
-      style: "1",
-      locale: "en",
-      toolbar_bg: "#f1f3f6",
-      enable_publishing: false,
-
-      allow_symbol_change: false,
-      show_popup_button: true,
-      popup_width: "1000",
-      popup_height: "650",
-      container_id: "tradingview-widget-container",
+    const chartBtnMsg = document.getElementById("chartBtnMsg");
+    // chartCurrencyChange.style.zIndex = 5;
+    quitBtnChart.addEventListener("click", () => {
+      location.reload();
+      console.log("done");
     });
-  });
+
+    const chartSetButton = document.getElementById("chart-set-button");
+
+    chartSetButton.addEventListener("click", () => {
+      tradingSymbol = chartSymbolInput.value;
+
+      new TradingView.widget({
+        width: "100%",
+        height: "573px",
+        symbol: tradingSymbol,
+        interval: "D",
+        timezone: "Europe/Copenhagen",
+        theme: "light",
+        style: "1",
+        locale: "en",
+        toolbar_bg: "#f1f3f6",
+        enable_publishing: false,
+
+        allow_symbol_change: false,
+        show_popup_button: true,
+        popup_width: "1000",
+        popup_height: "650",
+        container_id: "tradingview-widget-container",
+      });
+    });
+    chartBtnCounterActive = true;
+  } else {
+    console.log("the prompt its already active");
+  }
 });
 
-// <!-- HEATMAP BEGIN -->
-// <div class="heatmap-widget-container">
-//   <div class="heatmap-widget-container__widget"></div>
-//  </div>
-//   <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-forex-heat-map.js" async>
-//   {
-//   "width": 550,
-//   "height": 400,
-//   "currencies": [
-//     "EUR",
-//     "USD",
-//     "JPY",
-//     "GBP",
-//     "CHF",
-//     "AUD",
-//     "CAD",
-//     "NZD",
-//     "CNY"
-//   ],
-//   "isTransparent": false,
-//   "colorTheme": "light",
-//   "locale": "en",
-//   "backgroundColor": "#ffffff"
-// }
-//   </script>
-//
-// <!-- TradingView Widget END -->
+var disqus_config = function () {
+  this.page.url = "http://127.0.0.1:5500"; // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = PAGE_IDENTIFIER;
+};
+(function () {
+  // DON'T EDIT BELOW THIS LINE
+  var d = document,
+    s = d.createElement("script");
+  s.src = "https://currency-catcher.disqus.com/embed.js";
+  s.setAttribute("data-timestamp", +new Date());
+  (d.head || d.body).appendChild(s);
+})();
