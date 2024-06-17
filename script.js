@@ -402,7 +402,8 @@ addNewCurrencyButton.addEventListener("click", () => {
   }
 });
 //----------------------Widget Chart--------------------
-let tradingSymbol = "FX:EURUSD";
+// let tradingSymbol = "FX:EURUSD";
+let tradingSymbol = "EURUSD";
 
 new TradingView.widget({
   width: "100%",
@@ -834,43 +835,53 @@ document.querySelector(".side-panel-toggle").addEventListener("click", () => {
 
 let activated = 1;
 
-tab1.addEventListener("click", toggleTabs);
-tab2.addEventListener("click", toggleTabs);
-tab3.addEventListener("click", toggleTabs);
+tab1.addEventListener("click", () => {
+  activated = 1;
+  toggleTabs();
+});
+tab2.addEventListener("click", () => {
+  activated = 2;
+  toggleTabs();
+});
+tab3.addEventListener("click", () => {
+  activated = 3;
+  toggleTabs();
+});
 
 function toggleTabs() {
-  if (activated === 1) {
+  if (activated === 2) {
     tab1.style.top = "-30px";
     tab1.style.backgroundColor = "rgb(198, 196, 196)";
     tab2.style.top = "-63px";
     tab2.style.backgroundColor = "white";
     tab3.style.top = "-57px";
     tab3.style.backgroundColor = "rgb(198, 196, 196)";
-    activated = 2;
+
     tradingViewWidgetContainer.style.visibility = "visible";
     heatmapWidgetContainer.style.visibility = "hidden";
 
     chartBtn.style.display = "block";
     btn.style.display = "none";
-  } else if (activated === 2) {
+  } else if (activated === 3) {
+    tab1.style.top = "-30px";
+    tab1.style.backgroundColor = "rgb(198, 196, 196)";
     tab2.style.top = "-57px";
     tab2.style.backgroundColor = "rgb(198, 196, 196)";
     tab3.style.top = "-63px";
     tab3.style.backgroundColor = "white";
 
-    activated = 3;
     tradingViewWidgetContainer.style.visibility = "hidden";
     heatmapWidgetContainer.style.visibility = "visible";
     chartBtn.style.display = "none";
     btn.style.display = "none";
-  } else if (activated === 3) {
+  } else if (activated === 1) {
     tab1.style.top = "-38px";
     tab1.style.backgroundColor = "white";
     tab2.style.top = "-57px";
     tab2.style.backgroundColor = "rgb(198, 196, 196)";
     tab3.style.top = "-57px";
     tab3.style.backgroundColor = "rgb(198, 196, 196)";
-    activated = 1;
+
     tradingViewWidgetContainer.style.visibility = "hidden";
     heatmapWidgetContainer.style.visibility = "hidden";
 
