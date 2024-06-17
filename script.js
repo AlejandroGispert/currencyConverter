@@ -501,14 +501,20 @@ function switchCurrencyFunction() {
 }
 //------------currency alerts-----------------
 // turned it in async since rateData is asynchronous
+let setAlertCounterActive = false;
 bell.addEventListener("click", async () => {
-  try {
-    addAlert(
-      countriesFromSelect.value.slice(0, 3),
-      countriesToSelect.value.slice(0, 3)
-    );
-  } catch (e) {
-    console.error("Error in bell alert adder:", error);
+  if (!setAlertCounterActive) {
+    try {
+      addAlert(
+        countriesFromSelect.value.slice(0, 3),
+        countriesToSelect.value.slice(0, 3)
+      );
+    } catch (e) {
+      console.error("Error in bell alert prompt:", error);
+    }
+    setAlertCounterActive = true;
+  } else {
+    console.log("there is already an alert prompt open");
   }
 });
 
