@@ -59,6 +59,9 @@ const tab2 = document.getElementById("tab-2");
 const tab3 = document.getElementById("tab-3");
 
 const chartBtn = document.getElementById("chartBtn");
+
+const currencyDataList = [];
+const currencyDataObjects = [];
 //-----------fetch API-------------------ok
 
 // async function fetchInDatabase(api, appId, jsonType, base, toValue) {
@@ -143,6 +146,10 @@ async function fetchCurrencies() {
     Object.entries(data.currencies).forEach((symbol) =>
       addCurrenciestoDOM(symbol)
     );
+    // console.log("Currencies array: ", currencyDataList);
+    Object.entries(data.currencies).forEach((symbol) =>
+      currencyDataList.push(symbol)
+    );
   } catch (error) {
     console.error("Failed to fetch currencies:", error);
   }
@@ -201,24 +208,38 @@ inputTo.addEventListener("change", () =>
 const objectRateFetcher = (valFrom, valTo) => {
   //---latest logic ---------------
 
+  // console.log("nene", currencyDataObjects[0].rates);
+
   const forexRateWebAdress =
     "https://currency-backend.netlify.app/.netlify/functions/converted";
 
-  return new Promise((resolve, reject) => {
+  const promise = new Promise((resolve, reject) => {
     fetch(`${forexRateWebAdress}?from=${valFrom}&to=${valTo}`)
       .then((data) => data.json())
       .then((currencies) => {
         // console.log("Now: ", currencies);
         const rateResult = Object.values(currencies.conversionRate.rates)[0];
+
         rateData = rateResult;
-        console.log("Yes rateData here: ", rateData);
+
+        //  console.log("Yes rateData here: ", rateData);
+
         resolve(rateResult);
       })
       .catch((error) => {
         console.error("Error fetching rates:", error);
-        reject(error);
+
+        reject(rateData);
       });
   });
+
+  if (promise === undefined || promise === null) {
+    rateData = Object.values(currencyDataObjects[0].rates)[0];
+    console.log("new rateData: ", rateData);
+    return rateData;
+  } else {
+    return promise;
+  }
 };
 //-----------------------GRID--------
 // get this data from api at github, make an API request, then activate 266
@@ -285,10 +306,16 @@ async function handleButtonClick() {
       const formattedAndConvertedAmount = convertedAmount.toLocaleString();
       //console.log("Converted Amount: ", formattedAndConvertedAmount);
 
-      const currencySymbol = countriesToSelect.value.slice(0, 3);
-      resultText.innerHTML = formattedAndConvertedAmount + " " + currencySymbol;
-      bell.style.display = "block";
+      const [numberPart, decimalPart] = formattedAndConvertedAmount.split(".");
 
+      const currencySymbol = countriesToSelect.value.slice(0, 3);
+
+      resultText.innerHTML = `<span id="numberSpan">${numberPart}</span><span><span id="decimalSpan">.${decimalPart} ${currencySymbol}</span></span>`;
+      bell.style.display = "block";
+      const decimalSpan = document.getElementById("decimalSpan");
+      if (decimalPart === undefined) {
+        decimalSpan.style.display = "none";
+      }
       updateGrid();
     } else {
       handleError("Conversion Rate Result2: ", rateResult);
@@ -357,34 +384,37 @@ const date = new Date().toISOString().slice(0, 10);
 
 const addNewCurrency = (base, symbol, rates) => {
   //Chekear si existe la moneda
-  for (let i = 0; i < currencyData.length; i++) {
-    if (currencyData[i].base === base) {
+  for (let i = 0; i < currencyDataList.length; i++) {
+    // console.log(currencyDataList[i][0]);
+    if (currencyDataList[i][0] === base || currencyDataList[i][1] === base) {
+      //console.log(currencyDataList[i]);
       resultText.innerHTML = `The currency ${base} already exists in our system.`;
       return;
     }
   }
   // Currency rates Separator
   const ratesDivided = rates.split(",");
-  console.log("ratesDivided: " + ratesDivided);
-  const currencyRates = {};
+
+  const insertedCurrencyRates = {};
   for (let i = 0; i < ratesDivided.length; i++) {
     const [key, value] = ratesDivided[i].trim().split(":");
-    console.log(ratesDivided[i].trim().split(":"));
+
     // convert to number
-    currencyRates[key.trim()] = parseFloat(value);
+    insertedCurrencyRates[key.trim()] = parseFloat(value);
   }
 
-  console.log(currencyRates);
+  console.log(insertedCurrencyRates);
 
   // poner la moneda en el array
-  currencyData.push({
+  currencyDataObjects.push({
     base,
     symbol,
     timestamp,
     date,
-    rates: currencyRates,
+    rates: insertedCurrencyRates,
     flag: "./flags/neutral.svg",
   });
+  console.log(currencyDataObjects);
   addMoreCurrenciestoDOM();
   resultText.innerHTML = `The currency ${base} was added successfully to our system.`;
 };
@@ -393,15 +423,7 @@ addNewCurrencyButton.addEventListener("click", () => {
   if (inputNewCurrency.value === "" || inputNewCurrencyRate.value === "") {
     resultText.innerHTML = "Please fill all the fields.";
   } else {
-    if (!inputSymbols.value) {
-      addNewCurrency(inputNewCurrency.value, "$", inputNewCurrencyRate.value);
-    } else {
-      addNewCurrency(
-        inputNewCurrency.value,
-        inputSymbols.value,
-        inputNewCurrencyRate.value
-      );
-    }
+    addNewCurrency(inputNewCurrency.value, "$", inputNewCurrencyRate.value);
   }
 });
 //----------------------Widget Chart--------------------
@@ -908,7 +930,7 @@ chartBtn.addEventListener("click", () => {
     });
 
     const chartSetButton = document.getElementById("chart-set-button");
-
+    // chartSetButton.focus();
     chartSetButton.addEventListener("click", () => {
       tradingSymbol = chartSymbolInput.value;
 
