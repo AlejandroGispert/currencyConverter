@@ -60,7 +60,8 @@ const tab3 = document.getElementById("tab-3");
 
 const chartBtn = document.getElementById("chartBtn");
 const forumBtn = document.getElementById("forum-btn");
-const disqus_thread = document.getElementById("disqus_thread");
+const disqus = document.getElementById("disqus_thread");
+const insertContainer = document.getElementById("insert-container");
 
 const currencyDataList = [];
 const currencyDataObjects = [];
@@ -977,5 +978,6 @@ var disqus_config = function () {
 forumBtn.addEventListener("click", openForum);
 
 function openForum() {
-  disqus_thread.style.visibility = "visible";
+  disqus.style.visibility = "visible";
+  insertContainer.style.visibility = "hidden";
 }

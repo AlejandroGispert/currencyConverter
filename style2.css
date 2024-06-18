@@ -224,6 +224,7 @@ img {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 90%;
   max-width: 600px;
+  visibility: visible;
 }
 
 #insert-container input {
@@ -786,16 +787,26 @@ div.switch input {
   }
   #tradingview-widget-container {
     top: 170px;
-    width: 120%;
-    max-width: 600px;
+    width: 600px;
+    max-width: 700px;
     min-width: 300px;
     overflow: hidden;
   }
   #heatmap-widget-container {
     top: 170px;
     overflow: hidden;
+    max-width: 700px;
   }
 }
+@media (max-width: 700px) {
+  #tradingview-widget-container {
+    max-width: 82%;
+  }
+  #heatmap-widget-container {
+    max-width: 82%;
+  }
+}
+
 @media (max-width: 600px) {
   html {
     width: 120%;
@@ -848,7 +859,7 @@ div.switch input {
     left: 40px;
   } */
   #saved-alerts-container {
-    top: 140px;
+    top: 160px;
     left: 38px;
   }
 
@@ -868,13 +879,14 @@ div.switch input {
     left: 120px;
   }
   #tradingview-widget-container {
-    height: 90%;
-    max-width: 600px;
+    height: 750px;
+    max-width: 110%;
     margin: 0 auto;
   }
 
   #heatmap-widget-container {
-    height: 90%;
+    height: 650px;
+    width: 110%;
     max-width: 600px;
     margin: 0 auto;
   }
@@ -944,13 +956,13 @@ div.switch input {
   }
 
   #tradingview-widget-container {
-    height: fit-content;
+    height: 55%;
     max-width: 400px;
     margin: 0 auto;
   }
 
   #heatmap-widget-container {
-    height: fit-content;
+    height: 55%;
     max-width: 400px;
     margin: 0 auto;
   }
@@ -981,14 +993,14 @@ div.switch input {
     width: 100%;
   }
   #tradingview-widget-container {
-    height: 80%;
-    max-width: 350px;
+    height: 60%;
+    max-width: 380px;
     margin: 0 auto;
   }
 
   #heatmap-widget-container {
-    height: 80%;
-    max-width: 350px;
+    height: 60%;
+    max-width: 380px;
     margin: 0 auto;
   }
 }
