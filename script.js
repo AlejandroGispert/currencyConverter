@@ -59,6 +59,8 @@ const tab2 = document.getElementById("tab-2");
 const tab3 = document.getElementById("tab-3");
 
 const chartBtn = document.getElementById("chartBtn");
+const forumBtn = document.getElementById("forum-btn");
+const disqus_thread = document.getElementById("disqus_thread");
 
 const currencyDataList = [];
 const currencyDataObjects = [];
@@ -960,7 +962,7 @@ chartBtn.addEventListener("click", () => {
 });
 
 var disqus_config = function () {
-  this.page.url = "http://127.0.0.1:5500"; // Replace PAGE_URL with your page's canonical URL variable
+  this.page.url = "http://127.0.0.1:5500";
   this.page.identifier = PAGE_IDENTIFIER;
 };
 (function () {
@@ -971,3 +973,9 @@ var disqus_config = function () {
   s.setAttribute("data-timestamp", +new Date());
   (d.head || d.body).appendChild(s);
 })();
+
+forumBtn.addEventListener("click", openForum);
+
+function openForum() {
+  disqus_thread.style.visibility = "visible";
+}

@@ -561,6 +561,11 @@ img {
   transform: scale(0.7);
   border: 12px solid white;
   border-radius: 12px;
+  visibility: hidden;
+}
+
+#forum-btn {
+  float: right;
 }
 
 #logo {
@@ -727,6 +732,7 @@ div.switch input {
 @media (max-width: 1200px) {
   #grid-container {
     position: relative;
+    bottom: 300px;
   }
   #saved-alerts-container {
     /* position: relative; */
@@ -837,9 +843,13 @@ div.switch input {
   li {
     display: block;
   }
-  #saved-alerts-container {
+  /* #saved-alerts-container {
     top: 1250px;
     left: 40px;
+  } */
+  #saved-alerts-container {
+    top: 140px;
+    left: 38px;
   }
 
   #grid-container {
@@ -906,8 +916,8 @@ div.switch input {
   }
 
   .market-open {
-    top: -25px;
-    left: 170px;
+    top: -90px;
+    left: 240px;
   }
 
   .container {
@@ -921,9 +931,8 @@ div.switch input {
     display: block;
   }
   #saved-alerts-container {
-    top: 1212px;
-    left: 320px;
-    width: 250px;
+    top: 180px;
+    left: 90px;
   }
   .form {
     padding: 2px;
@@ -931,16 +940,17 @@ div.switch input {
   }
   #grid-container {
     left: -130px;
+    bottom: 50px;
   }
 
   #tradingview-widget-container {
-    height: 90%;
+    height: fit-content;
     max-width: 400px;
     margin: 0 auto;
   }
 
   #heatmap-widget-container {
-    height: 90%;
+    height: fit-content;
     max-width: 400px;
     margin: 0 auto;
   }
@@ -966,7 +976,6 @@ div.switch input {
     left: 100px;
   }
   .side-panel-open {
-    display: none;
   }
   .form {
     width: 100%;
