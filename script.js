@@ -225,7 +225,7 @@ async function objectRateFetcher(valFrom, valTo) {
     const rateResult = Object.values(data.conversionRate.rates)[0];
 
     rateData = rateResult;
-    console.log("Fetched rateData: ", rateResult);
+    // console.log("Fetched rateData: ", rateResult);
     //  console.log("Yes rateData here: ", rateData);
 
     return rateData;
@@ -356,9 +356,12 @@ document.addEventListener("keydown", function (e) {
 countriesToSelect.addEventListener("change", () => {
   inputTo.value = countriesToSelect.value;
   handleButtonClick();
+  inputAmount.focus();
 });
 countriesFromSelect.addEventListener("change", () => {
   inputFrom.value = countriesFromSelect.value;
+  handleButtonClick();
+  inputAmount.focus();
 });
 inputFrom.addEventListener("click", () => {
   inputFrom.value = "";
