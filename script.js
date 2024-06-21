@@ -1,8 +1,5 @@
 //import { currencyData } from "./database.js";
 import { flagData } from "./flagdata.js";
-//console.log(flagData);
-//require("dotenv").config();
-//const openAI = process.env.OPENAI_API_KEY;
 
 const leftFlag = document.getElementById("float-left-flag"); //img
 const rightFlag = document.getElementById("float-right-flag"); //img
@@ -64,7 +61,7 @@ const disqus = document.getElementById("disqus_thread");
 const insertContainer = document.getElementById("insert-container");
 
 const currencyDataList = [];
-const currencyDataObjects = [];
+
 //-----------fetch API-------------------ok
 
 // async function fetchInDatabase(api, appId, jsonType, base, toValue) {
@@ -212,7 +209,7 @@ inputTo.addEventListener("change", () =>
 
 //--------------rates-----------------//'
 
-const objectRateFetcher = (valFrom, valTo) => {
+async function objectRateFetcher(valFrom, valTo) {
   //---latest logic ---------------
 
   // console.log("currencyDataObjects", currencyDataObjects[0].rates);
@@ -220,34 +217,43 @@ const objectRateFetcher = (valFrom, valTo) => {
   const forexRateWebAdress =
     "https://currency-backend.netlify.app/.netlify/functions/converted";
 
-  const promise = new Promise((resolve, reject) => {
-    fetch(`${forexRateWebAdress}?from=${valFrom}&to=${valTo}`)
-      .then((data) => data.json())
-      .then((currencies) => {
-        // console.log("Now: ", currencies);
-        const rateResult = Object.values(currencies.conversionRate.rates)[0];
+  try {
+    const response = await fetch(
+      `${forexRateWebAdress}?from=${valFrom}&to=${valTo}`
+    );
+    const data = await response.json();
+    const rateResult = Object.values(data.conversionRate.rates)[0];
 
-        rateData = rateResult;
+    rateData = rateResult;
+    console.log("Fetched rateData: ", rateResult);
+    //  console.log("Yes rateData here: ", rateData);
 
-        //  console.log("Yes rateData here: ", rateData);
-
-        resolve(rateResult);
-      })
-      .catch((error) => {
-        console.error("Error fetching rates:", error);
-
-        reject(rateData);
-      });
-  });
-
-  if (promise === undefined || promise === null) {
-    rateData = Object.values(currencyDataObjects[0].rates)[0];
-    console.log("new rateData: ", rateData);
     return rateData;
-  } else {
-    return promise;
+  } catch (error) {
+    //console.error("Error fetching rates:", error);
+    //fallback
+    //GGET FROM STORAGE NEW RATES
+    const getSavedRates = sessionStorage.getItem("newCurrencyRates");
+    const parsedRates = JSON.parse(getSavedRates);
+
+    for (let i = 0; i < Object.keys(parsedRates.rates).length; i++) {
+      if (
+        Object.keys(parsedRates.rates)[i] === valTo &&
+        parsedRates.base === valFrom
+      ) {
+        rateData = Object.values(parsedRates.rates)[i];
+        console.log("rateData when null: ", rateData);
+        console.log("rateData when null2: ", parsedRates.base);
+
+        resultText.innerHTML += `<span>${parsedRates.base}</span>`;
+        console.log("rateData when", Object.keys(parsedRates)[i]);
+        return rateData;
+      }
+    }
+
+    //return rateData;
   }
-};
+}
 //-----------------------GRID--------
 // get this data from api at github, make an API request, then activate 266
 const updateGrid = async () => {
@@ -410,19 +416,18 @@ const addNewCurrency = (base, symbol, rates) => {
     insertedCurrencyRates[key.trim()] = parseFloat(value);
   }
 
-  console.log(insertedCurrencyRates);
+  const newObject = {
+    date: date,
+    base: base,
+    symbol: symbol,
+    rates: insertedCurrencyRates,
+  };
+  console.log("insertedCurrencyRates", newObject);
 
   // poner la moneda en el array
-  currencyDataObjects.push({
-    base,
-    symbol,
-    timestamp,
-    date,
-    rates: insertedCurrencyRates,
-    flag: "./flags/neutral.svg",
-  });
-  console.log(currencyDataObjects);
+
   addMoreCurrenciestoDOM();
+  sessionStorage.setItem("newCurrencyRates", JSON.stringify(newObject));
   resultText.innerHTML = `The currency ${base} was added successfully to our system.`;
 };
 
