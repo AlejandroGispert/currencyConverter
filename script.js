@@ -275,6 +275,7 @@ const updateGrid = async () => {
     fetchedRates = Object.keys(data);
 
     Object.keys(data).map((e, index) => {
+      grid.innerHTML = "";
       grid.innerHTML += `<div class="grid-item">${countriesFromSelect.value}</div>`;
 
       let keys = e;
