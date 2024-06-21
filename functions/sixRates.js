@@ -19,7 +19,7 @@ exports.handler = async function (event, context) {
       statusCode: 200,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*", // Adjust for security
+        "Access-Control-Allow-Origin": "https://currency-backend.netlify.app/", // Adjust for security
       },
       body: JSON.stringify(data.rates),
     };
