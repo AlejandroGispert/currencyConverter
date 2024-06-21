@@ -273,9 +273,8 @@ const updateGrid = async () => {
     const data = await response.json(); // Parses the JSON response into native JavaScript objects
 
     fetchedRates = Object.keys(data);
-
+    grid.innerHTML = "";
     Object.keys(data).map((e, index) => {
-      grid.innerHTML = "";
       grid.innerHTML += `<div class="grid-item">${countriesFromSelect.value}</div>`;
 
       let keys = e;
