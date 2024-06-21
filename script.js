@@ -528,6 +528,8 @@ document.addEventListener("keydown", (e) => {
   }
 });
 function switchCurrencyFunction() {
+  //empty the grid
+  grid.innerHTML = "";
   // Store the current selected values
   const fromSelectedValue = countriesFromSelect.value;
   const toSelectedValue = countriesToSelect.value;
