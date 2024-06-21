@@ -184,8 +184,12 @@ function getFlag(currency, direction) {
 function getFlagFromSearch(currency, direction) {
   if (direction === leftFlag) {
     countriesFromSelect.value = currency;
+    handleButtonClick();
+    inputAmount.focus();
   } else if (direction === rightFlag) {
     countriesToSelect.value = currency;
+    handleButtonClick();
+    inputAmount.focus();
   }
 
   getFlag(currency, direction);
@@ -211,7 +215,7 @@ inputTo.addEventListener("change", () =>
 const objectRateFetcher = (valFrom, valTo) => {
   //---latest logic ---------------
 
-  // console.log("nene", currencyDataObjects[0].rates);
+  // console.log("currencyDataObjects", currencyDataObjects[0].rates);
 
   const forexRateWebAdress =
     "https://currency-backend.netlify.app/.netlify/functions/converted";
@@ -803,18 +807,6 @@ async function getAIResponse(apiUrl) {
     return "Error contacting AI.";
   }
 }
-
-// async function getAuth() {
-//   try {
-//     const response = await fetch("http://127.0.0.1:3001/api");
-//     const data = await response.json();
-//     const auth = Object.values(data)[0];
-//     // console.log("auth", auth);
-//     return auth;
-//   } catch (error) {
-//     console.error("Failed to get Auth response:", error);
-//   }
-// }
 
 // async function getAIResponse(prompt) {
 //   const apiUrl = "https://api.textsynth.com/v1/engines/llama3_8B/chat"; // Example API URL, replace with your actual endpoint
