@@ -3,6 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Catch the best currency rates with insights and 15 min live updates. CurrencyCatcher is an app made by Alejandro Gispert"
+    />
+    <meta property="og:image" content="./img/logo.svg" />
+    <meta property="og:image:type" content="image/svg+xml" />
+    <meta property="og:title" content="Currency Catcher" />
+    <meta
+      property="og:description"
+      content="Catch the best currency rates with insights and 15 min live updates.  CurrencyCatcher is an app made by Alejandro Gispert"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://currency-backend.netlify.app/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Currency Catcher" />
+    <meta
+      name="twitter:description"
+      content="Catch the best currency rates with insights and 15 min live updates.  CurrencyCatcher is an app made by Alejandro Gispert"
+    />
+    <meta name="twitter:image" content="./img/logo.svg" />
+
     <link rel="stylesheet" href="style2.css" />
     <link rel="icon" type="image/x-icon" href="/flags/neutral.svg" />
     <link
@@ -20,15 +41,18 @@
         <h6 class="little-text">
           Catch the best currency rates with insights and 15 min live updates
         </h6>
+        <img src="./img/logo.svg" alt="triangle logo" id="logo" />
       </div>
       <hr />
     </nav>
 
     <div class="container">
-      
       <div class="main">
+        <div class="tab-1" id="tab-1"><h6>converter</h6></div>
+        <div class="tab-2" id="tab-2"><h6>charts</h6></div>
+        <div class="tab-3" id="tab-3"><h6>heatmap</h6></div>
+        <div id="tab-overlay"></div>
         <div class="wrapper side-panel-open">
-          
           <button class="side-panel-toggle" type="button">
             <span class="material-icons sp-icon-open"
               >keyboard_double_arrow_right</span
@@ -37,7 +61,6 @@
               >keyboard_double_arrow_left</span
             >
           </button>
-          
         </div>
         <div class="form">
           <div class="market-open">
@@ -312,6 +335,7 @@
           </div>
 
           <button type="submit" class="btn" id="btn">Convert</button>
+          <button class="btn" id="chartBtn">Change currency</button>
         </div>
       </div>
 
@@ -319,6 +343,7 @@
         <button type="button" class="btn" id="add-currency">
           Add Currency
         </button>
+        <button type="button" class="btn" id="forum-btn">Forum</button>
         <input
           type="text"
           placeholder="insert new currency name*"
@@ -338,6 +363,8 @@
         /> -->
       </div>
 
+      <div id="disqus_thread"></div>
+
       <div id="grid-container">
         <h1>Rates to other currencies</h1>
         <div class="currency-grid" id="currencies-grid">
@@ -347,8 +374,12 @@
         </div>
       </div>
 
-      <ul id="saved-alerts-container"></ul>
+      <ul id="saved-alerts-container">
+        <li id="firstAlert">Alerts</li>
+      </ul>
       <ul id="alerts-container"></ul>
+
+      <!-- CHART BEGIN -->
       <div
         class="tradingview-widget-container"
         id="tradingview-widget-container"
@@ -358,6 +389,35 @@
           src="https://s3.tradingview.com/tv.js"
         ></script>
       </div>
+      <!-- HEATMAP BEGIN -->
+      <div class="heatmap-widget-container" id="heatmap-widget-container">
+        <script
+          type="text/javascript"
+          src="https://s3.tradingview.com/external-embedding/embed-widget-forex-heat-map.js"
+          async
+        >
+          {
+            "width": 600,
+            "height": 525,
+            "currencies": [
+              "EUR",
+              "USD",
+              "JPY",
+              "GBP",
+              "CHF",
+              "AUD",
+              "CAD",
+              "NZD",
+              "CNY"
+            ],
+            "isTransparent": false,
+            "colorTheme": "light",
+            "locale": "en",
+            "backgroundColor": "#ffffff"
+          }
+        </script>
+      </div>
+      <!-- A.I -->
       <div class="circle-with-text">
         <div class="circle">
           <div class="gradient-bg">
@@ -366,13 +426,11 @@
           <div class="text">A.I Insights</div>
           <ul id="ai-message-container"></ul>
         </div>
-        </div>
-        <!-- ------------------------------------------------ -->
-        
-
-        <footer class="footer">Copyright Alejandro Gispert 2024</footer>
-        <script type="module" src="script.js"></script>
       </div>
+      <!-- ------------------------------------------------ -->
+
+      <footer class="footer">Copyright Alejandro Gispert 2024</footer>
+      <script type="module" src="script.js"></script>
     </div>
   </body>
 </html>

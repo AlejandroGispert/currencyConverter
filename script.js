@@ -1,8 +1,5 @@
 //import { currencyData } from "./database.js";
 import { flagData } from "./flagdata.js";
-//console.log(flagData);
-//require("dotenv").config();
-//const openAI = process.env.OPENAI_API_KEY;
 
 const leftFlag = document.getElementById("float-left-flag"); //img
 const rightFlag = document.getElementById("float-right-flag"); //img
@@ -50,6 +47,21 @@ const glowingCircle = document.getElementById("glowing-circle");
 const tradingViewWidgetContainer = document.getElementById(
   "tradingview-widget-container"
 );
+const heatmapWidgetContainer = document.getElementById(
+  "heatmap-widget-container"
+);
+
+const tab1 = document.getElementById("tab-1");
+const tab2 = document.getElementById("tab-2");
+const tab3 = document.getElementById("tab-3");
+
+const chartBtn = document.getElementById("chartBtn");
+const forumBtn = document.getElementById("forum-btn");
+const disqus = document.getElementById("disqus_thread");
+const insertContainer = document.getElementById("insert-container");
+
+const currencyDataList = [];
+
 //-----------fetch API-------------------ok
 
 // async function fetchInDatabase(api, appId, jsonType, base, toValue) {
@@ -134,6 +146,10 @@ async function fetchCurrencies() {
     Object.entries(data.currencies).forEach((symbol) =>
       addCurrenciestoDOM(symbol)
     );
+    // console.log("Currencies array: ", currencyDataList);
+    Object.entries(data.currencies).forEach((symbol) =>
+      currencyDataList.push(symbol)
+    );
   } catch (error) {
     console.error("Failed to fetch currencies:", error);
   }
@@ -165,8 +181,12 @@ function getFlag(currency, direction) {
 function getFlagFromSearch(currency, direction) {
   if (direction === leftFlag) {
     countriesFromSelect.value = currency;
+    handleButtonClick();
+    inputAmount.focus();
   } else if (direction === rightFlag) {
     countriesToSelect.value = currency;
+    handleButtonClick();
+    inputAmount.focus();
   }
 
   getFlag(currency, direction);
@@ -189,28 +209,51 @@ inputTo.addEventListener("change", () =>
 
 //--------------rates-----------------//'
 
-const objectRateFetcher = (valFrom, valTo) => {
+async function objectRateFetcher(valFrom, valTo) {
   //---latest logic ---------------
+
+  // console.log("currencyDataObjects", currencyDataObjects[0].rates);
 
   const forexRateWebAdress =
     "https://currency-backend.netlify.app/.netlify/functions/converted";
 
-  return new Promise((resolve, reject) => {
-    fetch(`${forexRateWebAdress}?from=${valFrom}&to=${valTo}`)
-      .then((data) => data.json())
-      .then((currencies) => {
-        // console.log("Now: ", currencies);
-        const rateResult = Object.values(currencies.conversionRate.rates)[0];
-        rateData = rateResult;
-        console.log("Yes rateData here: ", rateData);
-        resolve(rateResult);
-      })
-      .catch((error) => {
-        console.error("Error fetching rates:", error);
-        reject(error);
-      });
-  });
-};
+  try {
+    const response = await fetch(
+      `${forexRateWebAdress}?from=${valFrom}&to=${valTo}`
+    );
+    const data = await response.json();
+    const rateResult = Object.values(data.conversionRate.rates)[0];
+
+    rateData = rateResult;
+    // console.log("Fetched rateData: ", rateResult);
+    //  console.log("Yes rateData here: ", rateData);
+
+    return rateData;
+  } catch (error) {
+    //console.error("Error fetching rates:", error);
+    //fallback
+    //GGET FROM STORAGE NEW RATES
+    const getSavedRates = sessionStorage.getItem("newCurrencyRates");
+    const parsedRates = JSON.parse(getSavedRates);
+
+    for (let i = 0; i < Object.keys(parsedRates.rates).length; i++) {
+      if (
+        Object.keys(parsedRates.rates)[i] === valTo &&
+        parsedRates.base === valFrom
+      ) {
+        rateData = Object.values(parsedRates.rates)[i];
+        console.log("rateData when null: ", rateData);
+        console.log("rateData when null2: ", parsedRates.base);
+
+        resultText.innerHTML += `<span>${parsedRates.base}</span>`;
+        console.log("rateData when", Object.keys(parsedRates)[i]);
+        return rateData;
+      }
+    }
+
+    //return rateData;
+  }
+}
 //-----------------------GRID--------
 // get this data from api at github, make an API request, then activate 266
 const updateGrid = async () => {
@@ -230,7 +273,7 @@ const updateGrid = async () => {
     const data = await response.json(); // Parses the JSON response into native JavaScript objects
 
     fetchedRates = Object.keys(data);
-
+    grid.innerHTML = "";
     Object.keys(data).map((e, index) => {
       grid.innerHTML += `<div class="grid-item">${countriesFromSelect.value}</div>`;
 
@@ -270,21 +313,30 @@ async function handleButtonClick() {
     );
     if (!isNaN(rateResult)) {
       // console.log("Conversion Rate Result1: ", rateResult);
-      const convertedAmount = amountConverter(inputAmount.value, rateResult);
+      const filteredInput = inputAmount.value.replace(/,/g, ".");
+      const convertedAmount = amountConverter(filteredInput, rateResult);
 
       const formattedAndConvertedAmount = convertedAmount.toLocaleString();
       //console.log("Converted Amount: ", formattedAndConvertedAmount);
 
-      const currencySymbol = countriesToSelect.value.slice(0, 3);
-      resultText.innerHTML = formattedAndConvertedAmount + " " + currencySymbol;
-      bell.style.display = "block";
+      const [numberPart, decimalPart] = formattedAndConvertedAmount.split(".");
 
+      const currencySymbol = countriesToSelect.value.slice(0, 3);
+
+      resultText.innerHTML = `<span id="numberSpan">${numberPart}</span><span><span id="decimalSpan">.${decimalPart} ${currencySymbol}</span></span>`;
+      bell.style.display = "block";
+      const decimalSpan = document.getElementById("decimalSpan");
+      if (decimalPart === undefined) {
+        decimalSpan.style.display = "none";
+      }
       updateGrid();
     } else {
       handleError("Conversion Rate Result2: ", rateResult);
+      resultText.innerHTML = "Sorry, we couldn't convert the rate";
     }
   } catch (error) {
     handleError("Error fetching rates:", error);
+    resultText.innerHTML = "Sorry, we couldn't convert the rate";
   }
 }
 
@@ -304,9 +356,12 @@ document.addEventListener("keydown", function (e) {
 countriesToSelect.addEventListener("change", () => {
   inputTo.value = countriesToSelect.value;
   handleButtonClick();
+  inputAmount.focus();
 });
 countriesFromSelect.addEventListener("change", () => {
   inputFrom.value = countriesFromSelect.value;
+  handleButtonClick();
+  inputAmount.focus();
 });
 inputFrom.addEventListener("click", () => {
   inputFrom.value = "";
@@ -345,35 +400,37 @@ const date = new Date().toISOString().slice(0, 10);
 
 const addNewCurrency = (base, symbol, rates) => {
   //Chekear si existe la moneda
-  for (let i = 0; i < currencyData.length; i++) {
-    if (currencyData[i].base === base) {
+  for (let i = 0; i < currencyDataList.length; i++) {
+    // console.log(currencyDataList[i][0]);
+    if (currencyDataList[i][0] === base || currencyDataList[i][1] === base) {
+      //console.log(currencyDataList[i]);
       resultText.innerHTML = `The currency ${base} already exists in our system.`;
       return;
     }
   }
   // Currency rates Separator
   const ratesDivided = rates.split(",");
-  console.log("ratesDivided: " + ratesDivided);
-  const currencyRates = {};
+
+  const insertedCurrencyRates = {};
   for (let i = 0; i < ratesDivided.length; i++) {
     const [key, value] = ratesDivided[i].trim().split(":");
-    console.log(ratesDivided[i].trim().split(":"));
+
     // convert to number
-    currencyRates[key.trim()] = parseFloat(value);
+    insertedCurrencyRates[key.trim()] = parseFloat(value);
   }
 
-  console.log(currencyRates);
+  const newObject = {
+    date: date,
+    base: base,
+    symbol: symbol,
+    rates: insertedCurrencyRates,
+  };
+  console.log("insertedCurrencyRates", newObject);
 
   // poner la moneda en el array
-  currencyData.push({
-    base,
-    symbol,
-    timestamp,
-    date,
-    rates: currencyRates,
-    flag: "./flags/neutral.svg",
-  });
+
   addMoreCurrenciestoDOM();
+  sessionStorage.setItem("newCurrencyRates", JSON.stringify(newObject));
   resultText.innerHTML = `The currency ${base} was added successfully to our system.`;
 };
 
@@ -381,23 +438,17 @@ addNewCurrencyButton.addEventListener("click", () => {
   if (inputNewCurrency.value === "" || inputNewCurrencyRate.value === "") {
     resultText.innerHTML = "Please fill all the fields.";
   } else {
-    if (!inputSymbols.value) {
-      addNewCurrency(inputNewCurrency.value, "$", inputNewCurrencyRate.value);
-    } else {
-      addNewCurrency(
-        inputNewCurrency.value,
-        inputSymbols.value,
-        inputNewCurrencyRate.value
-      );
-    }
+    addNewCurrency(inputNewCurrency.value, "$", inputNewCurrencyRate.value);
   }
 });
 //----------------------Widget Chart--------------------
+// let tradingSymbol = "FX:EURUSD";
+let tradingSymbol = "EURUSD";
 
 new TradingView.widget({
   width: "100%",
-  height: "273px",
-  symbol: "FX:EURUSD",
+  height: "573px",
+  symbol: tradingSymbol,
   interval: "D",
   timezone: "Europe/Copenhagen",
   theme: "light",
@@ -406,7 +457,7 @@ new TradingView.widget({
   toolbar_bg: "#f1f3f6",
   enable_publishing: false,
 
-  allow_symbol_change: false,
+  allow_symbol_change: true,
   show_popup_button: true,
   popup_width: "1000",
   popup_height: "650",
@@ -477,6 +528,8 @@ document.addEventListener("keydown", (e) => {
   }
 });
 function switchCurrencyFunction() {
+  //empty the grid
+  grid.innerHTML = "";
   // Store the current selected values
   const fromSelectedValue = countriesFromSelect.value;
   const toSelectedValue = countriesToSelect.value;
@@ -491,14 +544,20 @@ function switchCurrencyFunction() {
 }
 //------------currency alerts-----------------
 // turned it in async since rateData is asynchronous
+let setAlertCounterActive = false;
 bell.addEventListener("click", async () => {
-  try {
-    addAlert(
-      countriesFromSelect.value.slice(0, 3),
-      countriesToSelect.value.slice(0, 3)
-    );
-  } catch (e) {
-    console.error("Error in bell alert adder:", error);
+  if (!setAlertCounterActive) {
+    try {
+      addAlert(
+        countriesFromSelect.value.slice(0, 3),
+        countriesToSelect.value.slice(0, 3)
+      );
+    } catch (e) {
+      console.error("Error in bell alert prompt:", error);
+    }
+    setAlertCounterActive = true;
+  } else {
+    console.log("there is already an alert prompt open");
   }
 });
 
@@ -506,15 +565,13 @@ let alertsArray = localStorage.getItem("alerts")
   ? JSON.parse(localStorage.getItem("alerts"))
   : [];
 
-// function delAllFromStorage() {
-//   localStorage.removeItem("alerts");
-// }
 function addAlert(countryFrom, countryTo) {
   // Ensure you have a <ul> element with id='alerts-list' in your HTML
   const setAlertList = document.createElement("li");
+
   setAlertList.innerHTML = `set an Alert for: ${countryFrom} to ${countryTo} rate >= <input id="rateAlertInput" style="width:60px" value="${rateData.toFixed(
     3
-  )}"/><button id="set-button"  style="width:40px;background-color:white">Set</button>`;
+  )}"/><button id="set-button"  style="width:40px;background-color:white">Set</button><button id="quitBtnSetAlert"style="width:40px;background-color:white;">Quit</button>`;
 
   //to fadeout the alert
   //li.classList.add("fadeout");
@@ -530,6 +587,12 @@ function addAlert(countryFrom, countryTo) {
 
   const setButton = document.getElementById("set-button");
   setButton.addEventListener("click", addToStorage);
+
+  const quitBtnSetAlert = document.getElementById("quitBtnSetAlert");
+  quitBtnSetAlert.addEventListener("click", () => {
+    location.reload();
+    console.log("done");
+  });
 }
 
 function addToStorage() {
@@ -566,7 +629,6 @@ function addToStorage() {
   window.location.reload();
 }
 
-//this should be async cause the rate will be updated
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     console.log("saved alerts", alertsArray);
@@ -577,9 +639,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       savedAlert.style.visibility = "visible";
 
       savedAlert.style.listStyle = "none";
-      savedAlert.innerHTML = `${e.symbolFrom} to ${
+      savedAlert.innerHTML = `<p style="margin: 0">${e.symbolFrom} to ${
         e.symbolTo
-      } rates <span style="font-size: 10px">then ${e.rate.toFixed(
+      } rates</p><span style="font-size: 10px">then ${e.rate.toFixed(
         3
       )},  alert on: ${
         e.alertOn
@@ -600,7 +662,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       // Fetch the current rate asynchronously
       const rateResult = await objectRateFetcher(e.symbolFrom, e.symbolTo);
 
-      // Determine the colorStyle based on the fetched rate compared to the original rate
       let colorStyle = "";
       if (rateResult > e.rate) {
         colorStyle = "color: green;";
@@ -608,17 +669,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         colorStyle = "color: red;";
       }
 
-      // Construct the span with the determined colorStyle
       const spanHtml = `<span style="font-size: 15px; ${colorStyle}">now ${rateResult.toFixed(
         3
       )}</span>`;
 
-      // Append the constructed spanHtml to savedAlert.innerHTML
       savedAlert.innerHTML += spanHtml;
 
       if (rateResult >= e.alertOn) {
-        savedAlert.style.backgroundColor = "lightyellow";
-        savedAlert.style.animation = "3s infinite horizontal-shaking";
+        savedAlert.style.backgroundColor = "#d3f8d3";
+        //savedAlert.style.animation = "3s infinite horizontal-shaking";
       }
       const blink = document.querySelector(".superAlert");
       // if (blink) {
@@ -694,7 +753,7 @@ setInterval(updateMarketHoursIndicator, 60000); // Update every minute
 //     // console.log("most active", data.most_actively_traded);
 //     return data;
 //   } catch (error) {
-//     //alert("no internet connection detected");
+//
 //     console.error(
 //       "There has been a problem with your fetch operation: ",
 //       error
@@ -708,6 +767,7 @@ circleWithText.addEventListener("click", async function () {
   messageOnOff();
 });
 
+let messageCounter = 0;
 async function messageOnOff() {
   aiMessageContainer.innerText = "Hello";
   //console.log("AI comment");
@@ -723,20 +783,25 @@ async function messageOnOff() {
   // const predefinedPrompt =
   //   "whats the 3 most moving currency pairs of today according with yahoo finance, in 100 characters"; // Your predefined prompt
   //const aiResponseContainer = document.getElementById("ai-response-container");
-
-  const response = await getAIResponse();
-
+  let response;
+  if (messageCounter === 0) {
+    response = await getAIResponse(
+      "https://currency-backend.netlify.app/.netlify/functions/api"
+    );
+    messageCounter = 1;
+  } else if (messageCounter === 1) {
+    response = await getAIResponse(
+      "https://currency-backend.netlify.app/.netlify/functions/api2"
+    );
+    messageCounter = 0;
+  }
   // Display the AI's response
   setTimeout(() => {
     aiMessageContainer.innerText = response;
   }, 1000);
 }
 
-// Placeholder for the AI response function
-
-async function getAIResponse(prompt) {
-  const apiUrl = "https://currency-backend.netlify.app/.netlify/functions/api"; // Example API URL, replace with your actual endpoint
-
+async function getAIResponse(apiUrl) {
   try {
     const response = await fetch(apiUrl);
 
@@ -746,22 +811,10 @@ async function getAIResponse(prompt) {
 
     const data = await response.json();
     console.log("data", data);
-    return data; // Assuming the API returns choices with text, adjust based on actual response structure
+    return data;
   } catch (error) {
     console.error("Failed to get AI response:", error);
     return "Error contacting AI.";
-  }
-}
-
-async function getAuth() {
-  try {
-    const response = await fetch("http://127.0.0.1:3001/api");
-    const data = await response.json();
-    const auth = Object.values(data)[0];
-    // console.log("auth", auth);
-    return auth;
-  } catch (error) {
-    console.error("Failed to get Auth response:", error);
   }
 }
 
@@ -794,37 +847,6 @@ async function getAuth() {
 //     return "Error contacting AI.";
 //   }
 // }
-
-// const response = await fetch(apiUrl, {
-//   method: "POST",
-//   headers: {
-//     "Content-Type": "application/json",
-//     Authorization: `Bearer ${apiKey}`,
-//     organization: "org-HqVA4E9x1mggHEq8ZUM3j4Ht",
-//     project: "proj_2WoHv9T9KMZMrsc73Jwe91GN",
-//   },
-//   body: JSON.stringify({
-//     model: "gpt-3.5-turbo",
-//     prompt: prompt,
-//     max_tokens: 100, // Adjust based on your needs
-//     n: 1,
-//     stop: null,
-//     temperature: 0.7, // Adjust creativity, 0.0 to 1.0
-//     messages: [{ role: "assistant", content: prompt }],
-//   }),
-// });
-
-// if (!response.ok) {
-//   throw new Error("Network response was not ok");
-// }
-
-// const data = await response.json();
-// console.log("data", data.choices[0].message.content);
-// return data.choices[0].message.content; // Assuming the API returns choices with text, adjust based on actual response structure
-// } catch (error) {
-// console.error("Failed to get AI response:", error);
-// return "Error contacting AI.";
-// }
 document.querySelector(".side-panel-toggle").addEventListener("click", () => {
   document
     .querySelectorAll(".allAlerts")
@@ -840,3 +862,124 @@ document.querySelector(".side-panel-toggle").addEventListener("click", () => {
     spClose.style.display = "none";
   }
 });
+
+let activated = 1;
+
+tab1.addEventListener("click", () => {
+  activated = 1;
+  toggleTabs();
+});
+tab2.addEventListener("click", () => {
+  activated = 2;
+  toggleTabs();
+});
+tab3.addEventListener("click", () => {
+  activated = 3;
+  toggleTabs();
+});
+
+function toggleTabs() {
+  if (activated === 2) {
+    tab1.style.top = "-30px";
+    tab1.style.backgroundColor = "rgb(198, 196, 196)";
+    tab2.style.top = "-63px";
+    tab2.style.backgroundColor = "white";
+    tab3.style.top = "-57px";
+    tab3.style.backgroundColor = "rgb(198, 196, 196)";
+
+    tradingViewWidgetContainer.style.visibility = "visible";
+    heatmapWidgetContainer.style.visibility = "hidden";
+
+    chartBtn.style.display = "block";
+    btn.style.display = "none";
+  } else if (activated === 3) {
+    tab1.style.top = "-30px";
+    tab1.style.backgroundColor = "rgb(198, 196, 196)";
+    tab2.style.top = "-57px";
+    tab2.style.backgroundColor = "rgb(198, 196, 196)";
+    tab3.style.top = "-63px";
+    tab3.style.backgroundColor = "white";
+
+    tradingViewWidgetContainer.style.visibility = "hidden";
+    heatmapWidgetContainer.style.visibility = "visible";
+    chartBtn.style.display = "none";
+    btn.style.display = "none";
+  } else if (activated === 1) {
+    tab1.style.top = "-38px";
+    tab1.style.backgroundColor = "white";
+    tab2.style.top = "-57px";
+    tab2.style.backgroundColor = "rgb(198, 196, 196)";
+    tab3.style.top = "-57px";
+    tab3.style.backgroundColor = "rgb(198, 196, 196)";
+
+    tradingViewWidgetContainer.style.visibility = "hidden";
+    heatmapWidgetContainer.style.visibility = "hidden";
+
+    chartBtn.style.display = "none";
+    btn.style.display = "block";
+  }
+}
+let chartBtnCounterActive = false;
+chartBtn.addEventListener("click", () => {
+  if (chartBtnCounterActive === false) {
+    const chartCurrencyChange = document.createElement("li");
+    chartCurrencyChange.innerHTML = `<div id="chartBtnMsg">set new symbol: <input id="chartSymbolInput" style="width:100px" value="${tradingSymbol}"/><button id="chart-set-button"  style="width:40px;background-color:white">Set</button><button id="quitBtnChart"style="width:40px;background-color:white;">Quit</button></div>`;
+
+    alertsContainer.appendChild(chartCurrencyChange);
+
+    const chartBtnMsg = document.getElementById("chartBtnMsg");
+    // chartCurrencyChange.style.zIndex = 5;
+    quitBtnChart.addEventListener("click", () => {
+      location.reload();
+      console.log("done");
+    });
+
+    const chartSetButton = document.getElementById("chart-set-button");
+    // chartSetButton.focus();
+    chartSetButton.addEventListener("click", () => {
+      tradingSymbol = chartSymbolInput.value;
+
+      new TradingView.widget({
+        width: "100%",
+        height: "573px",
+        symbol: tradingSymbol,
+        interval: "D",
+        timezone: "Europe/Copenhagen",
+        theme: "light",
+        style: "1",
+        locale: "en",
+        toolbar_bg: "#f1f3f6",
+        enable_publishing: false,
+
+        allow_symbol_change: false,
+        show_popup_button: true,
+        popup_width: "1000",
+        popup_height: "650",
+        container_id: "tradingview-widget-container",
+      });
+    });
+    chartBtnCounterActive = true;
+  } else {
+    console.log("the prompt its already active");
+  }
+});
+
+var disqus_config = function () {
+  this.page.url = "http://127.0.0.1:5500";
+  this.page.identifier = PAGE_IDENTIFIER;
+};
+(function () {
+  // DON'T EDIT BELOW THIS LINE
+  var d = document,
+    s = d.createElement("script");
+  s.src = "https://currency-catcher.disqus.com/embed.js";
+  s.setAttribute("data-timestamp", +new Date());
+  (d.head || d.body).appendChild(s);
+})();
+
+forumBtn.addEventListener("click", openForum);
+
+function openForum() {
+  disqus.style.visibility = "visible";
+  insertContainer.style.visibility = "hidden";
+}
