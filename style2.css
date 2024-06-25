@@ -896,6 +896,14 @@ div.switch input {
     width: 155%;
   }
 
+  #input-from,
+  #countries-from-select,
+  #input-amount,
+  #input-to,
+  #countries-to-select {
+    height: 60px;
+  }
+
   .side-panel-toggle {
     left: -450px;
   }
