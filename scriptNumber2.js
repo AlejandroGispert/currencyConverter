@@ -8,7 +8,7 @@ async function fetchElToque() {
       throw new Error("Network response was not ok");
     }
     const data = await response.json(); // Parses the JSON response into native JavaScript objects
-    console.log("fetchedData", data);
+    console.log("fetchedData", data.tasas);
 
     // console.log("losers", data.top_losers);
     // console.log("most active", data.most_actively_traded);

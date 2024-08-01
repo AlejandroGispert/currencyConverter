@@ -9,7 +9,7 @@ exports.handler = async function (event, context) {
   const day = pad(today.getDate());
 
   const date_from = `${year}-${month}-${day} 00:00:01`;
-  const date_to = `${year}-${month}-${day} 00:01:01`;
+  const date_to = `${year}-${month}-${day} 01:00:01`;
 
   const eltoqueWebApi = `https://tasas.eltoque.com/v1/trmi?date_from=${encodeURIComponent(
     date_from
