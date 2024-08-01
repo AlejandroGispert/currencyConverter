@@ -983,3 +983,28 @@ function openForum() {
   disqus.style.visibility = "visible";
   insertContainer.style.visibility = "hidden";
 }
+// -------------autocomplete---------------
+// inputFrom.addEventListener("change", () => autocomplete());
+// const datalist = document.getElementById("suggestions");
+
+// const autocomplete = () => {
+//   const value = inputFrom.value;
+
+//   const options = [
+//     { value: "USD", label: "$" },
+//     { value: "EUR", label: "€" },
+//     { value: "GBP", label: "£" },
+//     { value: "JPY", label: "��" },
+//     { value: "AUD", label: "$" },
+//     { value: "CAD", label: "$" },
+//     { value: "CHF", label: "₣" },
+//   ];
+
+//   // Add filtered options
+//   options
+//     .filter((option) => option.value.includes(value))
+//     .forEach((option) => {
+//       inputFrom.value = option;
+//       console.log(option);
+//     });
+// };
