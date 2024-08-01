@@ -20,8 +20,10 @@ exports.handler = async function (event, context) {
 
     const response = await fetch(eltoqueWebApi, {
       method: "GET",
+
       headers: {
         Authorization: `Bearer ${process.env.ELTOQUE_API_KEY}`,
+        Accept: "*/*",
         "Content-Type": "application/json",
       },
     });
