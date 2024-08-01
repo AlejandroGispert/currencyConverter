@@ -1,7 +1,19 @@
 exports.handler = async function (event, context) {
   const fetch = (await import("node-fetch")).default;
 
-  const eltoqueWebApi = `https://tasas.eltoque.com/v1/trmi`;
+  const pad = (number) => (number < 10 ? `0${number}` : number);
+
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = pad(today.getMonth() + 1);
+  const day = pad(today.getDate());
+
+  const date_from = `${year}-${month}-${day} 00:00:01`;
+  const date_to = `${year}-${month}-${day} 00:01:01`;
+
+  const eltoqueWebApi = `https://tasas.eltoque.com/v1/trmi?date_from=${encodeURIComponent(
+    date_from
+  )}&date_to=${encodeURIComponent(date_to)}`;
 
   try {
     console.log("Fetching from eltoqueWebApi:", eltoqueWebApi);
