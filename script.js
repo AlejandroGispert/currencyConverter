@@ -214,44 +214,62 @@ async function objectRateFetcher(valFrom, valTo) {
 
   // console.log("currencyDataObjects", currencyDataObjects[0].rates);
 
-  const forexRateWebAdress =
-    "https://currency-backend.netlify.app/.netlify/functions/converted";
-
-  try {
-    const response = await fetch(
-      `${forexRateWebAdress}?from=${valFrom}&to=${valTo}`
-    );
-    const data = await response.json();
-    const rateResult = Object.values(data.conversionRate.rates)[0];
-
-    rateData = rateResult;
-    // console.log("Fetched rateData: ", rateResult);
-    //  console.log("Yes rateData here: ", rateData);
-
-    return rateData;
-  } catch (error) {
-    //console.error("Error fetching rates:", error);
-    //fallback
-    //GGET FROM STORAGE NEW RATES
-    const getSavedRates = sessionStorage.getItem("newCurrencyRates");
-    const parsedRates = JSON.parse(getSavedRates);
-
-    for (let i = 0; i < Object.keys(parsedRates.rates).length; i++) {
-      if (
-        Object.keys(parsedRates.rates)[i] === valTo &&
-        parsedRates.base === valFrom
-      ) {
-        rateData = Object.values(parsedRates.rates)[i];
-        console.log("rateData when null: ", rateData);
-        console.log("rateData when null2: ", parsedRates.base);
-
-        resultText.innerHTML += `<span>${parsedRates.base}</span>`;
-        console.log("rateData when", Object.keys(parsedRates)[i]);
-        return rateData;
+  if (valFrom === "CUP") {
+    const toqueApi =
+      "https://currency-backend.netlify.app/.netlify/functions/toque";
+    const response2 = await fetch(toqueApi);
+    const data2 = await response2.json();
+    console.log("received ", data2);
+    for (let i = 0; i < data2.tasas.length; i++) {
+      if (valTo === "MLC" && Object.keys(data2.tasas)[i] === "MLC") {
+        const rateResult2 = Object.values(data2.tasas)[i];
+        console.log("esteeee2", Object.keys(data2.tasas)[i], rateResult2);
+        rateData = rateResult2;
+      } else if (valTo === "USD" && Object.keys(data2.tasas)[i] === "USD") {
+        const rateResult3 = Object.values(data2.tasas)[i];
+        console.log("esteeee3", Object.keys(data2.tasas)[i], rateResult3);
+        rateData = rateResult3;
       }
     }
 
-    //return rateData;
+    return rateData;
+  } else {
+    const forexRateWebAdress =
+      "https://currency-backend.netlify.app/.netlify/functions/converted";
+
+    try {
+      const response = await fetch(
+        `${forexRateWebAdress}?from=${valFrom}&to=${valTo}`
+      );
+      const data = await response.json();
+      const rateResult = Object.values(data.conversionRate.rates)[0];
+
+      rateData = rateResult;
+      // console.log("Fetched rateData: ", rateResult);
+      //  console.log("Yes rateData here: ", rateData);
+
+      return rateData;
+    } catch (error) {
+      //console.error("Error fetching rates:", error);
+      //fallback
+      //GGET FROM STORAGE NEW RATES
+      // const getSavedRates = sessionStorage.getItem("newCurrencyRates");
+      // const parsedRates = JSON.parse(getSavedRates);
+      // for (let i = 0; i < Object.keys(parsedRates.rates).length; i++) {
+      //   if (
+      //     Object.keys(parsedRates.rates)[i] === valTo &&
+      //     parsedRates.base === valFrom
+      //   ) {
+      //     rateData = Object.values(parsedRates.rates)[i];
+      //     console.log("rateData when null: ", rateData);
+      //     console.log("rateData when null2: ", parsedRates.base);
+      //     resultText.innerHTML += `<span>${parsedRates.base}</span>`;
+      //     console.log("rateData when", Object.keys(parsedRates)[i]);
+      //     return rateData;
+      //   }
+      // }
+      //return rateData;
+    }
   }
 }
 //-----------------------GRID--------
