@@ -2,7 +2,7 @@ const countriesFrom2 = document.getElementById("countries-from-Select");
 const countriesTo2 = document.getElementById("countries-to-Select");
 const suggestions = document.getElementById("suggestions");
 
-// const elToqueFetchedData = [];
+let elToqueFetchedData = [];
 async function fetchElToque() {
   const url3 = "https://currency-backend.netlify.app/.netlify/functions/toque";
 
