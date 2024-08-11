@@ -27,7 +27,7 @@ async function fetchElToque() {
       // suggestions.prepend(cupOptionText);
 
       const data = await response.json();
-      console.log("fetchedData", data.tasas);
+      console.log("fetchedData", Object.keys(data.tasas)[0]);
       elToqueFetchedData = data.tasas;
       return data;
     }
