@@ -39,8 +39,8 @@ exports.handler = async function (event, context) {
 
     let specificCurrency;
     for (let i = 0; i < data.tasas.length; i++) {
-      if (Object.keys(data.tasas)[key] === "MLC") {
-        specificCurrency = Object.values(data.tasas)[key];
+      if (Object.keys(data.tasas)[i] === "MLC") {
+        specificCurrency = Object.values(data.tasas)[i];
       }
     }
 
