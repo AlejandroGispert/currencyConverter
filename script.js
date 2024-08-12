@@ -328,7 +328,6 @@ const amountConverter = (amount, rate) => {
 };
 
 const amountConverterCubanPeso = (amount, rate) => {
-  rateData = amount / rate;
   return amount / rate;
 };
 
@@ -368,10 +367,11 @@ async function handleButtonClick() {
       // }
       if (
         countriesToSelect.value.slice(0, 3) === "CUP" ||
-        countriesToSelect.value.slice(0, 3) === "MLC" ||
         countriesFromSelect.value.slice(0, 3) === "MLC"
       ) {
         resultText.innerHTML += `CUP<span class="informal">informalRate</span>`;
+      } else if (countriesFromSelect.value.slice(0, 3) === "CUP") {
+        resultText.innerHTML += `<span class="informal">informalRate</span>`;
       }
       updateGrid();
     } else {
