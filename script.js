@@ -369,8 +369,11 @@ async function handleButtonClick() {
         countriesToSelect.value.slice(0, 3) === "CUP" ||
         countriesFromSelect.value.slice(0, 3) === "MLC"
       ) {
+        rateData = amountConverterCubanPeso(filteredInput, rateResult);
         resultText.innerHTML += `CUP<span class="informal">informalRate</span>`;
       } else if (countriesFromSelect.value.slice(0, 3) === "CUP") {
+        rateData = amountConverterCubanPeso(filteredInput, rateResult);
+
         resultText.innerHTML += `<span class="informal">informalRate</span>`;
       }
       updateGrid();
