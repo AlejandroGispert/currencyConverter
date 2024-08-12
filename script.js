@@ -359,15 +359,15 @@ async function handleButtonClick() {
       if (decimalPart === undefined) {
         decimalSpan.style.display = "none";
       }
-      if (countriesFromSelect.value.slice(0, 3) === "CUP") {
-        resultText.innerHTML = amountConverterCubanPeso(
-          filteredInput,
-          rateResult
-        );
-      }
-      // if (countriesToSelect.value.slice(0, 3) === "CUP") {
-      //   resultText.innerHTML += `CUP<span class="informal">informalRate</span>`;
+      // if (countriesFromSelect.value.slice(0, 3) === "CUP") {
+      //   resultText.innerHTML = amountConverterCubanPeso(
+      //     filteredInput,
+      //     rateResult
+      //   );
       // }
+      if (countriesToSelect.value.slice(0, 3) === "CUP") {
+        resultText.innerHTML += `CUP<span class="informal">informalRate</span>`;
+      }
       updateGrid();
     } else {
       handleError("Conversion Rate Result2: ", rateResult);
@@ -608,9 +608,9 @@ function addAlert(countryFrom, countryTo) {
   // Ensure you have a <ul> element with id='alerts-list' in your HTML
   const setAlertList = document.createElement("li");
 
-  setAlertList.innerHTML = `set an Alert for: ${countryFrom} to ${countryTo} rate >= <input id="rateAlertInput" style="width:60px" value="${rateData.toFixed(
-    3
-  )}"/><button id="set-button"  style="width:40px;background-color:white">Set</button><button id="quitBtnSetAlert"style="width:40px;background-color:white;">Quit</button>`;
+  const alertPlaceholder =
+    countriesFromSelect.value.slice(0, 3) === "CUP" ? "" : rateData.toFixed(3);
+  setAlertList.innerHTML = `set an Alert for: ${countryFrom} to ${countryTo} rate >= <input id="rateAlertInput" style="width:60px" value="${alertPlaceholder}"/><button id="set-button"  style="width:40px;background-color:white">Set</button><button id="quitBtnSetAlert"style="width:40px;background-color:white;">Quit</button>`;
 
   //to fadeout the alert
   //li.classList.add("fadeout");
