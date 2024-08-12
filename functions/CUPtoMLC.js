@@ -37,10 +37,9 @@ exports.handler = async function (event, context) {
     const data = await response.json();
     console.log("Parsed response data:", data);
 
-    for (let i = 0; i < data.tasas.length; i++) {
+    for (let i = 0; i < Object.keys(data.tasas).length; i++) {
       if (Object.keys(data.tasas)[i] === "MLC") {
         let specificCurrency = Object.values(data.tasas)[i];
-        console.log("esteeee", Object.keys(data.tasas)[i], specificCurrency);
 
         return {
           statusCode: 200,
