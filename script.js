@@ -342,7 +342,7 @@ async function handleButtonClick() {
       const filteredInput = inputAmount.value.replace(/,/g, ".");
 
       const convertedAmount =
-        fromCurrency === "CUP"
+        countriesFromSelect.value.slice(0, 3) === "CUP"
           ? amountConverterCubanPeso(filteredInput, rateResult)
           : amountConverter(filteredInput, rateResult);
 
