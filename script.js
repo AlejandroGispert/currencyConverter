@@ -328,6 +328,7 @@ const amountConverter = (amount, rate) => {
 };
 
 const amountConverterCubanPeso = (amount, rate) => {
+  rateData = amount / rate;
   return amount / rate;
 };
 
@@ -608,8 +609,9 @@ function addAlert(countryFrom, countryTo) {
   // Ensure you have a <ul> element with id='alerts-list' in your HTML
   const setAlertList = document.createElement("li");
 
-  const alertPlaceholder =
-    countriesFromSelect.value.slice(0, 3) === "CUP" ? "" : rateData.toFixed(3);
+  const alertPlaceholder = rateData.toFixed(3);
+  // countriesFromSelect.value.slice(0, 3) === "CUP" ? "" : rateData.toFixed(3);
+
   setAlertList.innerHTML = `set an Alert for: ${countryFrom} to ${countryTo} rate >= <input id="rateAlertInput" style="width:60px" value="${alertPlaceholder}"/><button id="set-button"  style="width:40px;background-color:white">Set</button><button id="quitBtnSetAlert"style="width:40px;background-color:white;">Quit</button>`;
 
   //to fadeout the alert
