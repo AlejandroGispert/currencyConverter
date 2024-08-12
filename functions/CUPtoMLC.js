@@ -37,13 +37,13 @@ exports.handler = async function (event, context) {
     const data = await response.json();
     console.log("Parsed response data:", data);
 
-    // let specificCurrency;
-    // for (let i = 0; i < data.tasas.length; i++) {
-    //   if (Object.keys(data.tasas)[i] === "MLC") {
-    //     specificCurrency = Object.values(data.tasas)[i];
-    //   }
-    // }
-    const specificCurrency = Object.keys(data.tasas)[0];
+    for (let i = 0; i < data.tasas.length; i++) {
+      if (Object.keys(data.tasas)[i] === "MLC") {
+        let specificCurrency = Object.values(data.tasas)[i];
+        console.log("esteeee", Object.keys(data.tasas)[i], specificCurrency);
+      }
+    }
+
     return {
       statusCode: 200,
       headers: {
