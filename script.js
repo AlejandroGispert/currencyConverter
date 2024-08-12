@@ -707,7 +707,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
 
       // Fetch the current rate asynchronously
-      const rateResult = await objectRateFetcher(e.symbolFrom, e.symbolTo);
+      let rateResult;
+
+      if (e.symbolFrom === "CUP" || e.symbolFrom === "MLC") {
+        rateResult = amountConverterCubanPeso(e.symbolFrom, e.symbolTo);
+      } else {
+        rateResult = await objectRateFetcher(e.symbolFrom, e.symbolTo);
+      }
 
       let colorStyle = "";
       if (rateResult > e.rate) {
