@@ -214,7 +214,10 @@ async function objectRateFetcher(valFrom, valTo) {
 
   // console.log("currencyDataObjects", currencyDataObjects[0].rates);
 
-  if (valFrom === "USD" && valTo === "CUP") {
+  if (
+    (valFrom === "CUP" && valTo === "USD") ||
+    (valFrom === "USD" && valTo === "CUP")
+  ) {
     const toqueApi =
       "https://currency-backend.netlify.app/.netlify/functions/CUPtoUSD";
     const response2 = await fetch(toqueApi);
@@ -223,7 +226,10 @@ async function objectRateFetcher(valFrom, valTo) {
     rateData = data2;
     // resultText.innerHTML += `<span class="informal">informalRate</span>`;
     return rateData;
-  } else if (valFrom === "MLC" && valTo === "CUP") {
+  } else if (
+    (valFrom === "CUP" && valTo === "MLC") ||
+    (valFrom === "MLC" && valTo === "CUP")
+  ) {
     const toqueApi =
       "https://currency-backend.netlify.app/.netlify/functions/CUPtoMLC";
     const response3 = await fetch(toqueApi);
@@ -335,7 +341,10 @@ async function handleButtonClick() {
       // console.log("Conversion Rate Result1: ", rateResult);
       const filteredInput = inputAmount.value.replace(/,/g, ".");
 
-      const convertedAmount = amountConverter(filteredInput, rateResult);
+      const convertedAmount =
+        fromCurrency === "CUP"
+          ? amountConverterCubanPeso(filteredInput, rateResult)
+          : amountConverter(filteredInput, rateResult);
 
       const formattedAndConvertedAmount = convertedAmount.toLocaleString();
       //console.log("Converted Amount: ", formattedAndConvertedAmount);
@@ -356,9 +365,9 @@ async function handleButtonClick() {
           rateResult
         );
       }
-      if (countriesToSelect.value.slice(0, 3) === "CUP") {
-        resultText.innerHTML += `CUP<span class="informal">informalRate</span>`;
-      }
+      // if (countriesToSelect.value.slice(0, 3) === "CUP") {
+      //   resultText.innerHTML += `CUP<span class="informal">informalRate</span>`;
+      // }
       updateGrid();
     } else {
       handleError("Conversion Rate Result2: ", rateResult);
