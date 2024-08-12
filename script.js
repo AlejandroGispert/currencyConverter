@@ -346,6 +346,9 @@ async function handleButtonClick() {
       if (decimalPart === undefined) {
         decimalSpan.style.display = "none";
       }
+      if (countriesToSelect.value.slice(0, 3) === "CUP") {
+        resultText.innerHTML += `<span class="informal">informalRate</span>`;
+      }
       updateGrid();
     } else {
       handleError("Conversion Rate Result2: ", rateResult);
