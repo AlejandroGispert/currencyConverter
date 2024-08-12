@@ -41,18 +41,18 @@ exports.handler = async function (event, context) {
       if (Object.keys(data.tasas)[i] === "MLC") {
         let specificCurrency = Object.values(data.tasas)[i];
         console.log("esteeee", Object.keys(data.tasas)[i], specificCurrency);
+
+        return {
+          statusCode: 200,
+          headers: {
+            "Content-Type": "application/json",
+            // "Access-Control-Allow-Origin": "https://currency-backend.netlify.app", // Adjust for security
+            "Access-Control-Allow-Origin": "*",
+          },
+          body: JSON.stringify(specificCurrency),
+        };
       }
     }
-
-    return {
-      statusCode: 200,
-      headers: {
-        "Content-Type": "application/json",
-        // "Access-Control-Allow-Origin": "https://currency-backend.netlify.app", // Adjust for security
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify(specificCurrency),
-    };
   } catch (error) {
     console.error("Fetch error:", error);
     return {

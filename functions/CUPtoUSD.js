@@ -39,19 +39,20 @@ exports.handler = async function (event, context) {
 
     for (let i = 0; i < data.tasas.length; i++) {
       if (Object.keys(data.tasas)[i] === "USD") {
-        specificCurrency = Object.values(data.tasas)[i];
+        let specificCurrency = Object.values(data.tasas)[i];
+
+        // const specificCurrency = Object.values(data.tasas)[1];
+        return {
+          statusCode: 200,
+          headers: {
+            "Content-Type": "application/json",
+            // "Access-Control-Allow-Origin": "https://currency-backend.netlify.app", // Adjust for security
+            "Access-Control-Allow-Origin": "*",
+          },
+          body: JSON.stringify(specificCurrency),
+        };
       }
     }
-    // const specificCurrency = Object.values(data.tasas)[1];
-    return {
-      statusCode: 200,
-      headers: {
-        "Content-Type": "application/json",
-        // "Access-Control-Allow-Origin": "https://currency-backend.netlify.app", // Adjust for security
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify(specificCurrency),
-    };
   } catch (error) {
     console.error("Fetch error:", error);
     return {
