@@ -366,7 +366,11 @@ async function handleButtonClick() {
       //     rateResult
       //   );
       // }
-      if (countriesToSelect.value.slice(0, 3) === "CUP") {
+      if (
+        countriesToSelect.value.slice(0, 3) === "CUP" ||
+        countriesToSelect.value.slice(0, 3) === "MLC" ||
+        countriesFromSelect.value.slice(0, 3) === "MLC"
+      ) {
         resultText.innerHTML += `CUP<span class="informal">informalRate</span>`;
       }
       updateGrid();
