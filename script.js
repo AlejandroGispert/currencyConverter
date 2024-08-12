@@ -708,9 +708,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       // Fetch the current rate asynchronously
 
-      const rateResult = await (e.symbolFrom === "CUP"
-        ? amountConverterCubanPeso(e.symbolFrom, e.symbolTo)
-        : objectRateFetcher(e.symbolFrom, e.symbolTo));
+      const rateResult = await objectRateFetcher(e.symbolFrom, e.symbolTo);
 
       let colorStyle = "";
       if (rateResult > e.rate) {
