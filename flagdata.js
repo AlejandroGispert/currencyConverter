@@ -93,6 +93,7 @@ const flagData = [
   { base: "MGA", flag: "./flags/mg.svg" },
   { base: "MKD", flag: "./flags/mk.svg" },
   { base: "MMK", flag: "./flags/mm.svg" },
+  { base: "MLC", flag: "./flags/mlc.svg" },
   { base: "MNT", flag: "./flags/mn.svg" },
   { base: "MOP", flag: "./flags/mo.svg" },
   { base: "MRU", flag: "./flags/mr.svg" },
