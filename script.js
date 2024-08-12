@@ -655,9 +655,6 @@ function addToStorage() {
 
   let formattedDateTime = formatter.format(currentTime);
   console.log("formattedDateTime: ", formattedDateTime);
-  if (countriesFromSelect.value.slice(0, 3) === "CUP") {
-    rateData = amountConverterCubanPeso(filteredInput, rateResult);
-  }
 
   if (rateAlertInput.value) {
     alertsArray.push({
