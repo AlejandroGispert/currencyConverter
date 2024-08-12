@@ -37,6 +37,13 @@ exports.handler = async function (event, context) {
     const data = await response.json();
     console.log("Parsed response data:", data);
 
+    let specificCurrency;
+    for (let i = 0; i < data.tasas.length; i++) {
+      if (Object.keys(data.tasas)[key] === "USD") {
+        specificCurrency = Object.values(data.tasas)[key];
+      }
+    }
+
     return {
       statusCode: 200,
       headers: {
@@ -44,7 +51,7 @@ exports.handler = async function (event, context) {
         // "Access-Control-Allow-Origin": "https://currency-backend.netlify.app", // Adjust for security
         "Access-Control-Allow-Origin": "*",
       },
-      body: JSON.stringify(data.tasas[1]),
+      body: JSON.stringify(specificCurrency),
     };
   } catch (error) {
     console.error("Fetch error:", error);
