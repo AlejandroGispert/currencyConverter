@@ -44,7 +44,7 @@ exports.handler = async function (event, context) {
         // "Access-Control-Allow-Origin": "https://currency-backend.netlify.app", // Adjust for security
         "Access-Control-Allow-Origin": "*",
       },
-      body: JSON.stringify(data.rates),
+      body: JSON.stringify(data.tasas),
     };
   } catch (error) {
     console.error("Fetch error:", error);
