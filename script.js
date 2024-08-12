@@ -214,28 +214,22 @@ async function objectRateFetcher(valFrom, valTo) {
 
   // console.log("currencyDataObjects", currencyDataObjects[0].rates);
 
-  if (
-    (valFrom === "CUP" && valTo === "USD") ||
-    (valFrom === "USD" && valTo === "CUP")
-  ) {
+  if (valFrom === "USD" && valTo === "CUP") {
     const toqueApi =
       "https://currency-backend.netlify.app/.netlify/functions/CUPtoUSD";
     const response2 = await fetch(toqueApi);
     const data2 = await response2.json();
     console.log("received toque", data2);
     rateData = data2;
-    resultText.innerHTML += `<span class="informal">informalRate</span>`;
+    // resultText.innerHTML += `<span class="informal">informalRate</span>`;
     return rateData;
-  } else if (
-    (valFrom === "CUP" && valTo === "MLC") ||
-    (valFrom === "MLC" && valTo === "CUP")
-  ) {
+  } else if (valFrom === "MLC" && valTo === "CUP") {
     const toqueApi =
       "https://currency-backend.netlify.app/.netlify/functions/CUPtoMLC";
     const response3 = await fetch(toqueApi);
     const data3 = await response3.json();
     console.log("received toque", data3);
-    resultText.innerHTML += `<span class="informal">informalRate</span>`;
+    // resultText.innerHTML += `<span class="informal">informalRate</span>`;
     rateData = data3;
     return rateData;
   } else {
