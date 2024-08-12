@@ -318,12 +318,10 @@ const updateGrid = async () => {
 
 // ------------------CONVERT CURRENCY------------------ok
 const amountConverter = (amount, rate) => {
-  // console.log("amount: " + amount + " rate:  " + rate);
   return amount * rate;
 };
 
 const amountConverterCubanPeso = (amount, rate) => {
-  // console.log("amount: " + amount + " rate:  " + rate);
   return amount / rate;
 };
 
@@ -337,10 +335,7 @@ async function handleButtonClick() {
       // console.log("Conversion Rate Result1: ", rateResult);
       const filteredInput = inputAmount.value.replace(/,/g, ".");
 
-      const convertedAmount =
-        countriesFromSelect.value.slice(0, 3) === "CUP"
-          ? amountConverterCubanPeso(filteredInput, rateResult)
-          : amountConverter(filteredInput, rateResult);
+      const convertedAmount = amountConverter(filteredInput, rateResult);
 
       const formattedAndConvertedAmount = convertedAmount.toLocaleString();
       //console.log("Converted Amount: ", formattedAndConvertedAmount);
@@ -354,6 +349,12 @@ async function handleButtonClick() {
       const decimalSpan = document.getElementById("decimalSpan");
       if (decimalPart === undefined) {
         decimalSpan.style.display = "none";
+      }
+      if (countriesFromSelect.value.slice(0, 3) === "CUP") {
+        resultText.innerHTML = amountConverterCubanPeso(
+          filteredInput,
+          rateResult
+        );
       }
       if (countriesToSelect.value.slice(0, 3) === "CUP") {
         resultText.innerHTML += `CUP<span class="informal">informalRate</span>`;
