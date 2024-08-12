@@ -37,11 +37,10 @@ exports.handler = async function (event, context) {
     const data = await response.json();
     console.log("Parsed response data:", data);
 
-    for (let i = 0; i < data.tasas.length; i++) {
+    for (let i = 0; i < Object.keys(data.tasas).length; i++) {
       if (Object.keys(data.tasas)[i] === "USD") {
         let specificCurrency = Object.values(data.tasas)[i];
-
-        // const specificCurrency = Object.values(data.tasas)[1];
+        console.log(Object.keys(data.tasas)[i]);
         return {
           statusCode: 200,
           headers: {

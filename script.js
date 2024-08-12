@@ -214,24 +214,29 @@ async function objectRateFetcher(valFrom, valTo) {
 
   // console.log("currencyDataObjects", currencyDataObjects[0].rates);
 
-  if (valFrom === "CUP") {
+  if (
+    (valFrom === "CUP" && valTo === "USD") ||
+    (valFrom === "USD" && valTo === "CUP")
+  ) {
     const toqueApi =
-      "https://currency-backend.netlify.app/.netlify/functions/toque";
+      "https://currency-backend.netlify.app/.netlify/functions/CUPtoUSD";
     const response2 = await fetch(toqueApi);
     const data2 = await response2.json();
-    console.log("received ", data2);
-    for (let i = 0; i < data2.tasas.length; i++) {
-      if (valTo === "MLC" && Object.keys(data2.tasas)[i] === "MLC") {
-        const rateResult2 = Object.values(data2.tasas)[i];
-        console.log("esteeee2", Object.keys(data2.tasas)[i], rateResult2);
-        rateData = rateResult2;
-      } else if (valTo === "USD" && Object.keys(data2.tasas)[i] === "USD") {
-        const rateResult3 = Object.values(data2.tasas)[i];
-        console.log("esteeee3", Object.keys(data2.tasas)[i], rateResult3);
-        rateData = rateResult3;
-      }
-    }
-
+    console.log("received toque", data2);
+    rateData = data2;
+    resultText.innerHTML += `<span class="informal">informalRate</span>`;
+    return rateData;
+  } else if (
+    (valFrom === "CUP" && valTo === "MLC") ||
+    (valFrom === "MLC" && valTo === "CUP")
+  ) {
+    const toqueApi =
+      "https://currency-backend.netlify.app/.netlify/functions/CUPtoMLC";
+    const response3 = await fetch(toqueApi);
+    const data3 = await response3.json();
+    console.log("received toque", data3);
+    resultText.innerHTML += `<span class="informal">informalRate</span>`;
+    rateData = data3;
     return rateData;
   } else {
     const forexRateWebAdress =

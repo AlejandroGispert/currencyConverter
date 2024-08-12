@@ -40,7 +40,7 @@ exports.handler = async function (event, context) {
     for (let i = 0; i < Object.keys(data.tasas).length; i++) {
       if (Object.keys(data.tasas)[i] === "MLC") {
         let specificCurrency = Object.values(data.tasas)[i];
-
+        console.log(Object.keys(data.tasas)[i]);
         return {
           statusCode: 200,
           headers: {

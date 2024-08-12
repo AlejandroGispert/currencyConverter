@@ -326,6 +326,11 @@ img {
   color: yellow;
 } */
 
+.informal {
+  font-size: xx-small;
+  color: #bebebe;
+}
+
 .bell {
   display: none;
   width: 50px;
