@@ -706,9 +706,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       let rateResult = await objectRateFetcher(e.symbolFrom, e.symbolTo);
       if (e.symbolFrom === "CUP" && e.symbolTo === "USD") {
-        const toqueApi =
+        const toqueApi1 =
           "https://currency-backend.netlify.app/.netlify/functions/CUPtoUSD";
-        const response2 = await fetch(toqueApi);
+        const response2 = await fetch(toqueApi1);
         const data2 = await response2.json();
         console.log("received toque at savedalert", data2);
         rateResult = 1 / data2;
