@@ -685,14 +685,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       savedAlert.classList.add("allAlerts");
       savedAlert.style.visibility = "visible";
 
+      const alertRateDisplayed =
+        e.rate === "CUP" ? "not available" : e.rate.toFixed(3);
+
       savedAlert.style.listStyle = "none";
-      savedAlert.innerHTML = `<p style="margin: 0">${e.symbolFrom} to ${
-        e.symbolTo
-      } rates</p><span style="font-size: 10px">then ${e.rate.toFixed(
-        3
-      )},  alert on: ${
-        e.alertOn
-      }</span><button type="button"  class="rem-button" data-index="${index}"  style="width:15px;height:20px;background-color:white;margin-left:15px;padding: 0;float:right;border-radius:5px">x</button>`;
+      savedAlert.innerHTML = `<p style="margin: 0">${e.symbolFrom} to ${e.symbolTo} rates</p><span style="font-size: 10px">then ${alertRateDisplayed},  alert on: ${e.alertOn}</span><button type="button"  class="rem-button" data-index="${index}"  style="width:15px;height:20px;background-color:white;margin-left:15px;padding: 0;float:right;border-radius:5px">x</button>`;
       savedAlertsContainer.appendChild(savedAlert);
 
       const remButton = document.querySelector(
