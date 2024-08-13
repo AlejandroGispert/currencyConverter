@@ -685,8 +685,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       savedAlert.classList.add("allAlerts");
       savedAlert.style.visibility = "visible";
 
-      const alertRateDisplayed =
-        e.symbolFrom === "CUP" ? "not available" : e.rate.toFixed(3);
+      const alertRateDisplayed = e.rate.toFixed(3);
 
       savedAlert.style.listStyle = "none";
       savedAlert.innerHTML = `<p style="margin: 0">${e.symbolFrom} to ${e.symbolTo} rates</p><span style="font-size: 10px">then ${alertRateDisplayed},  alert on: ${e.alertOn}</span><button type="button"  class="rem-button" data-index="${index}"  style="width:15px;height:20px;background-color:white;margin-left:15px;padding: 0;float:right;border-radius:5px">x</button>`;
@@ -705,7 +704,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       // Fetch the current rate asynchronously
 
-      const rateResult = await objectRateFetcher(e.symbolFrom, e.symbolTo);
+      const rateResult =
+        (await e.symbolFrom) === "CUP"
+          ? amountConverterCubanPeso(e.symbolFrom, e.symbolTo)
+          : objectRateFetcher(e.symbolFrom, e.symbolTo);
 
       let colorStyle = "";
       if (rateResult > e.rate) {
