@@ -705,8 +705,21 @@ document.addEventListener("DOMContentLoaded", async () => {
       // Fetch the current rate asynchronously
 
       let rateResult = await objectRateFetcher(e.symbolFrom, e.symbolTo);
-      if (e.symbolFrom === "CUP") {
-        rateResult = 1 / Number(rateResult);
+      if (e.symbolFrom === "CUP" && e.symbolTo === "USD") {
+        const toqueApi =
+          "https://currency-backend.netlify.app/.netlify/functions/CUPtoUSD";
+        const response2 = await fetch(toqueApi);
+        const data2 = await response2.json();
+        console.log("received toque at savedalert", data2);
+        rateResult = 1 / data2;
+      }
+      if (e.symbolFrom === "CUP" && e.symbolTo === "MLC") {
+        const toqueApi =
+          "https://currency-backend.netlify.app/.netlify/functions/CUPtoMLC";
+        const response3 = await fetch(toqueApi);
+        const data3 = await response3.json();
+        console.log("received toque at savedalert", data3);
+        rateResult = 1 / data3;
       }
 
       let colorStyle = "";
