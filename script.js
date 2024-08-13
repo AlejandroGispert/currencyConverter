@@ -706,7 +706,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       let rateResult = await objectRateFetcher(e.symbolFrom, e.symbolTo);
       if (e.symbolFrom === "CUP") {
-        rateResult = 1 / rateResult;
+        rateResult = 1 / Number(rateResult);
       }
 
       let colorStyle = "";
