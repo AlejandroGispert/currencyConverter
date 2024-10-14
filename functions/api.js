@@ -5,7 +5,7 @@ exports.handler = async function (event, context) {
 
   const apiUrl = "https://api.openai.com/v1/chat/completions";
   const prompt =
-    "whats the 3 most moving currency pairs of today according with yahoo finance, in 100 characters";
+    "whats the 3 most moving currency pairs of today, in 100 characters";
 
   try {
     const response = await fetch(apiUrl, {

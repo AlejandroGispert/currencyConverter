@@ -1027,7 +1027,15 @@ div.switch input {
 
     font-size: xx-small;
     padding: 2px;
+    margin: 0 auto;
   }
+  #result-text {
+    text-align: center;
+
+    padding: 5px;
+    width: 50%;
+  }
+
   #float-left-flag,
   #float-right-flag {
     border-radius: 10%;
