@@ -1023,17 +1023,22 @@ div.switch input {
   }
   #result-container {
     position: absolute;
-    width: 95%;
-
-    font-size: xx-small;
-    padding: 2px;
+    /* width: 95%;
+font-size: xx-small;
+padding: 2px; */
+    width: 155%;
+    font-family: "Times New Roman", Times, serif;
     margin: 0 auto;
+    text-shadow:  /* Blue shadow */ 0.5px 0.5px 0 #797c7e;
   }
   #result-text {
     text-align: center;
 
     padding: 5px;
     width: 50%;
+    background-color: #e0f7fa;
+    border-radius: 10px;
+    box-shadow:  /* Blue shadow */ 0.5px 0.5px 0 #797c7e;
   }
 
   #float-left-flag,
