@@ -935,7 +935,6 @@ div.switch input {
     display: none;
   }
   #saved-alerts-container {
-    display: none;
   }
   .main {
     margin: 5px auto;
@@ -1091,7 +1090,6 @@ padding: 2px; */
     display: none;
     right: -120px;
     top: 320px;
-}
   }
 
   #alerts-container {
