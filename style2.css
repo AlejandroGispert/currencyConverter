@@ -1082,7 +1082,7 @@ padding: 2px; */
     opacity: 0;
     width: 200px;
   }
-  .grid-container {
+  #grid-container {
     display: none;
     left: 0px;
     top: 600px;
