@@ -1089,8 +1089,9 @@ padding: 2px; */
   }
   .bell {
     display: none;
-    right: -130px;
-    top: 20px;
+    right: -120px;
+    top: 320px;
+}
   }
 
   #alerts-container {
