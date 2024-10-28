@@ -934,11 +934,7 @@ div.switch input {
   .side-panel-open {
     display: none;
   }
-  #saved-alerts-container {
-    top: 480px;
-    left: 120px;
-    width: 200px;
-  }
+
   .main {
     margin: 5px auto;
     width: 80vw;
@@ -999,8 +995,9 @@ div.switch input {
     display: block;
   }
   #saved-alerts-container {
-    top: 180px;
-    left: 90px;
+    top: 480px;
+    left: 120px;
+    width: 200px;
   }
   .form {
     width: 105%;
