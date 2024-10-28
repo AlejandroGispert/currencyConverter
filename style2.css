@@ -995,8 +995,8 @@ div.switch input {
     display: block;
   }
   #saved-alerts-container {
-    top: 480px;
-    left: 120px;
+    top: 430px;
+    left: 100px;
     width: 200px;
   }
   .form {
