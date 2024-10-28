@@ -1084,9 +1084,17 @@ padding: 2px; */
   }
   .grid-container {
     display: none;
+    left: 0px;
+    top: 600px;
   }
   .bell {
     display: none;
+    right: -130px;
+    top: 20px;
+  }
+
+  #alerts-container {
+    top: 5%;
   }
 }
 
