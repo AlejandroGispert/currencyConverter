@@ -225,6 +225,7 @@ img {
   width: 90%;
   max-width: 600px;
   visibility: visible;
+  display: none;
 }
 
 #insert-container input {
@@ -559,7 +560,7 @@ img {
 
 #disqus_thread {
   position: relative;
-  top: -270px;
+  top: -70px;
   right: 0%;
   width: 890px;
   height: fit-content;
@@ -567,7 +568,7 @@ img {
   transform: scale(0.7);
   border: 12px solid white;
   border-radius: 12px;
-  visibility: hidden;
+  visibility: visible;
 }
 
 #forum-btn {
@@ -901,6 +902,7 @@ div.switch input {
     width: 100%;
   }
   body {
+    margin: 8px;
   }
   .nav {
     display: none;
@@ -936,14 +938,19 @@ div.switch input {
     display: none;
   }
   .main {
-    margin: 0 auto;
-    width: 100vw;
+    margin: 5px auto;
+    width: 80vw;
     margin: 0;
+    padding: 15px;
     padding-top: 0;
+
     display: inline;
     background-color: rgba(255, 255, 251, 0.7);
 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+    position: absolute;
+    top: 40px;
   }
   #tab-overlay {
     width: 106%;
@@ -983,6 +990,7 @@ div.switch input {
     margin: 0 8%;
     padding: 0;
     width: 85%;
+    height: 0px;
   }
 
   li {
@@ -993,7 +1001,8 @@ div.switch input {
     left: 90px;
   }
   .form {
-    padding: 2px;
+    width: 105%;
+    padding: 0;
     margin: 0;
     gap: 0;
   }
@@ -1023,10 +1032,12 @@ div.switch input {
   }
   #result-container {
     position: absolute;
+    /* width: 320px; */
+    width: 90%;
     /* width: 95%;
 font-size: xx-small;
 padding: 2px; */
-    width: 155%;
+
     font-family: "Times New Roman", Times, serif;
     margin: 0 auto;
     text-shadow:  /* Blue shadow */ 0.5px 0.5px 0 #797c7e;
@@ -1035,7 +1046,7 @@ padding: 2px; */
     text-align: center;
 
     padding: 5px;
-    width: 50%;
+    width: 100%;
     background-color: #e0f7fa;
     border-radius: 10px;
     box-shadow:  /* Blue shadow */ 0.5px 0.5px 0 #797c7e;
@@ -1054,6 +1065,22 @@ padding: 2px; */
   }
   .country-container {
     margin-bottom: 10px;
+  }
+  #disqus_thread {
+    display: none;
+  }
+  .grid-container {
+    display: none;
+  }
+  .footer {
+    font-size: 10px; /* Smaller text size */
+  }
+  #ai-message-container {
+    top: -40%;
+    right: 60px;
+    z-index: 1;
+    opacity: 0;
+    width: 200px;
   }
 }
 
