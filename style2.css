@@ -935,6 +935,9 @@ div.switch input {
     display: none;
   }
   #saved-alerts-container {
+    top: 480px;
+    left: 120px;
+    width: 200px;
   }
   .main {
     margin: 5px auto;
